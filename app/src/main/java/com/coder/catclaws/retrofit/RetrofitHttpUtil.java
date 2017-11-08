@@ -34,7 +34,7 @@ public class RetrofitHttpUtil {
     /**
      * 服务器地址
      */
-    public static final String BASE_URL = "115.236.11.98:81";
+    public static final String BASE_URL = "http://115.236.11.98:81";
     private CommonService commonService;
     private QuestionService questionService;
     private Retrofit retrofit = null;
@@ -52,7 +52,7 @@ public class RetrofitHttpUtil {
         return this;
     }
 
-    public static RetrofitHttpUtil getInstance(Context context) {
+    public static RetrofitHttpUtil getInstance() {
 //        mContext = context.getApplicationContext();
         if (retrofitHttpUtil == null) {
             synchronized (RetrofitHttpUtil.class) {
@@ -279,6 +279,7 @@ public class RetrofitHttpUtil {
 
     private String checkUrl(String url) {
         if (null == url || url.equals("")) return "";
+        url = BASE_URL + File.separator + url;
         String[] strs = url.split("\\?");
         if (strs != null && strs.length > 0) url = strs[0];
         if (!url.endsWith(File.separator)) {

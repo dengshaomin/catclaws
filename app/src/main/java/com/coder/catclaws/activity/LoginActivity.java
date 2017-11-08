@@ -1,13 +1,21 @@
 package com.coder.catclaws.activity;
 
 import android.Manifest;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.PersistableBundle;
+import android.support.annotation.Nullable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.coder.catclaws.R;
 import com.coder.catclaws.commons.GlobalMsg;
 import com.coder.catclaws.commons.ImageLoader;
+import com.coder.catclaws.commons.NetIndentify;
+import com.coder.catclaws.retrofit.GCNetCallBack;
+import com.coder.catclaws.utils.Net;
 import com.coder.catclaws.utils.ViewSize;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -16,9 +24,10 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import me.weyye.hipermission.PermissonItem;
 
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends PermissionActivity {
 
 
     @BindView(R.id.bg)
@@ -27,49 +36,26 @@ public class LoginActivity extends BaseActivity {
     TextView weichart;
     @BindView(R.id.qq)
     TextView qq;
+    Unbinder unbinder;
 
     @Override
-    public int setContentLayout() {
-        return R.layout.activity_login;
-    }
-
-    @Override
-    public void initView() {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+        unbinder = ButterKnife.bind(this);
         ViewSize.fixedSize(this, bg, 1920f / 1080f);
-
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    }
+                }, 1000);
+            }
+        }).start();
     }
-
-    @Override
-    public void initBundleData() {
-
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    public void getNetData() {
-
-    }
-
-    @Override
-    public List<String> regeistEvent() {
-        return null;
-    }
-
-    @Override
-    public void eventComming(GlobalMsg globalMsg) {
-
-    }
-
-
-    @Override
-    public void setViewData(Object data) {
-
-    }
-
 
     @Override
     public List<PermissonItem> needPermissions() {

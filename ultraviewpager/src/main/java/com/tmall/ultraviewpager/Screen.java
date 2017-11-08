@@ -1,10 +1,9 @@
-package com.coder.catclaws.utils;
+package com.tmall.ultraviewpager;
 
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.coder.catclaws.MyApplication;
 import com.github.lazylibrary.util.DensityUtil;
 
 /**

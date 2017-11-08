@@ -2,6 +2,7 @@ package com.coder.catclaws.widgets.codexrefreshview;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 
 import java.util.List;
 
@@ -24,7 +25,7 @@ public abstract class CommonAdapter<T> extends MultiItemTypeAdapter<T> {
         addItemViewDelegate(new ItemViewDelegate<T>() {
             @Override
             public int getItemViewLayoutId() {
-                return layoutId;
+                return mLayoutId;
             }
 
             @Override
