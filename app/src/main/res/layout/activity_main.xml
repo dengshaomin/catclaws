@@ -10,14 +10,9 @@
     <include layout="@layout/home_title_lay"/>
 
 
-    <com.coder.catclaws.widgets.HomeViewPager
-        android:id="@+id/homeViewPager"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
     <com.coder.catclaws.widgets.codexrefreshview.CodeRecycleView
         android:id="@+id/codeRecycleView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="10dp"/>
+        />
 </LinearLayout>

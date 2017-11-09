@@ -10,14 +10,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
+        android:paddingLeft="25dp"
         android:paddingTop="10dp"
         >
 
         <com.coder.catclaws.widgets.SquareLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginRight="25dp"
             android:background="@drawable/goods_circle_bg">
 
 
@@ -26,34 +26,35 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:padding="10dp"
                 fresco:actualImageScaleType="fitXY"
                 fresco:fadeDuration="300"
                 fresco:placeholderImageScaleType="fitXY"
                 fresco:viewAspectRatio="2.0"/>
 
-            <TextView
+            <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/name"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="30dp"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:singleLine="true"
-                android:text="空闲"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text14"/>
+                fresco:actualImageScaleType="fitCenter"
+                fresco:fadeDuration="300"
+                fresco:placeholderImageScaleType="fitXY"
+                fresco:viewAspectRatio="2.0"/>
         </com.coder.catclaws.widgets.SquareLayout>
 
         <TextView
             android:id="@+id/desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/goods_desc_bg"
             android:ellipsize="end"
             android:gravity="center"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
             android:singleLine="true"
             android:textColor="@color/white"
             android:textSize="@dimen/text14"/>
@@ -61,7 +62,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="5dp"
             >
 
             <TextView
@@ -93,14 +95,12 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="-15dp"
+                    android:layout_marginLeft="-20dp"
                     android:background="@drawable/num_bg"
                     android:ellipsize="end"
                     android:gravity="center"
-                    android:paddingBottom="5dp"
                     android:paddingLeft="20dp"
                     android:paddingRight="10dp"
-                    android:paddingTop="5dp"
                     android:singleLine="true"
                     android:text="10"
                     android:textColor="@color/white"

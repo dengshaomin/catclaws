@@ -7,10 +7,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
+import com.andview.refreshview.XRefreshView;
+import com.coder.catclaws.MyApplication;
 import com.coder.catclaws.R;
 import com.coder.catclaws.commons.GlobalMsg;
 import com.coder.catclaws.commons.ImageLoader;
 import com.coder.catclaws.commons.NetIndentify;
+import com.coder.catclaws.commons.PageJump;
 import com.coder.catclaws.commons.Tools;
 import com.coder.catclaws.models.HomeModel;
 import com.coder.catclaws.utils.Net;
@@ -42,7 +45,6 @@ public class MainActivity extends BaseActivity {
     RelativeLayout homeLeftImage;
     @BindView(R.id.home_right_image)
     RelativeLayout homeRightImage;
-    @BindView(R.id.homeViewPager)
     HomeViewPager homeViewPager;
     @BindView(R.id.codeRecycleView)
     CodeRecycleView codeRecycleView;
@@ -60,8 +62,22 @@ public class MainActivity extends BaseActivity {
     public void initView() {
         codeRecycleView.setLayoutManager(new GridLayoutManager(this, 2));
         codeRecycleView.addItemDecoration(new HomeItemDecoration());
-        String s = Tools.getFromAssets(this, "home.txt");
-        eventComming(new GlobalMsg(true, Net.HOME, JSON.parseObject(s, HomeModel.class)));
+        codeRecycleView.setRefreshMode(CodeRecycleView.START);
+        codeRecycleView.setXRefreshViewListener(new XRefreshView.SimpleXRefreshListener() {
+            @Override
+            public void onRefresh(boolean isPullDown) {
+                getNetData();
+            }
+
+            @Override
+            public void onLoadMore(boolean isSilence, int index) {
+            }
+        });
+        if (MyApplication.DEBUG) {
+            eventComming(new GlobalMsg(true, NetIndentify.HOME, JSON.parseObject(Tools.getFromAssets(this, "home.txt")
+                    , HomeModel
+                            .class)));
+        }
     }
 
 
@@ -72,13 +88,13 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void getNetData() {
-        Net.request(NetIndentify.HOME, null, Net.HOME);
+        Net.request(NetIndentify.HOME, null);
     }
 
     @Override
     public List<String> regeistEvent() {
         return new ArrayList<String>() {{
-            add(Net.HOME);
+            add(NetIndentify.HOME);
         }};
     }
 
@@ -87,6 +103,9 @@ public class MainActivity extends BaseActivity {
         if (globalMsg.isSuccess()) {
             homeModel = (HomeModel) globalMsg.getMsg();
             if (homeModel != null && homeModel.getData() != null) {
+                if (homeViewPager == null) {
+                    homeViewPager = new HomeViewPager(MainActivity.this);
+                }
                 homeViewPager.setViewData(homeModel.getData().getBanners());
                 if (commonAdapter == null) {
                     commonAdapter = new CommonAdapter<HomeModel.DataBean.RoomsBean.ContentBean>(MainActivity.this, R
@@ -102,19 +121,24 @@ public class MainActivity extends BaseActivity {
                             TextView desc = rootView.findViewById(R.id.desc);
                             TextView statu = rootView.findViewById(R.id.statu);
                             TextView num = rootView.findViewById(R.id.num);
-                            TextView name = rootView.findViewById(R.id.name);
+                            SimpleDraweeView name = rootView.findViewById(R.id.name);
                             if (contentBean == null) return;
                             ImageLoader.getInstance().loadImage(image, contentBean.getPhoto());
                             desc.setText(contentBean.getIntroduce());
-                            name.setText(contentBean.getName());
+                            ImageLoader.getInstance().loadImage(name, contentBean.getNameImg());
                             num.setText(contentBean.getPrice() + "");
                         }
                     };
                     codeRecycleView.setAdapter(commonAdapter);
+                    codeRecycleView.addHeaderView(homeViewPager);
+                    codeRecycleView.refreshComplete(CodeRecycleView.SUCCESS);
                 } else {
                     commonAdapter.notifyDataSetChanged();
+                    codeRecycleView.refreshComplete(CodeRecycleView.SUCCESS);
                 }
             }
+        } else {
+            codeRecycleView.refreshComplete(CodeRecycleView.ERROR);
         }
     }
 
@@ -164,6 +188,7 @@ public class MainActivity extends BaseActivity {
             case R.id.home_left_image:
                 break;
             case R.id.home_right_image:
+                PageJump.goMineDollActivity(MainActivity.this);
                 break;
         }
     }

@@ -119,7 +119,7 @@ public class HomeViewPager extends BaseLayout {
             viewpager.initIndicator();
             viewpager.getIndicator().setOrientation(UltraViewPager.Orientation.HORIZONTAL);
             viewpager.getIndicator().setGravity(Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM);
-            viewpager.getIndicator().setFocusColor(Color.WHITE).setNormalColor(R.color.bannerSelect)
+            viewpager.getIndicator().setFocusColor(Color.WHITE).setNormalColor(Color.RED)
                     .setStrokeColor(Color.GREEN)
                     .setRadius(DensityUtil.dip2px(getmContext(), 5))
                     .setiWidth(DensityUtil.dip2px(getmContext(), 20))

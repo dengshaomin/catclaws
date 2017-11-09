@@ -6,4 +6,5 @@ package com.coder.catclaws.commons;
 
 public class NetIndentify {
     public static final String HOME = "authorized/home";
+    public static final String MINEDOLL = "authorized/myToy";
 }

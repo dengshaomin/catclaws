@@ -196,6 +196,15 @@ public class HomeModel {
                 private String secondCamera;
                 private int price;
                 private boolean canUse;
+                private String nameImg;
+
+                public String getNameImg() {
+                    return nameImg;
+                }
+
+                public void setNameImg(String nameImg) {
+                    this.nameImg = nameImg;
+                }
 
                 public int getVersion() {
                     return version;

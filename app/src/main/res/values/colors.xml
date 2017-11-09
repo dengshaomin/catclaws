@@ -5,5 +5,6 @@
     <color name="colorAccent">#FF4081</color>
     <color name="commonBackGround">#353154</color>
     <color name="white">#ffffff</color>
+    <color name="desc">#d9d9ef</color>
     <color name="bannerSelect">#6B6977</color>
 </resources>

@@ -72,7 +72,7 @@ public abstract class BaseActivity extends PermissionActivity implements IBaseLa
                     titleRightClick();
                 }
             });
-            title_text.setText(getTitle());
+            title_text.setText(setTitleText());
             if (setTitleLeftImage() > 0) {
                 left_image.setBackgroundResource(setTitleLeftImage());
             }

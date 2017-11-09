@@ -18,11 +18,17 @@ public class HomeItemDecoration extends RecyclerView.ItemDecoration {
         if (itemDecorationWidth == 0) {
             itemDecorationWidth = DensityUtil.dip2px(parent.getContext(), 2);
         }
-        if (itemPosition % 2 != 0) {
-            outRect.set(itemDecorationWidth, 0, 0, 0);
-        } else {
-            outRect.set(0, 0, itemDecorationWidth, 0);
-        }
+        if (itemPosition == 0) return;
+        itemPosition -= 1;
+        outRect.set(itemPosition % 2 == 0 ? 4 * itemDecorationWidth :  itemDecorationWidth, (itemPosition == 0
+                        || itemPosition == 1) ? 5 * itemDecorationWidth : itemDecorationWidth,
+                itemPosition % 2 == 0 ? itemDecorationWidth : 4 * itemDecorationWidth,
+                itemDecorationWidth);
+//        if (itemPosition % 2 != 0) {
+//
+//        } else {
+//            outRect.set(0, itemDecorationWidth / 2, itemDecorationWidth, itemDecorationWidth / 2);
+//        }
     }
 
 }
