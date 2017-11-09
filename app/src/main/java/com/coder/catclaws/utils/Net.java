@@ -3,6 +3,7 @@ package com.coder.catclaws.utils;
 import android.content.Context;
 
 import com.alibaba.fastjson.JSON;
+import com.andview.refreshview.utils.LogUtils;
 import com.coder.catclaws.commons.GlobalMsg;
 import com.coder.catclaws.commons.NetIndentify;
 import com.coder.catclaws.models.BaseModel;
@@ -38,6 +39,11 @@ public class Net {
                     case NetIndentify.HOME:
                         EventBus.getDefault().post(new GlobalMsg(true, indentify, JSON.parseObject(response,
                                 HomeModel.class)));
+                        break;
+                    case NetIndentify.LOGIN:
+//                        EventBus.getDefault().post(new GlobalMsg(true, indentify, JSON.parseObject(response,
+//                                HomeModel.class)));
+                        LogUtils.e(response);
                         break;
                 }
             }

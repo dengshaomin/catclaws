@@ -16,6 +16,15 @@ import retrofit2.http.QueryMap;
  * Created by dengshaomin on 2017/1/18.
  */
 public interface QuestionService<T> {
+
+    @GET("oauth2/access_token")
+    Call<String> getWxToken(@QueryMap Map<String, String> param);
+
+    @GET("userinfo")
+    Call<String> getWxUserInfo(@QueryMap Map<String, String> param);
+
+
+
     @GET(QuestionApi.GiftHome)
     Call<String> getGiftHome(@QueryMap Map<String, String> param);
 
