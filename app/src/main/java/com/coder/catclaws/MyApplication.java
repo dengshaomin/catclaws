@@ -17,7 +17,6 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         this.applicationContext = getApplicationContext();
-
         startService(new Intent(this, InitService.class));
     }
 }
