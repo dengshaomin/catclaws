@@ -110,11 +110,8 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
         }
     }
 
-    private void LoginSuccess(ThirdLoginModel thirdLoginModel){
-        LoginActivity.LoginResult(true,thirdLoginModel);
-    }
     private void LoginError() {
-        LoginActivity.LoginResult(false,null);
+        EventBus.getDefault().post(new GlobalMsg(false, AppIndentify.THIRDLOGIN, null));
     }
 
     private void getUserInfo(final WeChartTokenModel weChartTokenModel) {

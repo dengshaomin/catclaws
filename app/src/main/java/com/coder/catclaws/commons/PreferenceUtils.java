@@ -15,6 +15,7 @@ import com.coder.catclaws.models.ThirdLoginModel;
 public class PreferenceUtils extends BasePreference {
     private static PreferenceUtils preferenceUtils;
     public static final String THIRDINFO = "third_info";
+    public static final String USERINFO = "user_info";
     //是否首次启动的key
     private String FIRST_LAUNCH = "first_launch";
 

@@ -6,6 +6,7 @@ import android.content.Intent;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.tencent.tauth.Tencent;
 
 /**
  * Created by dengshaomin on 2017/11/7.
@@ -24,9 +25,10 @@ public class InitService extends IntentService {
     }
 
     public static IWXAPI mWxApi;
-
+    public static Tencent mTencent;
     public static final String WEIXIN_APPID = "wxfef5d9bc369124d5";
     public static final String WEIXIN_SECRET = "b661d6232d8858bc962798202b3e9850";
+    public static final String QQ_APPID = "101441608";
 
     @Override
     protected void onHandleIntent(Intent intent) {
@@ -34,6 +36,7 @@ public class InitService extends IntentService {
             return;
         }
         registToWX();
+        registToQQ();
         initFresco();
     }
 
@@ -42,6 +45,10 @@ public class InitService extends IntentService {
         mWxApi = WXAPIFactory.createWXAPI(this, WEIXIN_APPID, false);
         // 将该app注册到微信
         mWxApi.registerApp(WEIXIN_APPID);
+    }
+
+    private void registToQQ() {
+        mTencent = Tencent.createInstance(QQ_APPID, this.getApplicationContext());
     }
 
     private void initFresco() {

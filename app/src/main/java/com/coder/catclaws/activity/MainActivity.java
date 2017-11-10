@@ -2,6 +2,7 @@ package com.coder.catclaws.activity;
 
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -23,6 +24,7 @@ import com.coder.catclaws.widgets.HomeItemDecoration;
 import com.coder.catclaws.widgets.HomeViewPager;
 import com.coder.catclaws.widgets.codexrefreshview.CodeRecycleView;
 import com.coder.catclaws.widgets.codexrefreshview.CommonAdapter;
+import com.coder.catclaws.widgets.codexrefreshview.MultiItemTypeAdapter;
 import com.coder.catclaws.widgets.codexrefreshview.ViewHolder;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.tmall.ultraviewpager.Screen;
@@ -73,6 +75,7 @@ public class MainActivity extends BaseActivity {
             public void onLoadMore(boolean isSilence, int index) {
             }
         });
+
         if (MyApplication.DEBUG) {
             eventComming(new GlobalMsg(true, NetIndentify.HOME, JSON.parseObject(Tools.getFromAssets(this, "home.txt")
                     , HomeModel
@@ -132,6 +135,17 @@ public class MainActivity extends BaseActivity {
                     codeRecycleView.setAdapter(commonAdapter);
                     codeRecycleView.addHeaderView(homeViewPager);
                     codeRecycleView.refreshComplete(CodeRecycleView.SUCCESS);
+                    codeRecycleView.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
+                            PageJump.goRoomActivity(MainActivity.this);
+                        }
+
+                        @Override
+                        public boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, int position) {
+                            return false;
+                        }
+                    });
                 } else {
                     commonAdapter.notifyDataSetChanged();
                     codeRecycleView.refreshComplete(CodeRecycleView.SUCCESS);

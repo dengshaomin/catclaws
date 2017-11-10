@@ -8,6 +8,7 @@ import com.coder.catclaws.commons.GlobalMsg;
 import com.coder.catclaws.commons.NetIndentify;
 import com.coder.catclaws.models.BaseModel;
 import com.coder.catclaws.models.HomeModel;
+import com.coder.catclaws.models.UserInfoModel;
 import com.coder.catclaws.retrofit.GCNetCallBack;
 import com.coder.catclaws.retrofit.NetInterface;
 import com.coder.catclaws.retrofit.RetrofitHttpUtil;
@@ -41,8 +42,8 @@ public class Net {
                                 HomeModel.class)));
                         break;
                     case NetIndentify.LOGIN:
-//                        EventBus.getDefault().post(new GlobalMsg(true, indentify, JSON.parseObject(response,
-//                                HomeModel.class)));
+                        EventBus.getDefault().post(new GlobalMsg(true, indentify, JSON.parseObject(response,
+                                UserInfoModel.class)));
                         LogUtils.e(response);
                         break;
                 }

@@ -12,6 +12,7 @@ import com.coder.catclaws.R;
 import com.coder.catclaws.commons.GlobalMsg;
 import com.coder.catclaws.commons.IBaseLayout;
 import com.coder.catclaws.commons.ITitle;
+import com.coder.catclaws.widgets.BaseLayout;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -51,10 +52,11 @@ public abstract class BaseActivity extends PermissionActivity implements IBaseLa
         this.getNetData();
     }
 
-    @SuppressLint("WrongViewCast")
     private void initTitle() {
         container = findViewById(R.id.container);
-        LayoutInflater.from(this).inflate(setContentLayout(), container);
+        if (setContentLayout() != 0) {
+            LayoutInflater.from(this).inflate(setContentLayout(), container);
+        }
         findViewById(R.id.title_lay).setVisibility(needTitle() ? View.VISIBLE : View.GONE);
         if (needTitle()) {
             title_text = findViewById(R.id.title_text);
