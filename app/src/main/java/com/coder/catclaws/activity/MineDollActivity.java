@@ -145,7 +145,7 @@ public class MineDollActivity extends BaseActivity {
                             TextView date = rootView.findViewById(R.id.date);
                             SimpleDraweeView name = rootView.findViewById(R.id.name);
                             if (contentBean == null) return;
-                            SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY.MM.dd kk:mm");
+                            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.mm.dd kk:mm");
                             date.setText(dateFormat.format(contentBean.getGetTime()));
                             if (contentBean.getState() == 1) {
                                 statu.setText("寄存中");
@@ -190,6 +190,8 @@ public class MineDollActivity extends BaseActivity {
             } else {
                 codeRecycleView.refreshComplete(CodeRecycleView.ERROR);
             }
+        } else {
+            codeRecycleView.refreshComplete(CodeRecycleView.ERROR);
         }
     }
 
