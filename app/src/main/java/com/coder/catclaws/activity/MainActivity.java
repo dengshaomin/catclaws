@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.andview.refreshview.XRefreshView;
+import com.boom.service.room.netty.TCPClient;
 import com.coder.catclaws.MyApplication;
 import com.coder.catclaws.R;
 import com.coder.catclaws.commons.GlobalMsg;
@@ -138,7 +139,8 @@ public class MainActivity extends BaseActivity {
                     codeRecycleView.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
                         @Override
                         public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-                            PageJump.goRoomActivity(MainActivity.this);
+                            PageJump.goRoomActivity(MainActivity.this,homeModel.getData().getRooms().getContent()
+                                    .get(position));
                         }
 
                         @Override
@@ -207,4 +209,9 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        TCPClient.getInstance().disConnect();
+    }
 }

@@ -6,6 +6,8 @@ import android.widget.TextView;
 
 import com.coder.catclaws.R;
 import com.coder.catclaws.commons.GlobalMsg;
+import com.coder.catclaws.commons.ImageLoader;
+import com.coder.catclaws.commons.UserManager;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
@@ -68,6 +70,8 @@ public class MineDollHeader extends BaseLayout {
 
     @Override
     public void setViewData(Object data) {
-
+        count.setText("共抓中" + data + "个");
+        ImageLoader.getInstance().loadImage(icon, UserManager.getInstance().getIcon());
+        name.setText(UserManager.getInstance().getName());
     }
 }

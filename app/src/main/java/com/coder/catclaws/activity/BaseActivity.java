@@ -114,4 +114,11 @@ public abstract class BaseActivity extends PermissionActivity implements IBaseLa
         }
     }
 
+    public Object getBunleData(){
+        if(getIntent()!= null){
+            return getIntent().getSerializableExtra(this.getClass().getName());
+        }
+        return  null;
+    }
+
 }

@@ -79,7 +79,7 @@ public class LoginActivity extends PermissionActivity {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    startActivity(new Intent(LoginActivity.this, TestActivity.class));
+                    startActivity(new Intent(LoginActivity.this, MineDollActivity.class));
                 }
             }, 1000);
         }

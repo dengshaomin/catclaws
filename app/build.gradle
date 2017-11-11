@@ -16,9 +16,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
 }
 
 dependencies {
+
     compile fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
@@ -34,6 +36,7 @@ dependencies {
     compile 'com.facebook.fresco:animated-webp:0.12.0'
     compile 'com.facebook.fresco:webpsupport:0.12.0'
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:1.0.2'
+    compile 'com.github.iwgang:countdownview:2.1.6'
     implementation project(':xrefreshview')
     implementation project(':ultraviewpager')
 }

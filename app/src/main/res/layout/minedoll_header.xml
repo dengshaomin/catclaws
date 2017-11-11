@@ -54,12 +54,13 @@
 
             <TextView
                 android:id="@+id/count"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginTop="20dp"
                 android:layout_toLeftOf="@+id/right_image"
                 android:layout_toRightOf="@+id/left_image"
+                android:background="@drawable/num_bg"
                 android:gravity="center"
                 android:textColor="@color/desc"
                 android:textSize="@dimen/text14"

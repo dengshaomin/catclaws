@@ -1,9 +1,13 @@
 package com.coder.catclaws.commons;
 
 
+import android.text.TextUtils;
+
 import com.alibaba.fastjson.JSON;
 import com.coder.catclaws.models.ThirdLoginModel;
 import com.coder.catclaws.models.UserInfoModel;
+
+import org.w3c.dom.Text;
 
 /**
  * Created by dengshaomin on 2017/11/9.
@@ -36,6 +40,14 @@ public class UserManager {
         return userInfoModel;
     }
 
+    public String getIcon() {
+        if (userInfoModel == null || userInfoModel.getData() == null) return "";
+        return userInfoModel.getData().getHeadImg();
+    }
+    public String getName() {
+        if (userInfoModel == null || userInfoModel.getData() == null) return "";
+        return userInfoModel.getData().getName();
+    }
     public void setUserinfo(UserInfoModel userinfo) {
         this.userInfoModel = userinfo;
         PreferenceUtils.getInstance().saveString(PreferenceUtils.USERINFO, JSON.toJSONString(thirdLoginModel));

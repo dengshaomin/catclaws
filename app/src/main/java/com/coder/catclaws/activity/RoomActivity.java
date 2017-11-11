@@ -12,6 +12,7 @@ package com.coder.catclaws.activity;/*
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Vibrator;
@@ -20,28 +21,83 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import com.boom.service.room.netty.WaWaJiProtoType;
+import com.boom.service.room.netty.TCPClient;
 import com.coder.catclaws.R;
 import com.coder.catclaws.commons.GlobalMsg;
+import com.coder.catclaws.commons.IControlView;
+import com.coder.catclaws.commons.ImageLoader;
+import com.coder.catclaws.commons.NetIndentify;
+import com.coder.catclaws.models.HomeModel;
+import com.coder.catclaws.models.RoomModel;
+import com.coder.catclaws.models.UserInfoModel;
 import com.coder.catclaws.socks.MsgThread;
 import com.coder.catclaws.socks.SendThread;
+import com.coder.catclaws.widgets.ControlView;
 import com.daniulive.smartplayer.SmartPlayerJni;
 import com.eventhandle.SmartEventCallback;
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.github.lazylibrary.util.ToastUtils;
 import com.videoengine.NTRenderer;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import me.weyye.hipermission.PermissonItem;
 
 
 public class RoomActivity extends BaseActivity {
 
+    @BindView(R.id.icon_mine)
+    SimpleDraweeView iconMine;
+    @BindView(R.id.name)
+    TextView name;
+    @BindView(R.id.statu)
+    TextView statu;
+    @BindView(R.id.room_persons)
+    TextView roomPersons;
+    @BindView(R.id.icon_other_0)
+    SimpleDraweeView iconOther0;
+    @BindView(R.id.icon_other_1)
+    SimpleDraweeView iconOther1;
+    @BindView(R.id.icon_other_2)
+    SimpleDraweeView iconOther2;
+    @BindView(R.id.icon_more)
+    ImageView iconMore;
     @BindView(R.id.video_container)
-    FrameLayout video_container;
+    FrameLayout videoContainer;
+    @BindView(R.id.start)
+    TextView start;
+    @BindView(R.id.onetime_coin)
+    TextView onetimeCoin;
+    @BindView(R.id.my_coin)
+    TextView myCoin;
+    @BindView(R.id.recharge)
+    ImageView recharge;
+    @BindView(R.id.normal_lay)
+    RelativeLayout normalLay;
+    @BindView(R.id.times)
+    TextView times;
+    @BindView(R.id.get)
+    TextView get;
+    @BindView(R.id.bottom_position_lay)
+    View bottomPositionLay;
+    @BindView(R.id.control_view)
+    ControlView controlView;
+    @BindView(R.id.catch_lay)
+    RelativeLayout catchLay;
+    @BindView(R.id.room_title_lay)
+    LinearLayout roomTitleLay;
     private SurfaceView sSurfaceView = null;
-
+    private HomeModel.DataBean.RoomsBean.ContentBean contentBean;
     private long playerHandle = 0;
 
     private static final int PORTRAIT = 1;        //竖屏
@@ -78,6 +134,7 @@ public class RoomActivity extends BaseActivity {
     public static String g_room_mac;//房间的mac用于发出命令
 
     boolean b_start_new_game = false;
+    private RoomModel roomModel;
 
     static {
         System.loadLibrary("SmartPlayer");
@@ -134,7 +191,7 @@ public class RoomActivity extends BaseActivity {
         boolean bViewCreated = CreateView();
 
         if (bViewCreated) {
-            video_container.addView(sSurfaceView, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup
+            videoContainer.addView(sSurfaceView, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup
                     .LayoutParams.MATCH_PARENT));
         }
         Log.i(TAG, "Start playback stream++");
@@ -192,11 +249,36 @@ public class RoomActivity extends BaseActivity {
 //        btnChangeCam.bringToFront();
 //        btnChangeCam.setOnClickListener(b);
 //        btnChangeCam.setOnTouchListener(b);
+
+        controlView.setiControlView(new IControlView() {
+            @Override
+            public void left() {
+                TCPClient.getInstance().send(contentBean.getIp(), WaWaJiProtoType.left);
+            }
+
+            @Override
+            public void up() {
+                TCPClient.getInstance().send(contentBean.getIp(), WaWaJiProtoType.up);
+            }
+
+            @Override
+            public void right() {
+                TCPClient.getInstance().send(contentBean.getIp(), WaWaJiProtoType.right);
+            }
+
+            @Override
+            public void down() {
+                TCPClient.getInstance().send(contentBean.getIp(), WaWaJiProtoType.down);
+            }
+        });
     }
 
     @Override
     public void initBundleData() {
-
+        contentBean = (HomeModel.DataBean.RoomsBean.ContentBean) getBunleData();
+        if (contentBean != null) {
+            TCPClient.getInstance().send(contentBean.getIp(), WaWaJiProtoType.room);
+        }
     }
 
     @Override
@@ -206,11 +288,67 @@ public class RoomActivity extends BaseActivity {
 
     @Override
     public List<String> regeistEvent() {
-        return null;
+        return new ArrayList<String>() {{
+            add(NetIndentify.ROOM);
+            add(NetIndentify.PLAY);
+            add(NetIndentify.PLAYFAIL);
+            add(NetIndentify.PLAYSUCCESS);
+        }};
     }
 
     @Override
     public void eventComming(GlobalMsg globalMsg) {
+        if (NetIndentify.ROOM.equals(globalMsg.getMsgId())) {
+            if (globalMsg.isSuccess()) {
+                roomModel = (RoomModel) globalMsg.getMsg();
+                setRoomData();
+            }
+        } else if (NetIndentify.PLAY.equals(globalMsg.getMsgId())) {
+            catchLay.setVisibility(View.VISIBLE);
+            normalLay.setVisibility(View.INVISIBLE);
+        }else if (NetIndentify.PLAYFAIL.equals(globalMsg.getMsgId())) {
+            ToastUtils.showToast(this,"太可惜了~");
+        }else if (NetIndentify.PLAYSUCCESS.equals(globalMsg.getMsgId())) {
+            ToastUtils.showToast(this,"恭喜~");
+        }
+    }
+
+    private void setRoomData() {
+        if (roomModel.getPlayer() != null) {
+            UserInfoModel.DataBean player = roomModel.getPlayer();
+            name.setText(player.getName());
+            statu.setText("游戏中");
+            ImageLoader.getInstance().loadImage(iconMine, player.getHeadImg());
+        } else {
+            statu.setText("空闲中");
+        }
+        if (roomModel.getWatcher() != null && roomModel.getWatcher().size() > 0) {
+            iconMore.setVisibility(View.VISIBLE);
+
+            iconOther0.setVisibility(View.VISIBLE);
+            if (roomModel.getWatcher().size() > 0) {
+                ImageLoader.getInstance().loadImage(iconOther0, roomModel.getWatcher().get(0).getHeadImg());
+            }
+            if (roomModel.getWatcher().size() > 1) {
+                ImageLoader.getInstance().loadImage(iconOther1, roomModel.getWatcher().get(1).getHeadImg());
+            }
+            if (roomModel.getWatcher().size() > 2) {
+                ImageLoader.getInstance().loadImage(iconOther2, roomModel.getWatcher().get(2).getHeadImg());
+            }
+            iconOther0.setVisibility(roomModel.getWatcher().size() > 0 ? View.INVISIBLE : View.INVISIBLE);
+            iconOther1.setVisibility(roomModel.getWatcher().size() > 1 ? View.INVISIBLE : View.INVISIBLE);
+            iconOther2.setVisibility(roomModel.getWatcher().size() > 2 ? View.INVISIBLE : View.INVISIBLE);
+        } else {
+            iconOther0.setVisibility(View.INVISIBLE);
+            iconOther1.setVisibility(View.INVISIBLE);
+            iconOther2.setVisibility(View.INVISIBLE);
+            iconMore.setVisibility(View.INVISIBLE);
+        }
+        if (roomModel.getWaWaJi() != null) {
+            RoomModel.WaWaJiEntity waWaJiEntity = roomModel.getWaWaJi();
+            onetimeCoin.setText(waWaJiEntity.getPrice() + "/次");
+        }
+        roomPersons.setText(roomModel.getTotalWatcher() + "人");
 
     }
 
@@ -223,6 +361,26 @@ public class RoomActivity extends BaseActivity {
     public List<PermissonItem> needPermissions() {
         return null;
     }
+
+
+    @OnClick({R.id.start, R.id.get})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.start:
+                TCPClient.getInstance().send(contentBean.getIp(), WaWaJiProtoType.start);
+                break;
+            case R.id.get:
+                break;
+        }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
+
 
     class EventHande implements SmartEventCallback {
         @Override

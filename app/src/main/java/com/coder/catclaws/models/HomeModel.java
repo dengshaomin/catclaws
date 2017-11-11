@@ -1,5 +1,10 @@
 package com.coder.catclaws.models;
 
+import android.os.Debug;
+
+import com.coder.catclaws.activity.MainActivity;
+
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -162,7 +167,7 @@ public class HomeModel {
                 this.content = content;
             }
 
-            public static class ContentBean {
+            public static class ContentBean extends MineSerializable{
                 /**
                  * version : 0
                  * disable : false
@@ -247,7 +252,8 @@ public class HomeModel {
                 }
 
                 public String getIp() {
-                    return ip;
+                    return "192.168.1.100";
+//                    return ip;
                 }
 
                 public void setIp(String ip) {

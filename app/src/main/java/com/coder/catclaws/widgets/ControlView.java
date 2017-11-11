@@ -51,7 +51,7 @@ public class ControlView extends BaseLayout implements View.OnTouchListener {
         this.iControlView = iControlView;
     }
 
-    private static final int touchSpace = 500;
+    private static final int touchSpace = 300;
 
     public ControlView(Context context) {
         super(context);
