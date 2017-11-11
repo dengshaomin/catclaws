@@ -21,4 +21,6 @@ public interface IBaseLayout {
     public void eventComming(GlobalMsg globalMsg);
 
     public void setViewData(Object data);
+
+
 }

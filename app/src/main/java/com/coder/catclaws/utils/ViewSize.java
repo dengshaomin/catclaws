@@ -4,8 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.github.lazylibrary.util.DensityUtil;
-import com.github.lazylibrary.util.SizeUtils;
+import com.tmall.ultraviewpager.Screen;
 
 /**
  * Created by dengshaomin on 2017/10/16.
@@ -24,6 +23,14 @@ public class ViewSize {
         ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
         layoutParams.width = Screen.getWidth(context);
         layoutParams.height = (int) (Screen.getWidth(context) * proportion);
+        view.setLayoutParams(layoutParams);
+
+    }
+
+    public static void setSize(View view, int x, int y) {
+        ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+        layoutParams.width = x;
+        layoutParams.height = y;
         view.setLayoutParams(layoutParams);
 
     }

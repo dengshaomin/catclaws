@@ -34,7 +34,7 @@ public class RetrofitHttpUtil {
     /**
      * 服务器地址
      */
-    public static final String BASE_URL = "115.236.11.98:81";
+    public static final String BASE_URL = "http://115.236.11.98:81";
     private CommonService commonService;
     private QuestionService questionService;
     private Retrofit retrofit = null;
@@ -52,7 +52,7 @@ public class RetrofitHttpUtil {
         return this;
     }
 
-    public static RetrofitHttpUtil getInstance(Context context) {
+    public static RetrofitHttpUtil getInstance() {
 //        mContext = context.getApplicationContext();
         if (retrofitHttpUtil == null) {
             synchronized (RetrofitHttpUtil.class) {
@@ -132,6 +132,16 @@ public class RetrofitHttpUtil {
         call.enqueue(callBack);
     }
 
+    public void getUrl(@Url String url, @QueryMap Map<String, String> params,
+                       GCNetCallBack<String> callBack) {
+        params = getParamFromUrl(url, params);
+        url = checkOutUrl(url);
+        checkParam(params);
+        initInner((url == null || "".equals(url)) ? BASE_URL : url, null);
+        Call<String> call = commonService.get((url == null || "".equals(url)) ? BASE_URL : url, params);
+        call.enqueue(callBack);
+    }
+
 
     public void postJson(@Url String url, @FieldMap Map<String, String> params, GCNetCallBack<String> callBack) {
         params = getParamFromUrl(url, params);
@@ -165,6 +175,32 @@ public class RetrofitHttpUtil {
         callBack.setFromCache(false);
         questionService = retrofit.create(QuestionService.class);
         Call<String> call = questionService.getGameCenterHome(params);
+        call.enqueue(callBack);
+    }
+
+    public void getWxToken(@Url String url, @QueryMap Map<String, String> params,
+                           GCNetCallBack<String> callBack) {
+        params = getParamFromUrl(url, params);
+        url = checkOutUrl(url);
+        checkParam(params);
+        initRetrofit((url == null || "".equals(url)) ? BASE_URL : url, callBack);
+        questionService = retrofit.create(QuestionService.class);
+        callBack.setFromCache(false);
+        questionService = retrofit.create(QuestionService.class);
+        Call<String> call = questionService.getWxToken(params);
+        call.enqueue(callBack);
+    }
+
+    public void getWxUserinfo(@Url String url, @QueryMap Map<String, String> params,
+                              GCNetCallBack<String> callBack) {
+        params = getParamFromUrl(url, params);
+        url = checkOutUrl(url);
+        checkParam(params);
+        initRetrofit((url == null || "".equals(url)) ? BASE_URL : url, callBack);
+        questionService = retrofit.create(QuestionService.class);
+        callBack.setFromCache(false);
+        questionService = retrofit.create(QuestionService.class);
+        Call<String> call = questionService.getWxUserInfo(params);
         call.enqueue(callBack);
     }
 
@@ -278,6 +314,21 @@ public class RetrofitHttpUtil {
     }
 
     private String checkUrl(String url) {
+        if (null == url || url.equals("")) return "";
+        url = BASE_URL + File.separator + url;
+        String[] strs = url.split("\\?");
+        if (strs != null && strs.length > 0) url = strs[0];
+        if (!url.endsWith(File.separator)) {
+            url += File.separator;
+        }
+//        if (strs != null && strs.length > 1) url += "?" + strs[1];
+        if (UseHttps && !url.startsWith("https")) {
+            url = url.replace("http", "https");
+        }
+        return url;
+    }
+
+    private String checkOutUrl(String url) {
         if (null == url || url.equals("")) return "";
         String[] strs = url.split("\\?");
         if (strs != null && strs.length > 0) url = strs[0];

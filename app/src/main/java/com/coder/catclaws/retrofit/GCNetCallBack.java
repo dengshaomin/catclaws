@@ -21,7 +21,7 @@ public class GCNetCallBack<T> implements Callback<T> {
         this.fromCache = fromCache;
     }
 
-    public GCNetCallBack(int indentify, NetInterface netInterface) {
+    public GCNetCallBack(String indentify, NetInterface netInterface) {
         setIndentify(indentify);
         this.netInterface = netInterface;
     }
@@ -66,9 +66,9 @@ public class GCNetCallBack<T> implements Callback<T> {
         }
     }
 
-    private int indentify = -1;
+    private String indentify = "";
 
-    private void setIndentify(int indentify) {
+    private void setIndentify(String indentify) {
         this.indentify = indentify;
     }
 

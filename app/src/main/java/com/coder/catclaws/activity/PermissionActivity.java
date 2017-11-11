@@ -1,6 +1,7 @@
 package com.coder.catclaws.activity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +17,8 @@ import me.weyye.hipermission.PermissionCallback;
 import me.weyye.hipermission.PermissonItem;
 
 public abstract class PermissionActivity extends Activity implements IPermissionActivity {
+
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,6 +46,21 @@ public abstract class PermissionActivity extends Activity implements IPermission
                         public void onGuarantee(String permisson, int position) {
                         }
                     });
+        }
+    }
+
+    public void showProgressDialog() {
+        if (progressDialog == null) {
+            progressDialog = new ProgressDialog(this);
+        }
+        if (progressDialog != null && !progressDialog.isShowing()) {
+            progressDialog.show();
+        }
+    }
+
+    public void closeProgressDialog() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
         }
     }
 }

@@ -39,7 +39,7 @@ public class CodeRecycleView extends BaseLayout {
     private HeaderAndFooterWrapper headerAndFooterWrapper;
     RecyclerView.LayoutManager layoutManager;
     RecyclerView.Adapter adapter;
-    private int pageSize = 10;
+    public static final int pageSize = 10;
     private int pageIndex = 1;
     private CodeRecyclerViewFooter footView;
     private XRefreshView.XRefreshViewListener xRefreshViewListener;
@@ -280,7 +280,6 @@ public class CodeRecycleView extends BaseLayout {
             @Override
             public void onLoadMore(boolean isSilence, int index) {
                 needLoadMore();
-
             }
         });
     }

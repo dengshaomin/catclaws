@@ -4,7 +4,9 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/CatClaws.iml" filepath="$PROJECT_DIR$/CatClaws.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/xrefreshview/coderefreshview.iml" filepath="$PROJECT_DIR$/xrefreshview/coderefreshview.iml" />
+      <module fileurl="file://C:\Users\dengshaomin\Desktop\catclaws\CatClaws\xrefreshview\coderefreshview.iml" filepath="C:\Users\dengshaomin\Desktop\catclaws\CatClaws\xrefreshview\coderefreshview.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ultraviewpager/ultraviewpager.iml" filepath="$PROJECT_DIR$/ultraviewpager/ultraviewpager.iml" />
+      <module fileurl="file://$PROJECT_DIR$/xrefreshview/xrefreshview.iml" filepath="$PROJECT_DIR$/xrefreshview/xrefreshview.iml" />
       <module fileurl="file://C:\Users\dengshaomin\Desktop\catclaws\CatClaws\coderefreshview\xrefreshview.iml" filepath="C:\Users\dengshaomin\Desktop\catclaws\CatClaws\coderefreshview\xrefreshview.iml" />
     </modules>
   </component>

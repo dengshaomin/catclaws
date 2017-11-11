@@ -18,6 +18,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 /**
@@ -60,7 +61,7 @@ public abstract class BaseLayout extends LinearLayout implements IBaseLayout {
             return;
         }
         rootView = LayoutInflater.from(mContext).inflate(layoutId, this);
-//        unbinder = ButterKnife.bind(this, rootView);
+        unbinder = ButterKnife.bind(this, rootView);
         if (rootView != null) {
             this.initView();
             this.initBundleData();
@@ -80,7 +81,13 @@ public abstract class BaseLayout extends LinearLayout implements IBaseLayout {
     protected void onDetachedFromWindow() {
         //unrefeist
         EventBus.getDefault().unregister(this);
-        unbinder.unbind();
+        try {
+            if (unbinder != null) {
+                unbinder.unbind();
+            }
+        } catch (Exception e) {
+
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
