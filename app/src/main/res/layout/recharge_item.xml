@@ -4,7 +4,7 @@
                                          android:id="@+id/recharge_item_rootview"
                                          android:layout_width="match_parent"
                                          android:layout_height="wrap_content"
-                                         android:background="@drawable/recharge_item_bg_p"
+                                         android:background="@drawable/recharge_item_selector"
                                          android:orientation="vertical">
 
     <LinearLayout
@@ -20,7 +20,6 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             >
-
 
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/image"

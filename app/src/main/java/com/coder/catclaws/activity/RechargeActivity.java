@@ -1,38 +1,41 @@
 package com.coder.catclaws.activity;
 
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.coder.catclaws.R;
 import com.coder.catclaws.commons.GlobalMsg;
+import com.coder.catclaws.commons.ImageLoader;
 import com.coder.catclaws.commons.NetIndentify;
 import com.coder.catclaws.models.RechargeModel;
 import com.coder.catclaws.utils.Net;
 import com.coder.catclaws.widgets.CommonViewHolder;
 import com.coder.catclaws.widgets.PayItemDecoration;
 import com.coder.catclaws.widgets.Rechargetem;
-import com.coder.catclaws.widgets.ScrollViewGridView;
+import com.coder.catclaws.widgets.SquareLayout;
+import com.coder.catclaws.widgets.codexrefreshview.CodeRecycleView;
+import com.coder.catclaws.widgets.codexrefreshview.CommonAdapter;
+import com.coder.catclaws.widgets.codexrefreshview.MultiItemTypeAdapter;
+import com.coder.catclaws.widgets.codexrefreshview.ViewHolder;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.weyye.hipermission.PermissonItem;
 
 public class RechargeActivity extends BaseActivity {
 
-    @BindView(R.id.recycleView)
-    ScrollViewGridView recycleView;
     @BindView(R.id.zhifubaodot)
     ImageView zhifubaodot;
     @BindView(R.id.zhifubaolay)
@@ -43,6 +46,8 @@ public class RechargeActivity extends BaseActivity {
     RelativeLayout wechartlay;
     @BindView(R.id.pay)
     TextView pay;
+    @BindView(R.id.recycleView)
+    RecyclerView recycleView;
     private RechargeModel rechargeModel;
     private RechargeAdapter rechargeAdapter;
     private int selectIndex;
@@ -84,16 +89,11 @@ public class RechargeActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        recycleView.setAdapter(new RechargeAdapter());
+        recycleView.setLayoutManager(new GridLayoutManager(this, 3));
 //        recycleView.setNestedScrollingEnabled(false);
-        recycleView.setSelector(new ColorDrawable(Color.TRANSPARENT));
-        recycleView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selectIndex = position;
-                rechargeAdapter.notifyDataSetChanged();
-            }
-        });
+        recycleView.addItemDecoration(new PayItemDecoration());
+        rechargeAdapter = new RechargeAdapter();
+        recycleView.setAdapter(new RechargeAdapter());
     }
 
     @Override
@@ -149,31 +149,37 @@ public class RechargeActivity extends BaseActivity {
         }
     }
 
-    public class RechargeAdapter extends BaseAdapter {
+
+    public class RechargeAdapter extends RecyclerView.Adapter<CommonViewHolder> {
+
 
         @Override
-        public int getCount() {
+        public CommonViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(RechargeActivity.this).inflate(R.layout.recharge_item, parent, false);
+            return new CommonViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(CommonViewHolder holder, final int position) {
+            RechargeModel.DataEntity contentBean = rechargeModel.getData().get(position);
+            SimpleDraweeView image = holder.itemView.findViewById(R.id.image);
+            TextView value = holder.itemView.findViewById(R.id.value);
+            View recharge_item_rootview = holder.itemView.findViewById(R.id.recharge_item_rootview);
+            recharge_item_rootview.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    selectIndex = position;
+                    notifyDataSetChanged();
+                }
+            });
+            ImageLoader.getInstance().loadImage(image, contentBean.getImg());
+            value.setText("RMB " + contentBean.getPrice() + "");
+            recharge_item_rootview.setSelected(position == selectIndex);
+        }
+
+        @Override
+        public int getItemCount() {
             return rechargeModel == null || rechargeModel.getData() == null ? 0 : rechargeModel.getData().size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return rechargeModel.getData().get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            if (convertView == null) {
-                convertView = new Rechargetem(RechargeActivity.this);
-            }
-            ((Rechargetem) convertView).setViewData(getItem(position));
-            ((Rechargetem) convertView).setSelected(position == selectIndex);
-            return convertView;
         }
     }
 }
