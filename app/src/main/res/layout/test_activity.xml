@@ -1,28 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <cn.iwgang.countdownview.CountdownView
-        android:id="@+id/count"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        app:isHideTimeBackground="true"
-        app:isShowDay="false"
-        app:isShowHour="false"
-        app:isShowMillisecond="false"
-        app:isShowMinute="false"
-        app:isShowSecond="true"
-        app:isTimeTextBold="true"
-        app:suffixGravity="bottom"
-        app:suffixHour="时"
-        app:suffixMillisecond="毫秒"
-        app:suffixMinute="分"
-        app:suffixSecond=""
-        app:suffixTextColor="#000000"
-        app:suffixTextSize="12sp"
-        app:timeTextColor="#000000"
-        app:timeTextSize="22sp"/>
-</RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <cn.iwgang.countdownview.CountdownView
+            android:id="@+id/count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:isHideTimeBackground="true"
+            app:isShowDay="false"
+            app:isShowHour="false"
+            app:isShowMillisecond="false"
+            app:isShowMinute="false"
+            app:isShowSecond="true"
+            app:isTimeTextBold="true"
+            app:suffixGravity="bottom"
+            app:suffixHour="时"
+            app:suffixMillisecond="毫秒"
+            app:suffixMinute="分"
+            app:suffixSecond=""
+            app:suffixTextColor="#000000"
+            app:suffixTextSize="12sp"
+            app:timeTextColor="#000000"
+            app:timeTextSize="22sp"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycleView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"/>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3000dp"
+            android:background="@color/white"/>
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

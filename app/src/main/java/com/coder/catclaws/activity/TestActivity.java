@@ -1,12 +1,17 @@
 package com.coder.catclaws.activity;
 
+import android.media.Image;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.andview.refreshview.utils.LogUtils;
 import com.coder.catclaws.R;
+import com.coder.catclaws.commons.FullyGridLayoutManager;
 import com.coder.catclaws.commons.GlobalMsg;
+import com.coder.catclaws.widgets.CommonViewHolder;
 
 import java.util.List;
 
@@ -24,6 +29,8 @@ public class TestActivity extends BaseActivity {
 
     @BindView(R.id.count)
     CountdownView count;
+    @BindView(R.id.recycleView)
+    RecyclerView recycleView;
 
     @Override
     public boolean needTitle() {
@@ -75,6 +82,26 @@ public class TestActivity extends BaseActivity {
                 int a = 1;
                 LogUtils.e(remainTime + "");
                 //只用他的定时器，用这个监听去更新自己的VIEW
+            }
+        });
+
+        recycleView.setLayoutManager(new GridLayoutManager(this, 3));
+        recycleView.setAdapter(new RecyclerView.Adapter() {
+            @Override
+            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                ImageView imageView = new ImageView(TestActivity.this);
+                imageView.setBackgroundResource(R.drawable.mine_info_bg);
+                return new CommonViewHolder(imageView);
+            }
+
+            @Override
+            public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+
+            }
+
+            @Override
+            public int getItemCount() {
+                return 6;
             }
         });
     }
