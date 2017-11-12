@@ -21,6 +21,7 @@ import com.coder.catclaws.utils.Net;
 import com.coder.catclaws.utils.ViewSize;
 import com.coder.catclaws.widgets.HomeItemDecoration;
 import com.coder.catclaws.widgets.MineDollHeader;
+import com.coder.catclaws.widgets.MineDollItemDecoration;
 import com.coder.catclaws.widgets.codexrefreshview.CodeRecycleView;
 import com.coder.catclaws.widgets.codexrefreshview.CommonAdapter;
 import com.coder.catclaws.widgets.codexrefreshview.MultiItemTypeAdapter;
@@ -85,7 +86,7 @@ public class MineDollActivity extends BaseActivity {
     @Override
     public void initView() {
         codeRecycleView.setLayoutManager(new GridLayoutManager(this, 2));
-        codeRecycleView.addItemDecoration(new HomeItemDecoration());
+        codeRecycleView.addItemDecoration(new MineDollItemDecoration());
         codeRecycleView.setRefreshMode(CodeRecycleView.BOTH);
         codeRecycleView.addHeaderView(new MineDollHeader(this));
         codeRecycleView.setXRefreshViewListener(new XRefreshView.SimpleXRefreshListener() {

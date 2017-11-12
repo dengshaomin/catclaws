@@ -13,4 +13,6 @@ public class NetIndentify {
     public static final String PLAY = "play";
     public static final String PLAYFAIL = "play_fail";
     public static final String PLAYSUCCESS = "play_success";
+    public static final String DETAIL = "authorized/home";
+    public static final String RECHARGE = "authorized/recharges";
 }

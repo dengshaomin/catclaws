@@ -79,7 +79,7 @@ public class LoginActivity extends PermissionActivity {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    startActivity(new Intent(LoginActivity.this, MineDollActivity.class));
+                    startActivity(new Intent(LoginActivity.this, RechargeActivity.class));
                 }
             }, 1000);
         }
@@ -123,7 +123,6 @@ public class LoginActivity extends PermissionActivity {
             iUiListener = new IUiListener() {
                 @Override
                 public void onComplete(Object o) {
-                    ToastUtils.showToast(LoginActivity.this, "1111");
                     ThirdLoginModel thirdLoginModel = JSON.parseObject(o + "", ThirdLoginModel.class);
                     UserManager.getInstance().setThirdLoginModel(thirdLoginModel);
                     login();

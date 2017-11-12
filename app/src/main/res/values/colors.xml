@@ -6,5 +6,7 @@
     <color name="commonBackGround">#353154</color>
     <color name="white">#ffffff</color>
     <color name="desc">#d9d9ef</color>
+    <color name="font">#000000</color>
     <color name="bannerSelect">#6B6977</color>
+    <color name="line">#e3e3e3</color>
 </resources>

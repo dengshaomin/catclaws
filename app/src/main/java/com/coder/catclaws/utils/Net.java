@@ -9,6 +9,7 @@ import com.coder.catclaws.commons.NetIndentify;
 import com.coder.catclaws.models.BaseModel;
 import com.coder.catclaws.models.HomeModel;
 import com.coder.catclaws.models.MineDollModel;
+import com.coder.catclaws.models.RechargeModel;
 import com.coder.catclaws.models.UserInfoModel;
 import com.coder.catclaws.retrofit.GCNetCallBack;
 import com.coder.catclaws.retrofit.NetInterface;
@@ -49,6 +50,10 @@ public class Net {
                     case NetIndentify.MINEDOLL:
                         EventBus.getDefault().post(new GlobalMsg(true, indentify, JSON.parseObject(response,
                                 MineDollModel.class)));
+                        break;
+                    case NetIndentify.RECHARGE:
+                        EventBus.getDefault().post(new GlobalMsg(true, indentify, JSON.parseObject(response,
+                                RechargeModel.class)));
                         break;
                 }
             }

@@ -5,9 +5,12 @@ import android.os.Bundle;
 
 import com.coder.catclaws.R;
 import com.coder.catclaws.commons.GlobalMsg;
+import com.coder.catclaws.commons.NetIndentify;
+import com.coder.catclaws.utils.Net;
 
 import java.util.List;
 
+import io.netty.util.NetUtil;
 import me.weyye.hipermission.PermissonItem;
 
 public class DetailActivity extends BaseActivity {
@@ -60,7 +63,7 @@ public class DetailActivity extends BaseActivity {
 
     @Override
     public void getNetData() {
-
+        Net.request(NetIndentify.HOME, null);
     }
 
     @Override
