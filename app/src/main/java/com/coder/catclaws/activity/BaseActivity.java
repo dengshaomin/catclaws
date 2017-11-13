@@ -3,6 +3,7 @@ package com.coder.catclaws.activity;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -114,11 +115,20 @@ public abstract class BaseActivity extends PermissionActivity implements IBaseLa
         }
     }
 
-    public Object getBunleData(){
-        if(getIntent()!= null){
+    public Object getBunleData() {
+        if (getIntent() != null) {
             return getIntent().getSerializableExtra(this.getClass().getName());
         }
-        return  null;
+        return null;
+    }
+
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        if ((keyCode == KeyEvent.KEYCODE_BACK) && mWebView.canGoBack()) {
+//            mWebView.goBack();// 返回前一个页面
+//            return true;
+//        }
+//        return super.onKeyDown(keyCode, event);
+        return super.onKeyDown(keyCode, event);
     }
 
 }

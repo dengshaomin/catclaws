@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.coder.catclaws.R;
 import com.coder.catclaws.commons.GlobalMsg;
 import com.coder.catclaws.commons.ImageLoader;
+import com.coder.catclaws.commons.PageJump;
 import com.coder.catclaws.commons.UserManager;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -79,7 +80,8 @@ public class MineInfoActivity extends BaseActivity {
     @Override
     public void initView() {
         name.setText(UserManager.getInstance().getName());
-        ImageLoader.getInstance().loadImage(icon,UserManager.getInstance().getIcon());
+        num.setText(UserManager.getInstance().getMb() + "");
+        ImageLoader.getInstance().loadImage(icon, UserManager.getInstance().getIcon());
     }
 
     @Override
@@ -117,8 +119,10 @@ public class MineInfoActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.recharge:
+                PageJump.goRechargeActivity(MineInfoActivity.this);
                 break;
             case R.id.invert:
+                PageJump.goRechargeActivity(MineInfoActivity.this);
                 break;
             case R.id.msg:
                 break;
@@ -127,6 +131,8 @@ public class MineInfoActivity extends BaseActivity {
             case R.id.contact:
                 break;
             case R.id.login_out:
+                UserManager.getInstance().loginOut();
+                PageJump.goLoginActivity(MineInfoActivity.this);
                 break;
         }
     }

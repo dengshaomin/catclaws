@@ -31,6 +31,9 @@ import com.coder.catclaws.models.ThirdLoginModel;
 import com.coder.catclaws.models.UserInfoModel;
 import com.coder.catclaws.utils.Net;
 import com.coder.catclaws.utils.ViewSize;
+import com.github.lazylibrary.util.AppUtils;
+import com.github.lazylibrary.util.DeviceStatusUtils;
+import com.github.lazylibrary.util.MiscUtils;
 import com.github.lazylibrary.util.ToastUtils;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.tauth.IUiListener;
@@ -70,21 +73,20 @@ public class LoginActivity extends PermissionActivity {
         setContentView(R.layout.activity_login);
         EventBus.getDefault().register(this);
         unbinder = ButterKnife.bind(this);
-        ViewSize.fixedSize(this, bg, 1920f / 1080f);
-        UserInfoModel userInfoModel = UserManager.getInstance().getUserinfo();
-        if (userInfoModel != null) {
-            PageJump.goMainActivity(LoginActivity.this);
-        } else {
-
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    startActivity(new Intent(LoginActivity.this, TestActivity.class));
-                }
-            }, 1000);
-        }
+//        ViewSize.fixedSize(this, bg, 1920f / 1080f);
+//        UserInfoModel userInfoModel = UserManager.getInstance().getUserinfo();
+//        if (userInfoModel != null) {
+//            PageJump.goMainActivity(LoginActivity.this);
+//        } else {
+//
+//            new Handler().postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    startActivity(new Intent(LoginActivity.this, TestActivity.class));
+//                }
+//            }, 1000);
+//        }
     }
-
 
 
     @Override
@@ -96,11 +98,17 @@ public class LoginActivity extends PermissionActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
     public List<PermissonItem> needPermissions() {
-        return new ArrayList<PermissonItem>() {{
-            add(new PermissonItem(Manifest.permission.READ_EXTERNAL_STORAGE, "读取权限", R.drawable.permission_ic_memory));
-            add(new PermissonItem(Manifest.permission.WRITE_EXTERNAL_STORAGE, "写权限", R.drawable.permission_ic_memory));
-        }};
+//        return new ArrayList<PermissonItem>() {{
+//            add(new PermissonItem(Manifest.permission.READ_EXTERNAL_STORAGE, "读取权限", R.drawable.permission_ic_memory));
+//            add(new PermissonItem(Manifest.permission.WRITE_EXTERNAL_STORAGE, "写权限", R.drawable.permission_ic_memory));
+//        }};
+        return null;
     }
 
 
@@ -180,7 +188,7 @@ public class LoginActivity extends PermissionActivity {
                     UserInfoModel userInfoModel = (UserInfoModel) event.getMsg();
                     UserManager.getInstance().setUserinfo(userInfoModel);
                     PageJump.goMainActivity(LoginActivity.this);
-                    finish();
+//                    finish();
                 } else {
                     loginError();
                 }
@@ -193,10 +201,11 @@ public class LoginActivity extends PermissionActivity {
         ToastUtils.showToast(LoginActivity.this, "登录失败~");
     }
 
-    private static void login() {
+    private void login() {
         Net.request(NetIndentify.LOGIN, new HashMap<String, String>() {{
             put("token", UserManager.getInstance().getThirdLoginModel().getAccess_token());
             put("opened", UserManager.getInstance().getThirdLoginModel().getOpenid());
+            put("imie", MiscUtils.getIMSI(MyApplication.applicationContext));
         }});
     }
 

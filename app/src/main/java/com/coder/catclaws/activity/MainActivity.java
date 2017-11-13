@@ -17,6 +17,7 @@ import com.coder.catclaws.commons.ImageLoader;
 import com.coder.catclaws.commons.NetIndentify;
 import com.coder.catclaws.commons.PageJump;
 import com.coder.catclaws.commons.Tools;
+import com.coder.catclaws.commons.UserManager;
 import com.coder.catclaws.models.HomeModel;
 import com.coder.catclaws.utils.Net;
 import com.coder.catclaws.utils.ViewSize;
@@ -77,11 +78,7 @@ public class MainActivity extends BaseActivity {
             }
         });
 
-        if (MyApplication.DEBUG) {
-            eventComming(new GlobalMsg(true, NetIndentify.HOME, JSON.parseObject(Tools.getFromAssets(this, "home.txt")
-                    , HomeModel
-                            .class)));
-        }
+        ImageLoader.getInstance().loadImage(icon, UserManager.getInstance().getIcon());
     }
 
 
@@ -139,7 +136,7 @@ public class MainActivity extends BaseActivity {
                     codeRecycleView.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
                         @Override
                         public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-                            PageJump.goRoomActivity(MainActivity.this,homeModel.getData().getRooms().getContent()
+                            PageJump.goRoomActivity(MainActivity.this, homeModel.getData().getRooms().getContent()
                                     .get(position));
                         }
 
@@ -202,6 +199,7 @@ public class MainActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.home_left_image:
+                PageJump.goMineInfoActivity(MainActivity.this);
                 break;
             case R.id.home_right_image:
                 PageJump.goMineDollActivity(MainActivity.this);
