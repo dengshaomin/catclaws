@@ -102,11 +102,11 @@ public class MineDollActivity extends BaseActivity {
                 getNetData();
             }
         });
-        if (MyApplication.DEBUG) {
-            eventComming(new GlobalMsg(true, NetIndentify.MINEDOLL, JSON.parseObject(Tools.getFromAssets(this, "home.txt")
-                    , HomeModel
-                            .class)));
-        }
+//        if (MyApplication.DEBUG) {
+//            eventComming(new GlobalMsg(true, NetIndentify.MINEDOLL, JSON.parseObject(Tools.getFromAssets(this, "home.txt")
+//                    , HomeModel
+//                            .class)));
+//        }
     }
 
     @Override

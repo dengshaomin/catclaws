@@ -23,9 +23,9 @@ public class MyApplication extends Application {
         startService(new Intent(this, InitService.class));
     }
 
-    @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
-//        MultiDex.install(this);
-    }
+//    @Override
+//    protected void attachBaseContext(Context base) {
+//        super.attachBaseContext(base);
+////        MultiDex.install(this);
+//    }
 }
