@@ -1,5 +1,8 @@
 package com.coder.catclaws.utils;
 
+import com.boom.service.room.netty.TCPClient;
+import com.coder.catclaws.InitService;
+import com.coder.catclaws.MyApplication;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.tauth.Tencent;
 
@@ -19,4 +22,10 @@ public class StaticUtils {
     public static final String QQ_APPID = "101441608";
     public static ArrayList<Province> provinces = new java.util.ArrayList<>();
 
+    public static void clear() {
+        provinces.clear();
+        mWxApi.unregisterApp();
+        mTencent.logout(MyApplication.applicationContext);
+        TCPClient.getInstance().disConnect();
+    }
 }
