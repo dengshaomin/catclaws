@@ -3,6 +3,7 @@ package com.coder.catclaws;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.support.multidex.MultiDex;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 
@@ -20,5 +21,11 @@ public class MyApplication extends Application {
         super.onCreate();
         this.applicationContext = getApplicationContext();
         startService(new Intent(this, InitService.class));
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+//        MultiDex.install(this);
     }
 }

@@ -52,57 +52,47 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import me.weyye.hipermission.PermissonItem;
 
-public class SplashActivity extends BaseActivity {
+public class SplashActivity extends PermissionActivity {
 
-
-    @Override
-    public boolean needTitle() {
-        return false;
-    }
-
-    @Override
-    public int setTitleLeftImage() {
-        return 0;
-    }
-
-    @Override
-    public int setTitleRightImage() {
-        return 0;
-    }
-
-    @Override
-    public String setTitleText() {
-        return null;
-    }
-
-    @Override
-    public void titleLeftClick() {
-
-    }
-
-    @Override
-    public void titleRightClick() {
-
-    }
-
-    @Override
-    public int setContentLayout() {
-        return R.layout.activity_splash;
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
         setContentView(R.layout.activity_splash);
 
     }
 
+    @Override
+    public void permissonSuccess() {
+        super.permissonSuccess();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                UserInfoModel userInfoModel = UserManager.getInstance().getUserinfo();
+                if (userInfoModel != null && userInfoModel.getData() != null) {
+                    selfLogin();
+                } else {
+//                    PageJump.goMainActivity(SplashActivity.this);
+                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                    finish();
+                }
+            }
+        }, 500);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 
     @Override
     public List<PermissonItem> needPermissions() {
         return new ArrayList<PermissonItem>() {{
             add(new PermissonItem(Manifest.permission.READ_EXTERNAL_STORAGE, "读取权限", R.drawable.permission_ic_memory));
             add(new PermissonItem(Manifest.permission.WRITE_EXTERNAL_STORAGE, "写权限", R.drawable.permission_ic_memory));
+//            add(new PermissonItem(Manifest.permission.READ_PHONE_STATE, "获取手机状态", R.drawable.permission_ic_memory));
         }};
     }
 
@@ -113,54 +103,21 @@ public class SplashActivity extends BaseActivity {
         }});
     }
 
-    @Override
-    public void initView() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                UserInfoModel userInfoModel = UserManager.getInstance().getUserinfo();
-                if (userInfoModel != null && userInfoModel.getData() != null) {
-                    selfLogin();
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(GlobalMsg globalMsg) {
+        /* Do something */
+        if (globalMsg != null) {
+            if (NetIndentify.SELFLOGIN.equals(globalMsg.getMsgId())) {
+                if (globalMsg.isSuccess()) {
+                    UserInfoModel userInfoModel = (UserInfoModel) globalMsg.getMsg();
+                    UserManager.getInstance().setUserinfo(userInfoModel);
+                    PageJump.goMainActivity(SplashActivity.this);
                 } else {
                     PageJump.goLoginActivity(SplashActivity.this);
                     finish();
                 }
             }
-        }, 500);
-    }
-
-    @Override
-    public void initBundleData() {
-
-    }
-
-    @Override
-    public void getNetData() {
-
-    }
-
-    @Override
-    public List<String> regeistEvent() {
-        return new ArrayList<String>() {{
-            add(NetIndentify.SELFLOGIN);
-        }};
-    }
-
-    @Override
-    public void eventComming(GlobalMsg globalMsg) {
-        if (globalMsg.isSuccess()) {
-            UserInfoModel userInfoModel = (UserInfoModel) globalMsg.getMsg();
-            UserManager.getInstance().setUserinfo(userInfoModel);
-            PageJump.goMainActivity(SplashActivity.this);
-        } else {
-            PageJump.goLoginActivity(SplashActivity.this);
-            finish();
         }
-    }
-
-    @Override
-    public void setViewData(Object data) {
-
     }
 
 }

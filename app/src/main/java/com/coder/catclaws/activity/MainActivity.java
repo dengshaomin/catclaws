@@ -1,27 +1,23 @@
 package com.coder.catclaws.activity;
 
-import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
 import com.andview.refreshview.XRefreshView;
 import com.boom.service.room.netty.TCPClient;
-import com.coder.catclaws.MyApplication;
 import com.coder.catclaws.R;
+import com.coder.catclaws.commons.AddressPickTask;
 import com.coder.catclaws.commons.GlobalMsg;
 import com.coder.catclaws.commons.ImageLoader;
 import com.coder.catclaws.commons.NetIndentify;
 import com.coder.catclaws.commons.PageJump;
-import com.coder.catclaws.commons.Tools;
 import com.coder.catclaws.commons.UserManager;
 import com.coder.catclaws.models.HomeModel;
 import com.coder.catclaws.utils.Net;
 import com.coder.catclaws.utils.ViewSize;
-import com.coder.catclaws.widgets.GoodsItem;
 import com.coder.catclaws.widgets.HomeItemDecoration;
 import com.coder.catclaws.widgets.HomeViewPager;
 import com.coder.catclaws.widgets.codexrefreshview.CodeRecycleView;
@@ -29,6 +25,7 @@ import com.coder.catclaws.widgets.codexrefreshview.CommonAdapter;
 import com.coder.catclaws.widgets.codexrefreshview.MultiItemTypeAdapter;
 import com.coder.catclaws.widgets.codexrefreshview.ViewHolder;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.github.lazylibrary.util.ToastUtils;
 import com.tmall.ultraviewpager.Screen;
 import com.tmall.ultraviewpager.transformer.DensityUtil;
 
@@ -36,8 +33,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.addapp.pickers.entity.City;
+import cn.addapp.pickers.entity.County;
+import cn.addapp.pickers.entity.Province;
 import me.weyye.hipermission.PermissonItem;
 
 public class MainActivity extends BaseActivity {
@@ -188,6 +187,10 @@ public class MainActivity extends BaseActivity {
     public void titleRightClick() {
     }
 
+    @Override
+    public boolean needDanMu() {
+        return true;
+    }
 
     @Override
     public List<PermissonItem> needPermissions() {
@@ -206,6 +209,7 @@ public class MainActivity extends BaseActivity {
                 break;
         }
     }
+
 
     @Override
     protected void onDestroy() {

@@ -19,7 +19,7 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
-#-微信
+#-支付宝
 -keep class com.alipay.android.app.IAlixPay{*;}
 -keep class com.alipay.android.app.IAlixPay$Stub{*;}
 -keep class com.alipay.android.app.IRemoteServiceCallback{*;}
@@ -40,7 +40,7 @@
 -keep class com.ta.utdid2.** { *;}
 -keep class com.ut.device.** { *;}
 
-#-QQ
+#-微信
 -keep class com.tencent.mm.opensdk.** {
    *;
 }
@@ -50,3 +50,12 @@
 -keep class com.tencent.mm.sdk.** {
    *;
 }
+#-QQ
+-keep class com.tencent.stat.* { ;}
+
+-keep class com.tencent.mid.* { ;}
+#日期选着
+-keepattributes InnerClasses,Signature
+-keepattributes *Annotation*
+
+-keep class cn.addapp.pickers.entity.** { *;}

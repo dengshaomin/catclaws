@@ -30,6 +30,7 @@ import com.coder.catclaws.commons.UserManager;
 import com.coder.catclaws.models.ThirdLoginModel;
 import com.coder.catclaws.models.UserInfoModel;
 import com.coder.catclaws.utils.Net;
+import com.coder.catclaws.utils.StaticUtils;
 import com.coder.catclaws.utils.ViewSize;
 import com.github.lazylibrary.util.AppUtils;
 import com.github.lazylibrary.util.DeviceStatusUtils;
@@ -93,8 +94,8 @@ public class LoginActivity extends PermissionActivity {
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
-        InitService.mWxApi.unregisterApp();
-        InitService.mTencent.logout(this);
+//        InitService.mWxApi.unregisterApp();
+//        InitService.mTencent.logout(this);
     }
 
     @Override
@@ -147,7 +148,7 @@ public class LoginActivity extends PermissionActivity {
                 }
             };
         }
-        InitService.mTencent.login(this, "all", iUiListener);
+        StaticUtils.mTencent.login(this, "all", iUiListener);
 //        } else {
 //        }
     }
@@ -160,16 +161,15 @@ public class LoginActivity extends PermissionActivity {
 
     public void wxLogin() {
         showProgressDialog();
-        if (!InitService.mWxApi.isWXAppInstalled()) {
+        if (!StaticUtils.mWxApi.isWXAppInstalled()) {
             ToastUtils.showToast(this, "您还未安装微信客户端");
             return;
         }
         final SendAuth.Req req = new SendAuth.Req();
         req.scope = "snsapi_userinfo";
         req.state = "diandi_wx_login";
-        InitService.mWxApi.sendReq(req);
+        StaticUtils.mWxApi.sendReq(req);
     }
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(GlobalMsg event) {
         /* Do something */
