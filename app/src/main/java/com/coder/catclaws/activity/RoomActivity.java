@@ -315,7 +315,7 @@ public class RoomActivity extends BaseActivity {
 
     private void setRoomData() {
         if (roomModel.getPlayer() != null) {
-            UserInfoModel.DataBean player = roomModel.getPlayer();
+            UserInfoModel.DataBean.UserBean player = roomModel.getPlayer();
             name.setText(player.getName());
             statu.setText("游戏中");
             ImageLoader.getInstance().loadImage(iconMine, player.getHeadImg());

@@ -6,11 +6,13 @@ import com.alibaba.fastjson.JSON;
 import com.andview.refreshview.utils.LogUtils;
 import com.coder.catclaws.commons.GlobalMsg;
 import com.coder.catclaws.commons.NetIndentify;
+import com.coder.catclaws.models.ALiOrderModel;
 import com.coder.catclaws.models.BaseModel;
 import com.coder.catclaws.models.HomeModel;
 import com.coder.catclaws.models.MineDollModel;
 import com.coder.catclaws.models.RechargeModel;
 import com.coder.catclaws.models.UserInfoModel;
+import com.coder.catclaws.models.WeChartOrderModel;
 import com.coder.catclaws.retrofit.GCNetCallBack;
 import com.coder.catclaws.retrofit.NetInterface;
 import com.coder.catclaws.retrofit.RetrofitHttpUtil;
@@ -54,6 +56,14 @@ public class Net {
                     case NetIndentify.RECHARGE:
                         EventBus.getDefault().post(new GlobalMsg(true, indentify, JSON.parseObject(response,
                                 RechargeModel.class)));
+                        break;
+                    case NetIndentify.WX_PAY:
+                        EventBus.getDefault().post(new GlobalMsg(true, indentify, JSON.parseObject(response,
+                                WeChartOrderModel.class)));
+                        break;
+                    case NetIndentify.ALI_PAY:
+                        EventBus.getDefault().post(new GlobalMsg(true, indentify, JSON.parseObject(response,
+                                ALiOrderModel.class)));
                         break;
                 }
             }

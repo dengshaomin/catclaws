@@ -7,6 +7,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 26
         versionCode 1
+        multiDexEnabled true
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -16,11 +17,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    dexOptions {
+//        preDexLibraries = false
+        javaMaxHeapSize "4g"
+//        jumboMode true
+    }
 
 }
 
 dependencies {
-
     compile fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
@@ -37,10 +42,13 @@ dependencies {
     compile 'com.facebook.fresco:webpsupport:0.12.0'
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:1.0.2'
     compile 'com.github.iwgang:countdownview:2.1.6'
+    compile 'com.tamic:browse:1.0.0'
     compile 'com.github.ctiao:DanmakuFlameMaster:0.9.16'
     compile 'com.github.ctiao:ndkbitmap-armv7a:0.9.16'
     compile 'com.github.ctiao:ndkbitmap-armv5:0.9.16'
     compile 'com.github.ctiao:ndkbitmap-x86:0.9.16'
+    compile 'com.github.addappcn:android-pickers:1.0.1'
+//    compile 'com.android.support:multidex:1.0.1'
     implementation project(':xrefreshview')
     implementation project(':ultraviewpager')
 }

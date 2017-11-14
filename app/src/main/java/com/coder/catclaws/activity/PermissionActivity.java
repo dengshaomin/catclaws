@@ -35,6 +35,7 @@ public abstract class PermissionActivity extends Activity implements IPermission
 
                         @Override
                         public void onFinish() {
+                            permissonSuccess();
                         }
 
                         @Override
@@ -49,6 +50,9 @@ public abstract class PermissionActivity extends Activity implements IPermission
         }
     }
 
+    public void permissonSuccess(){
+
+    }
     public void showProgressDialog() {
         if (progressDialog == null) {
             progressDialog = new ProgressDialog(this);

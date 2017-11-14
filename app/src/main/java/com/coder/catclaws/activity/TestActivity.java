@@ -1,6 +1,5 @@
 package com.coder.catclaws.activity;
 
-import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,8 +8,8 @@ import android.widget.ImageView;
 
 import com.andview.refreshview.utils.LogUtils;
 import com.coder.catclaws.R;
-import com.coder.catclaws.commons.FullyGridLayoutManager;
 import com.coder.catclaws.commons.GlobalMsg;
+import com.coder.catclaws.danmu.MineDanMuView;
 import com.coder.catclaws.widgets.CommonViewHolder;
 
 import java.util.List;
@@ -31,6 +30,8 @@ public class TestActivity extends BaseActivity {
     CountdownView count;
     @BindView(R.id.recycleView)
     RecyclerView recycleView;
+    @BindView(R.id.danmu_view)
+    MineDanMuView danmuView;
 
     @Override
     public boolean needTitle() {

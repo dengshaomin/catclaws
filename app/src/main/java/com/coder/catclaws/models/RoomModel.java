@@ -16,7 +16,7 @@ public class RoomModel {
      * canPlay : true
      */
 
-    private UserInfoModel.DataBean player;
+    private UserInfoModel.DataBean.UserBean player;
     private int totalWatcher;
     /**
      * version : 0
@@ -54,7 +54,7 @@ public class RoomModel {
      * inviteCode : null
      */
 
-    private List<UserInfoModel.DataBean> watcher;
+    private List<UserInfoModel.DataBean.UserBean> watcher;
 
 
     public void setTotalWatcher(int totalWatcher) {
@@ -70,19 +70,19 @@ public class RoomModel {
     }
 
 
-    public UserInfoModel.DataBean getPlayer() {
+    public UserInfoModel.DataBean.UserBean getPlayer() {
         return player;
     }
 
-    public void setPlayer(UserInfoModel.DataBean player) {
+    public void setPlayer(UserInfoModel.DataBean.UserBean player) {
         this.player = player;
     }
 
-    public List<UserInfoModel.DataBean> getWatcher() {
+    public List<UserInfoModel.DataBean.UserBean> getWatcher() {
         return watcher;
     }
 
-    public void setWatcher(List<UserInfoModel.DataBean> watcher) {
+    public void setWatcher(List<UserInfoModel.DataBean.UserBean> watcher) {
         this.watcher = watcher;
     }
 

@@ -6,4 +6,7 @@ package com.coder.catclaws.commons;
 
 public class AppIndentify {
     public static final String THIRDLOGIN = "THIRDLOGIN";
+    public static final String ACTIVITY_CHANGE_DATA = "ACTIVITY_CHANGE_DATA";
+    public static final String UPDATE_USERINFO = "UPDATE_USERINFO";
+
 }

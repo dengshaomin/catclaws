@@ -56,12 +56,29 @@ public class TCPResponse extends SimpleChannelInboundHandler<WaWaJiProto.Action>
                 case "play":
                     EventBus.getDefault().post(new GlobalMsg(true, NetIndentify.PLAY,
                             times.getData()));
+                    break;
                 case "fail":
                     EventBus.getDefault().post(new GlobalMsg(true, NetIndentify.PLAYFAIL,
                             times.getData()));
+                    break;
                 case "success":
                     EventBus.getDefault().post(new GlobalMsg(true, NetIndentify.PLAYSUCCESS,
                             times.getData()));
+                    break;
+                case "Wait":
+                    EventBus.getDefault().post(new GlobalMsg(true, NetIndentify.ROOM_WAIT,
+                            times.getData()));
+                    break;
+                case "Free":
+                    EventBus.getDefault().post(new GlobalMsg(true, NetIndentify.ROOM_FREE,
+                            times.getData()));
+                    break;
+                case "Error":
+                    EventBus.getDefault().post(new GlobalMsg(true, NetIndentify.ROOM_CONTROL_ERROR,
+                            times.getData()));
+                    break;
+                case "toLogin":
+                    TCPClient.getInstance().send(WaWaJiProtoType.auth, WaWaJiProtoType.auth);
                     break;
             }
         }

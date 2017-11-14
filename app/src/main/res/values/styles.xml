@@ -7,4 +7,9 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+
+    <style name="AppTheme.splash" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/login_bg</item>
+    </style>
+
 </resources>

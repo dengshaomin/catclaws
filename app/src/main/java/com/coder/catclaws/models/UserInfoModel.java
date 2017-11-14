@@ -6,10 +6,11 @@ package com.coder.catclaws.models;
 
 public class UserInfoModel {
 
+
     /**
      * msg : 登陆成功！
      * code : 200
-     * data : {"version":0,"disable":false,"id":1,"phone":null,"createTime":1510279827768,"openId":"o2ICJ0cY5sUNFzTRNLMkTxCTcHhk","qqId":null,"name":"你的益达","headImg":"/0","sex":"0","inviteCode":null}
+     * data : {"user":{"version":0,"disable":false,"id":1,"phone":null,"createTime":1510279827000,"openId":"o2ICJ0cY5sUNFzTRNLMkTxCTcHhk","qqId":null,"name":"你的益达","headImg":"/0","sex":"0","inviteCode":null},"wallet":{"version":0,"disable":false,"id":1,"userId":1,"mb":8347,"money":0}}
      */
 
     private String msg;
@@ -42,117 +43,218 @@ public class UserInfoModel {
 
     public static class DataBean {
         /**
-         * version : 0
-         * disable : false
-         * id : 1
-         * phone : null
-         * createTime : 1510279827768
-         * openId : o2ICJ0cY5sUNFzTRNLMkTxCTcHhk
-         * qqId : null
-         * name : 你的益达
-         * headImg : /0
-         * sex : 0
-         * inviteCode : null
+         * user : {"version":0,"disable":false,"id":1,"phone":null,"createTime":1510279827000,"openId":"o2ICJ0cY5sUNFzTRNLMkTxCTcHhk","qqId":null,"name":"你的益达","headImg":"/0","sex":"0","inviteCode":null}
+         * wallet : {"version":0,"disable":false,"id":1,"userId":1,"mb":8347,"money":0}
          */
 
-        private int version;
-        private boolean disable;
-        private int id;
-        private Object phone;
-        private long createTime;
-        private String openId;
-        private Object qqId;
-        private String name;
-        private String headImg;
-        private String sex;
-        private Object inviteCode;
+        private UserBean user;
+        private WalletBean wallet;
+        private String ccId;
 
-        public int getVersion() {
-            return version;
+        public String getCcId() {
+            return ccId;
         }
 
-        public void setVersion(int version) {
-            this.version = version;
+        public void setCcId(String ccId) {
+            this.ccId = ccId;
         }
 
-        public boolean isDisable() {
-            return disable;
+        public UserBean getUser() {
+            return user;
         }
 
-        public void setDisable(boolean disable) {
-            this.disable = disable;
+        public void setUser(UserBean user) {
+            this.user = user;
         }
 
-        public int getId() {
-            return id;
+        public WalletBean getWallet() {
+            return wallet;
         }
 
-        public void setId(int id) {
-            this.id = id;
+        public void setWallet(WalletBean wallet) {
+            this.wallet = wallet;
         }
 
-        public Object getPhone() {
-            return phone;
+        public static class UserBean {
+            /**
+             * version : 0
+             * disable : false
+             * id : 1
+             * phone : null
+             * createTime : 1510279827000
+             * openId : o2ICJ0cY5sUNFzTRNLMkTxCTcHhk
+             * qqId : null
+             * name : 你的益达
+             * headImg : /0
+             * sex : 0
+             * inviteCode : null
+             */
+
+            private int version;
+            private boolean disable;
+            private int id;
+            private Object phone;
+            private long createTime;
+            private String openId;
+            private Object qqId;
+            private String name;
+            private String headImg;
+            private String sex;
+            private String inviteCode;
+
+            public int getVersion() {
+                return version;
+            }
+
+            public void setVersion(int version) {
+                this.version = version;
+            }
+
+            public boolean isDisable() {
+                return disable;
+            }
+
+            public void setDisable(boolean disable) {
+                this.disable = disable;
+            }
+
+            public int getId() {
+                return id;
+            }
+
+            public void setId(int id) {
+                this.id = id;
+            }
+
+            public Object getPhone() {
+                return phone;
+            }
+
+            public void setPhone(Object phone) {
+                this.phone = phone;
+            }
+
+            public long getCreateTime() {
+                return createTime;
+            }
+
+            public void setCreateTime(long createTime) {
+                this.createTime = createTime;
+            }
+
+            public String getOpenId() {
+                return openId;
+            }
+
+            public void setOpenId(String openId) {
+                this.openId = openId;
+            }
+
+            public Object getQqId() {
+                return qqId;
+            }
+
+            public void setQqId(Object qqId) {
+                this.qqId = qqId;
+            }
+
+            public String getName() {
+                return name;
+            }
+
+            public void setName(String name) {
+                this.name = name;
+            }
+
+            public String getHeadImg() {
+                return headImg;
+            }
+
+            public void setHeadImg(String headImg) {
+                this.headImg = headImg;
+            }
+
+            public String getSex() {
+                return sex;
+            }
+
+            public void setSex(String sex) {
+                this.sex = sex;
+            }
+
+            public String getInviteCode() {
+                return inviteCode;
+            }
+
+            public void setInviteCode(String inviteCode) {
+                this.inviteCode = inviteCode;
+            }
         }
 
-        public void setPhone(Object phone) {
-            this.phone = phone;
-        }
+        public static class WalletBean {
+            /**
+             * version : 0
+             * disable : false
+             * id : 1
+             * userId : 1
+             * mb : 8347
+             * money : 0.0
+             */
 
-        public long getCreateTime() {
-            return createTime;
-        }
+            private int version;
+            private boolean disable;
+            private int id;
+            private int userId;
+            private int mb;
+            private double money;
 
-        public void setCreateTime(long createTime) {
-            this.createTime = createTime;
-        }
+            public int getVersion() {
+                return version;
+            }
 
-        public String getOpenId() {
-            return openId;
-        }
+            public void setVersion(int version) {
+                this.version = version;
+            }
 
-        public void setOpenId(String openId) {
-            this.openId = openId;
-        }
+            public boolean isDisable() {
+                return disable;
+            }
 
-        public Object getQqId() {
-            return qqId;
-        }
+            public void setDisable(boolean disable) {
+                this.disable = disable;
+            }
 
-        public void setQqId(Object qqId) {
-            this.qqId = qqId;
-        }
+            public int getId() {
+                return id;
+            }
 
-        public String getName() {
-            return name;
-        }
+            public void setId(int id) {
+                this.id = id;
+            }
 
-        public void setName(String name) {
-            this.name = name;
-        }
+            public int getUserId() {
+                return userId;
+            }
 
-        public String getHeadImg() {
-            return headImg;
-        }
+            public void setUserId(int userId) {
+                this.userId = userId;
+            }
 
-        public void setHeadImg(String headImg) {
-            this.headImg = headImg;
-        }
+            public int getMb() {
+                return mb;
+            }
 
-        public String getSex() {
-            return sex;
-        }
+            public void setMb(int mb) {
+                this.mb = mb;
+            }
 
-        public void setSex(String sex) {
-            this.sex = sex;
-        }
+            public double getMoney() {
+                return money;
+            }
 
-        public Object getInviteCode() {
-            return inviteCode;
-        }
-
-        public void setInviteCode(Object inviteCode) {
-            this.inviteCode = inviteCode;
+            public void setMoney(double money) {
+                this.money = money;
+            }
         }
     }
 }

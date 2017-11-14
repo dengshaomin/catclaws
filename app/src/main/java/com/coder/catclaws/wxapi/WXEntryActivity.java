@@ -19,6 +19,7 @@ import com.coder.catclaws.models.WeChartUserInfo;
 import com.coder.catclaws.retrofit.GCNetCallBack;
 import com.coder.catclaws.retrofit.NetInterface;
 import com.coder.catclaws.retrofit.RetrofitHttpUtil;
+import com.coder.catclaws.utils.StaticUtils;
 import com.github.lazylibrary.util.ToastUtils;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
@@ -43,7 +44,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
         super.onCreate(savedInstanceState);
 
         //如果没回调onResp，八成是这句没有写
-        InitService.mWxApi.handleIntent(getIntent(), this);
+        StaticUtils.mWxApi.handleIntent(getIntent(), this);
     }
 
     @Override
@@ -77,8 +78,8 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                         //就在这个地方，用网络库什么的或者自己封的网络api，发请求去咯，注意是get请求
                         RetrofitHttpUtil.getInstance().getWxToken("https://api.weixin.qq.com/sns",
                                 new HashMap<String, String>() {{
-                                    put("appid", InitService.WEIXIN_APPID);
-                                    put("secret", InitService.WEIXIN_SECRET);
+                                    put("appid", StaticUtils.WEIXIN_APPID);
+                                    put("secret", StaticUtils.WEIXIN_SECRET);
                                     put("code", code);
                                     put("grant_type", "authorization_code");
                                 }}, new GCNetCallBack<String>("0", new NetInterface() {
