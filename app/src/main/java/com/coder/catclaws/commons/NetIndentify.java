@@ -22,4 +22,6 @@ public class NetIndentify {
     public static final String ROOM_WAIT = "ROOM_WAIT";
     public static final String ROOM_CONTROL_ERROR = "ROOM_CONTROL_ERROR";
     public static final String ADRESS = "authorized/myAddress";
+    public static final String INVITED = "authorized/beingInvited";
+
 }

@@ -2,14 +2,11 @@ package com.coder.catclaws.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.Settings;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,13 +28,7 @@ import com.coder.catclaws.models.RechargeModel;
 import com.coder.catclaws.models.WeChartOrderModel;
 import com.coder.catclaws.utils.Net;
 import com.coder.catclaws.widgets.CommonViewHolder;
-import com.coder.catclaws.widgets.PayItemDecoration;
-import com.coder.catclaws.widgets.Rechargetem;
-import com.coder.catclaws.widgets.SquareLayout;
-import com.coder.catclaws.widgets.codexrefreshview.CodeRecycleView;
-import com.coder.catclaws.widgets.codexrefreshview.CommonAdapter;
-import com.coder.catclaws.widgets.codexrefreshview.MultiItemTypeAdapter;
-import com.coder.catclaws.widgets.codexrefreshview.ViewHolder;
+import com.coder.catclaws.widgets.RechargeItemDecoration;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.github.lazylibrary.util.ToastUtils;
 
@@ -49,7 +40,6 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.weyye.hipermission.PermissonItem;
 
@@ -114,7 +104,7 @@ public class RechargeActivity extends BaseActivity {
     public void initView() {
         recycleView.setLayoutManager(new GridLayoutManager(this, 3));
 //        recycleView.setNestedScrollingEnabled(false);
-        recycleView.addItemDecoration(new PayItemDecoration());
+        recycleView.addItemDecoration(new RechargeItemDecoration());
         rechargeAdapter = new RechargeAdapter();
         recycleView.setAdapter(new RechargeAdapter());
         zhifubaodot.setSelected(true);

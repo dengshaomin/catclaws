@@ -13,6 +13,6 @@
     <!--&lt;!&ndash; 默认时 &ndash;&gt;-->
     <!--<item android:drawable="@drawable/bg_btn_normal" />-->
 
-    <item android:drawable="@drawable/recharge_item_bg" android:state_selected="false"/>
-    <item android:drawable="@drawable/recharge_item_bg_p" android:state_selected="true"/>
+    <item android:drawable="@drawable/recharge_item_bg" android:state_selected="false" />
+    <item android:drawable="@drawable/recharge_item_bg_p" android:state_selected="true" />
 </selector>

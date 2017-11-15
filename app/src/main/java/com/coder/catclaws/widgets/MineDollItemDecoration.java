@@ -11,6 +11,7 @@ import com.github.lazylibrary.util.DensityUtil;
  */
 
 public class MineDollItemDecoration extends RecyclerView.ItemDecoration {
+
     private int itemDecorationWidth;
 
     @Deprecated
@@ -18,8 +19,15 @@ public class MineDollItemDecoration extends RecyclerView.ItemDecoration {
         if (itemDecorationWidth == 0) {
             itemDecorationWidth = DensityUtil.dip2px(parent.getContext(), 2);
         }
-        outRect.set(itemDecorationWidth % 3 == 0 ? 0 : 3 * itemDecorationWidth, itemDecorationWidth >
-                        2 ? 5 * itemDecorationWidth : 0, 0,
+        if (itemPosition == 0) {
+            return;
+        }
+        itemPosition -= 1;
+        outRect.set(itemPosition % 2 == 0 ? 8 * itemDecorationWidth : 2 * itemDecorationWidth, (itemPosition == 0 ||
+                        itemPosition == 1) ? 6 *
+                        itemDecorationWidth : 4 *
+                        itemDecorationWidth,
+                itemPosition % 2 == 0 ? 2 * itemDecorationWidth : 8 * itemDecorationWidth,
                 0);
     }
 

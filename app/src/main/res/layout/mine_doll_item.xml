@@ -1,24 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:fresco="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:background="@drawable/home_gooditem_bg"
-              android:orientation="vertical">
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/home_gooditem_bg"
+    android:orientation="vertical"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginBottom="12dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
         android:orientation="vertical"
         >
 
         <com.coder.catclaws.widgets.SquareLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/goods_circle_bg">
+            android:background="@drawable/goods_circle_bg"
+            >
 
 
             <com.facebook.drawee.view.SimpleDraweeView
@@ -26,11 +29,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:padding="10dp"
+                android:padding="5dp"
                 fresco:actualImageScaleType="fitXY"
                 fresco:fadeDuration="300"
                 fresco:placeholderImageScaleType="fitXY"
-                fresco:viewAspectRatio="2.0"/>
+                fresco:viewAspectRatio="2.0"
+                />
 
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/name"
@@ -41,7 +45,8 @@
                 fresco:actualImageScaleType="fitCenter"
                 fresco:fadeDuration="300"
                 fresco:placeholderImageScaleType="fitXY"
-                fresco:viewAspectRatio="2.0"/>
+                fresco:viewAspectRatio="2.0"
+                />
         </com.coder.catclaws.widgets.SquareLayout>
 
         <TextView
@@ -49,31 +54,32 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/num_bg"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/cornert_2_353155"
             android:ellipsize="end"
             android:gravity="center"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:singleLine="true"
             android:text="配送中"
-            android:textColor="@color/desc"
-            android:textSize="@dimen/text14"/>
+            android:textColor="#d9d9ef"
+            android:textSize="@dimen/text10"
+            />
 
         <TextView
             android:id="@+id/date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="8dp"
             android:ellipsize="end"
             android:gravity="center"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:singleLine="true"
             android:text="2017.10.31 12:23"
-            android:textColor="@color/desc"
-            android:textSize="@dimen/text14"/>
+            android:textColor="#d9d9ef"
+            android:textSize="@dimen/text10"
+            />
     </LinearLayout>
 </LinearLayout>

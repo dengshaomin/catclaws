@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:scrollbars="none"
-    tools:context="com.coder.catclaws.activity.RechargeActivity">
+    tools:context="com.coder.catclaws.activity.RechargeActivity"
+    >
 
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycleView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:scrollbars="none"/>
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="12dp"
+        android:scrollbars="none"
+        />
 
 
     <LinearLayout
@@ -27,88 +28,103 @@
         android:layout_below="@+id/codeRecycleView"
         android:background="#f0f0f0"
         android:orientation="vertical"
-        android:visibility="visible">
+        android:visibility="visible"
+        >
+
+        <View style="@style/line" />
 
         <RelativeLayout
             android:id="@+id/zhifubaolay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:padding="10dp">
+            android:padding="16dp"
+            >
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                >
 
                 <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:background="@drawable/icon_zhifubao"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/icon_zhifubao"
+                    />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="8dp"
                     android:text="支付宝"
-                    android:textColor="@color/font"
-                    android:textSize="@dimen/text14"/>
+                    android:textColor="#6c6c6c"
+                    android:textSize="@dimen/text14"
+                    />
 
             </LinearLayout>
 
             <ImageView
                 android:id="@+id/zhifubaodot"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/pay_dot_selector"/>
+                android:background="@drawable/pay_dot_selector"
+                />
 
         </RelativeLayout>
 
-        <View style="@style/line"/>
+        <View
+            style="@style/line"
+            android:layout_marginTop="8dp"
+            />
 
         <RelativeLayout
             android:id="@+id/wechartlay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:padding="10dp">
+            android:padding="16dp"
+            >
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                >
 
                 <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:background="@drawable/icon_wechart"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/icon_wechart"
+                    />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:text="微信"
-                    android:textColor="@color/font"
-                    android:textSize="@dimen/text14"/>
+                    android:textColor="#6c6c6c"
+                    android:textSize="@dimen/text14"
+                    />
 
             </LinearLayout>
 
             <ImageView
                 android:id="@+id/wechartdot"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/pay_dot_selector"/>
+                android:background="@drawable/pay_dot_selector"
+                />
 
         </RelativeLayout>
 
+        <View style="@style/line" />
     </LinearLayout>
 
     <RelativeLayout
@@ -116,22 +132,24 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:background="#f0f0f0"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        >
 
         <TextView
             android:id="@+id/pay"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="25dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/login_out_bg"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/btn_yellow_bg"
             android:gravity="center"
             android:text="付款"
             android:textColor="@color/white"
-            android:textSize="@dimen/text20"
-            android:textStyle="bold"/>
+            android:textSize="@dimen/text12"
+            android:textStyle="bold"
+            />
     </RelativeLayout>
 
 </LinearLayout>

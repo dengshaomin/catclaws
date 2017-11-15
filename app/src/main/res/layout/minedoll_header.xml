@@ -1,73 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:fresco="http://schemas.android.com/apk/res-auto"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/mine_info_bg"
-                android:orientation="vertical">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="16dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    android:layout_marginTop="12dp"
+    android:scrollbars="none"
+    tools:context="com.coder.catclaws.activity.MineInfoActivity"
+    >
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_gravity="center_vertical"
-        android:gravity="center_vertical"
+        android:orientation="vertical"
         >
 
         <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/icon_home_bg"
-            android:gravity="center"
-            >
-
-            <com.facebook.drawee.view.SimpleDraweeView
-                android:id="@+id/icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                fresco:actualImageScaleType="fitXY"
-                fresco:fadeDuration="300"
-                fresco:placeholderImageScaleType="fitXY"
-                fresco:viewAspectRatio="2.0"/>
-
-        </RelativeLayout>
-
-        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:orientation="vertical">
+            android:background="@drawable/mine_userinfo_bg"
+            android:orientation="vertical"
+            >
 
-            <TextView
-                android:id="@+id/name"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toLeftOf="@+id/right_image"
-                android:layout_toRightOf="@+id/left_image"
-                android:text="猫爪子"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:paddingBottom="8dp"
+                android:paddingLeft="16dp"
+                android:paddingTop="8dp"
+                >
 
-                android:textColor="@color/white"
-                android:textSize="@dimen/text20"
-                />
+                <RelativeLayout
+                    android:layout_width="64dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/icon_home_bg"
+                    >
 
-            <TextView
-                android:id="@+id/count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginTop="20dp"
-                android:layout_toLeftOf="@+id/right_image"
-                android:layout_toRightOf="@+id/left_image"
-                android:background="@drawable/num_bg"
-                android:gravity="center"
-                android:textColor="@color/desc"
-                android:textSize="@dimen/text14"
-                />
-        </LinearLayout>
+                    <com.facebook.drawee.view.SimpleDraweeView
+                        android:id="@+id/icon"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="4dp"
+                        fresco:actualImageScaleType="fitXY"
+                        fresco:fadeDuration="300"
+                        fresco:placeholderImageScaleType="fitXY"
+                        fresco:viewAspectRatio="2.0"
+                        />
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:orientation="vertical"
+                    >
+
+                    <TextView
+                        android:id="@+id/name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@+id/right_image"
+                        android:layout_toRightOf="@+id/left_image"
+                        android:text="猫爪子"
+
+                        android:textColor="#f1f1f1"
+                        android:textSize="@dimen/text14"
+                        />
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal"
+                        >
+
+
+                        <TextView
+                            android:id="@+id/count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toRightOf="@+id/iconbg"
+                            android:background="@drawable/cornert_2_353155"
+                            android:ellipsize="end"
+                            android:gravity="center"
+                            android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
+                            android:singleLine="true"
+                            android:text="10"
+                            android:textColor="#d9d9ef"
+                            android:textSize="@dimen/text14"
+                            />
+
+                    </RelativeLayout>
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
     </LinearLayout>
 
 
-</RelativeLayout>
+</ScrollView>

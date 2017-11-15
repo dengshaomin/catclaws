@@ -2,14 +2,25 @@ package com.coder.catclaws.activity;
 
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.TextureView;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.coder.catclaws.MyApplication;
 import com.coder.catclaws.R;
 import com.coder.catclaws.commons.GlobalMsg;
+import com.coder.catclaws.commons.NetIndentify;
+import com.coder.catclaws.commons.UserManager;
+import com.coder.catclaws.utils.Net;
+import com.coder.catclaws.utils.ShareUtils;
+import com.coder.catclaws.utils.StaticUtils;
+import com.github.lazylibrary.util.MiscUtils;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -21,10 +32,13 @@ public class InvertFriendActivity extends BaseActivity {
 
     @BindView(R.id.invert_code)
     EditText invertCode;
+
     @BindView(R.id.exchange)
     TextView exchange;
+
     @BindView(R.id.mine_code)
     TextView mineCode;
+
     @BindView(R.id.invert_friend)
     TextView invertFriend;
 
@@ -95,12 +109,19 @@ public class InvertFriendActivity extends BaseActivity {
 
     @Override
     public List<String> regeistEvent() {
-        return null;
+        return new ArrayList<String>() {{
+            add(NetIndentify.INVITED);
+        }};
     }
 
     @Override
     public void eventComming(GlobalMsg globalMsg) {
+        closeProgressDialog();
+        if (globalMsg.isSuccess()) {
 
+        } else {
+
+        }
     }
 
     @Override
@@ -118,6 +139,12 @@ public class InvertFriendActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.exchange:
+                showProgressDialog();
+                if (!TextUtils.isEmpty(invertCode.getText().toString())) {
+                    Net.request(NetIndentify.INVITED, new HashMap<String, String>() {{
+                        put("inviteCode", UserManager.getInstance().getThirdLoginModel().getAccess_token());
+                    }});
+                }
                 break;
             case R.id.invert_friend:
                 break;
