@@ -9,18 +9,16 @@
     <RelativeLayout
         android:id="@+id/title_lay"
         android:layout_width="match_parent"
-        android:layout_height="90dp"
+        android:layout_height="@dimen/titleBarHeight"
         android:background="@drawable/title_bg"
-        android:paddingBottom="10dp"
-        android:paddingLeft="@dimen/paddingLR"
-        android:paddingRight="@dimen/paddingLR"
-        android:paddingTop="10dp">
+        >
 
         <RelativeLayout
             android:id="@+id/left_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="16dp"
+            android:layout_height="32dp"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="8dp"
             android:background="@drawable/icon_back"
             android:gravity="center">
 
@@ -36,7 +34,7 @@
             android:layout_toRightOf="@+id/left_image"
             android:gravity="center"
             android:textColor="@color/white"
-            android:textSize="@dimen/titleText"
+            android:textSize="@dimen/text16"
             android:textStyle="bold"/>
 
         <RelativeLayout

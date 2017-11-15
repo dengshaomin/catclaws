@@ -111,7 +111,7 @@ public class HomeViewPager extends BaseLayout {
             viewpager.setAdapter(homePagerAdapter);
             viewpager.setScrollMode(UltraViewPager.ScrollMode.HORIZONTAL);
             viewpager.setOffscreenPageLimit(5);
-            viewpager.setPageMargin(DensityUtil.dip2px(getmContext(), -10));
+            viewpager.setPageMargin(DensityUtil.dip2px(getmContext(), -16));
             viewpager.setPageTransformer(true, new ScalePageTransformer());
 //            viewpager.setInfiniteRatio(100);
             viewpager.setInfiniteLoop(true);
@@ -119,7 +119,7 @@ public class HomeViewPager extends BaseLayout {
             viewpager.initIndicator();
             viewpager.getIndicator().setOrientation(UltraViewPager.Orientation.HORIZONTAL);
             viewpager.getIndicator().setGravity(Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM);
-            viewpager.getIndicator().setFocusColor(Color.WHITE).setNormalColor(Color.RED)
+            viewpager.getIndicator().setFocusColor(Color.WHITE).setNormalColor(R.color.bannerUnSelect)
                     .setStrokeColor(Color.GREEN)
                     .setRadius(DensityUtil.dip2px(getmContext(), 5))
                     .setiWidth(DensityUtil.dip2px(getmContext(), 20))

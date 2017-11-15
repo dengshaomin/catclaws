@@ -20,10 +20,12 @@ public class HomeItemDecoration extends RecyclerView.ItemDecoration {
         }
         if (itemPosition == 0) return;
         itemPosition -= 1;
-        outRect.set(itemPosition % 2 == 0 ? 4 * itemDecorationWidth :  itemDecorationWidth, (itemPosition == 0
-                        || itemPosition == 1) ? 5 * itemDecorationWidth : itemDecorationWidth,
-                itemPosition % 2 == 0 ? itemDecorationWidth : 4 * itemDecorationWidth,
-                itemDecorationWidth);
+        outRect.set(itemPosition % 2 == 0 ? 8 * itemDecorationWidth : 2 * itemDecorationWidth, (itemPosition == 0 ||
+                        itemPosition == 1) ? 6 *
+                        itemDecorationWidth : 4 *
+                        itemDecorationWidth,
+                itemPosition % 2 == 0 ? 2 * itemDecorationWidth : 8 * itemDecorationWidth,
+                0);
 //        if (itemPosition % 2 != 0) {
 //
 //        } else {

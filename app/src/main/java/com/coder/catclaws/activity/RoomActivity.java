@@ -306,10 +306,10 @@ public class RoomActivity extends BaseActivity {
         } else if (NetIndentify.PLAY.equals(globalMsg.getMsgId())) {
             catchLay.setVisibility(View.VISIBLE);
             normalLay.setVisibility(View.INVISIBLE);
-        }else if (NetIndentify.PLAYFAIL.equals(globalMsg.getMsgId())) {
-            ToastUtils.showToast(this,"太可惜了~");
-        }else if (NetIndentify.PLAYSUCCESS.equals(globalMsg.getMsgId())) {
-            ToastUtils.showToast(this,"恭喜~");
+        } else if (NetIndentify.PLAYFAIL.equals(globalMsg.getMsgId())) {
+            ToastUtils.showToast(this, "太可惜了~");
+        } else if (NetIndentify.PLAYSUCCESS.equals(globalMsg.getMsgId())) {
+            ToastUtils.showToast(this, "恭喜~");
         }
     }
 

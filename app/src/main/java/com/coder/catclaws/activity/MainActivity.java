@@ -6,12 +6,9 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.andview.refreshview.XRefreshView;
-import com.boom.service.room.netty.TCPClient;
 import com.coder.catclaws.R;
-import com.coder.catclaws.commons.AddressPickTask;
 import com.coder.catclaws.commons.GlobalMsg;
 import com.coder.catclaws.commons.ImageLoader;
 import com.coder.catclaws.commons.NetIndentify;
@@ -20,7 +17,6 @@ import com.coder.catclaws.commons.UserManager;
 import com.coder.catclaws.models.HomeModel;
 import com.coder.catclaws.utils.Net;
 import com.coder.catclaws.utils.StaticUtils;
-import com.coder.catclaws.utils.ViewSize;
 import com.coder.catclaws.widgets.HomeItemDecoration;
 import com.coder.catclaws.widgets.HomeViewPager;
 import com.coder.catclaws.widgets.codexrefreshview.CodeRecycleView;
@@ -29,17 +25,12 @@ import com.coder.catclaws.widgets.codexrefreshview.MultiItemTypeAdapter;
 import com.coder.catclaws.widgets.codexrefreshview.ViewHolder;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.github.lazylibrary.util.ToastUtils;
-import com.tmall.ultraviewpager.Screen;
-import com.tmall.ultraviewpager.transformer.DensityUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import cn.addapp.pickers.entity.City;
-import cn.addapp.pickers.entity.County;
-import cn.addapp.pickers.entity.Province;
 import me.weyye.hipermission.PermissonItem;
 
 public class MainActivity extends BaseActivity {
@@ -54,6 +45,8 @@ public class MainActivity extends BaseActivity {
     HomeViewPager homeViewPager;
     @BindView(R.id.codeRecycleView)
     CodeRecycleView codeRecycleView;
+    @BindView(R.id.title_lay)
+    RelativeLayout titleLay;
 
     private CommonAdapter commonAdapter;
 
@@ -117,9 +110,9 @@ public class MainActivity extends BaseActivity {
                         @Override
                         protected void convert(ViewHolder holder, HomeModel.DataBean.RoomsBean.ContentBean contentBean, int position) {
                             View rootView = holder.itemView;
-                            ViewSize.fixedSize(rootView, (Screen.getWidth(MainActivity.this) - DensityUtil.dip2px
-                                    (MainActivity.this, 4) - DensityUtil.dip2px
-                                    (MainActivity.this, 20)) / 2, 632f / 468f);
+//                            ViewSize.fixedSize(rootView, (Screen.getWidth(MainActivity.this) - DensityUtil.dip2px
+//                                    (MainActivity.this, 4) - DensityUtil.dip2px
+//                                    (MainActivity.this, 20)) / 2, 632f / 468f);
                             SimpleDraweeView image = rootView.findViewById(R.id.image);
                             TextView desc = rootView.findViewById(R.id.desc);
                             TextView statu = rootView.findViewById(R.id.statu);
@@ -128,6 +121,8 @@ public class MainActivity extends BaseActivity {
                             if (contentBean == null) return;
                             ImageLoader.getInstance().loadImage(image, contentBean.getPhoto());
                             desc.setText(contentBean.getIntroduce());
+                            statu.setCompoundDrawablesWithIntrinsicBounds(contentBean.isCanUse() ? R.drawable.icon_room_free : R.drawable.icon_room_busy,
+                                    0, 0, 0);
                             ImageLoader.getInstance().loadImage(name, contentBean.getNameImg());
                             num.setText(contentBean.getPrice() + "");
                         }
@@ -138,8 +133,8 @@ public class MainActivity extends BaseActivity {
                     codeRecycleView.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
                         @Override
                         public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-                            PageJump.goRoomActivity(MainActivity.this, homeModel.getData().getRooms().getContent()
-                                    .get(position));
+//                            PageJump.goRoomActivity(MainActivity.this, homeModel.getData().getRooms().getContent()
+//                                    .get(position));
                         }
 
                         @Override
@@ -235,5 +230,10 @@ public class MainActivity extends BaseActivity {
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+
+    @OnClick(R.id.title_lay)
+    public void onViewClicked() {
     }
 }

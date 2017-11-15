@@ -13,9 +13,16 @@ import com.coder.catclaws.models.ThirdLoginModel;
  */
 
 public class PreferenceUtils extends BasePreference {
+
     private static PreferenceUtils preferenceUtils;
+
     public static final String THIRDINFO = "third_info";
+
     public static final String USERINFO = "user_info";
+
+    public static final String SETTING_BG_MUSIC = "SETTING_BG_MUSIC";
+    public static final String SETTING_YINXIAO_MUSIC = "SETTING_YINXIAO_MUSIC";
+
     //是否首次启动的key
     private String FIRST_LAUNCH = "first_launch";
 
@@ -26,8 +33,6 @@ public class PreferenceUtils extends BasePreference {
 
     /**
      * 这里我通过自定义的Application来获取Context对象，所以在获取preferenceUtils时不需要传入Context。
-     *
-     * @return
      */
     public synchronized static PreferenceUtils getInstance() {
         if (null == preferenceUtils) {

@@ -1,6 +1,7 @@
 package com.coder.catclaws.activity;
 
-import android.os.Bundle;
+import java.util.List;
+
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -9,13 +10,11 @@ import com.coder.catclaws.R;
 import com.coder.catclaws.commons.GlobalMsg;
 import com.coder.catclaws.commons.ImageLoader;
 import com.coder.catclaws.commons.PageJump;
+import com.coder.catclaws.commons.PreferenceUtils;
 import com.coder.catclaws.commons.UserManager;
 import com.facebook.drawee.view.SimpleDraweeView;
 
-import java.util.List;
-
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.weyye.hipermission.PermissonItem;
 
@@ -23,24 +22,39 @@ public class MineInfoActivity extends BaseActivity {
 
     @BindView(R.id.icon)
     SimpleDraweeView icon;
+
     @BindView(R.id.name)
     TextView name;
+
     @BindView(R.id.num)
     TextView num;
+
     @BindView(R.id.iconbg)
     ImageView iconbg;
+
     @BindView(R.id.recharge)
     ImageView recharge;
+
     @BindView(R.id.invert)
     TextView invert;
+
     @BindView(R.id.msg)
     TextView msg;
+
     @BindView(R.id.adress)
     TextView adress;
+
     @BindView(R.id.contact)
     TextView contact;
+
     @BindView(R.id.login_out)
     TextView loginOut;
+
+    @BindView(R.id.setting_bg_music)
+    ImageView mSettingBgMusic;
+
+    @BindView(R.id.setting_yinxiao)
+    ImageView mSettingYinxiao;
 
     @Override
     public boolean needTitle() {
@@ -115,7 +129,7 @@ public class MineInfoActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.recharge, R.id.invert, R.id.msg, R.id.adress, R.id.contact, R.id.login_out})
+    @OnClick({R.id.recharge, R.id.invert, R.id.msg, R.id.adress, R.id.contact, R.id.login_out, R.id.setting_bg_music, R.id.setting_yinxiao})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.recharge:
@@ -134,6 +148,18 @@ public class MineInfoActivity extends BaseActivity {
                 UserManager.getInstance().loginOut();
                 PageJump.goLoginActivity(MineInfoActivity.this);
                 break;
+            case R.id.setting_bg_music:
+                boolean flag = PreferenceUtils.getInstance().getBoolean(PreferenceUtils.SETTING_BG_MUSIC, true);
+                mSettingBgMusic.setBackgroundResource(flag ? R.drawable.setting_close_bg : R.drawable.setting_open_bg);
+                PreferenceUtils.getInstance().setBoolean(PreferenceUtils.SETTING_BG_MUSIC, !flag);
+
+                break;
+            case R.id.setting_yinxiao:
+                boolean flag1 = PreferenceUtils.getInstance().getBoolean(PreferenceUtils.SETTING_YINXIAO_MUSIC, true);
+                mSettingBgMusic.setBackgroundResource(flag1 ? R.drawable.setting_close_bg : R.drawable.setting_open_bg);
+                PreferenceUtils.getInstance().setBoolean(PreferenceUtils.SETTING_YINXIAO_MUSIC, !flag1);
+                break;
         }
     }
+
 }

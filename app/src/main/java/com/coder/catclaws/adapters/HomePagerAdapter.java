@@ -73,7 +73,7 @@ public class HomePagerAdapter extends PagerAdapter {
         SimpleDraweeView image = linearLayout.findViewById(R.id.image);
         ViewSize.fixedSize(image, (int) (Screen.getWidth(context) * 5f / 7f), 450f / 780f);
         ViewSize.setSize(image, (int) (Screen.getWidth(context) * 5f / 7f), (int) (Screen.getWidth(context) * 5f / 7f *
-                450f / 780f - DensityUtil.dip2px(context, 10)));
+                450f / 780f - DensityUtil.dip2px(context, 12)));
 //        ImageLoader.getInstance().loadImage(image, bannersBeanList.get(position).getImg());
         container.addView(linearLayout);
 

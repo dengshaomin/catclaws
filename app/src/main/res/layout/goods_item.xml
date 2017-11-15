@@ -3,21 +3,22 @@
               xmlns:fresco="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:background="@drawable/goods_bg"
+              android:background="@drawable/home_gooditem_bg"
               android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingLeft="25dp"
-        android:paddingTop="10dp"
         >
 
         <com.coder.catclaws.widgets.SquareLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginRight="25dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="8dp"
             android:background="@drawable/goods_circle_bg">
 
 
@@ -26,7 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:padding="10dp"
+                android:padding="5dp"
                 fresco:actualImageScaleType="fitXY"
                 fresco:fadeDuration="300"
                 fresco:placeholderImageScaleType="fitXY"
@@ -48,13 +49,11 @@
             android:id="@+id/desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="25dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/goods_desc_bg"
+            android:layout_marginLeft="18dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/home_goodsitem_desc_bg"
             android:ellipsize="end"
             android:gravity="center"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
             android:singleLine="true"
             android:textColor="@color/white"
             android:textSize="@dimen/text14"/>
@@ -62,8 +61,10 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="10dp"
             >
 
             <TextView
@@ -71,19 +72,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:drawableLeft="@drawable/icon_free_time"
+                android:drawableLeft="@drawable/icon_room_free"
                 android:drawablePadding="5dp"
                 android:ellipsize="end"
                 android:gravity="center"
                 android:singleLine="true"
                 android:text="空闲"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text14"/>
+                android:textColor="#d9d9ef"
+                android:textSize="9sp"/>
 
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+
                 android:layout_centerVertical="true"
                 android:orientation="horizontal">
 
@@ -91,7 +93,7 @@
                 <TextView
                     android:id="@+id/num"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="16dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_gravity="center_vertical"
@@ -103,12 +105,12 @@
                     android:paddingRight="10dp"
                     android:singleLine="true"
                     android:text="10"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text16"/>
+                    android:textColor="#d9d9ef"
+                    android:textSize="9sp"/>
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
                     android:layout_centerVertical="true"
                     android:layout_gravity="center_vertical"
                     android:layout_toLeftOf="@+id/num"

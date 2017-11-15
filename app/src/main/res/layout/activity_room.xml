@@ -37,7 +37,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
-                    android:background="@drawable/icon_bg">
+                    android:background="@drawable/head_translate_bg">
 
                     <com.facebook.drawee.view.SimpleDraweeView
                         android:id="@+id/icon_mine"
@@ -73,7 +73,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
-                        android:drawableLeft="@drawable/icon_free_time"
+                        android:drawableLeft="@drawable/icon_room_free"
                         android:drawablePadding="2dp"
                         android:gravity="center_vertical"
                         android:text="游戏中"
@@ -124,7 +124,7 @@
                         android:layout_height="match_parent"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
-                        android:background="@drawable/icon_bg">
+                        android:background="@drawable/head_translate_bg">
 
                         <com.facebook.drawee.view.SimpleDraweeView
                             android:id="@+id/icon_other_0"
@@ -141,7 +141,7 @@
                         android:layout_height="match_parent"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
-                        android:background="@drawable/icon_bg">
+                        android:background="@drawable/head_translate_bg">
 
                         <com.facebook.drawee.view.SimpleDraweeView
                             android:id="@+id/icon_other_1"
@@ -160,7 +160,7 @@
                         android:layout_margin="5dp"
                         android:layout_weight="1"
 
-                        android:background="@drawable/icon_bg">
+                        android:background="@drawable/head_translate_bg">
 
                         <com.facebook.drawee.view.SimpleDraweeView
                             android:id="@+id/icon_other_2"
