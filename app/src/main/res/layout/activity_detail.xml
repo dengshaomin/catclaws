@@ -18,7 +18,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/mine_info_bg"
+            android:background="@drawable/mine_setting_bg"
             android:orientation="vertical"
             >
 

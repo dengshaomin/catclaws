@@ -25,7 +25,7 @@
         <EditText
             android:id="@+id/invert_code"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_margin="10dp"
             android:background="@drawable/cornert_2_353155"
             android:hint="输入邀请码"
