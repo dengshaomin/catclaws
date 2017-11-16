@@ -1,5 +1,8 @@
 package com.coder.catclaws.activity;
 
+import java.util.HashMap;
+import java.util.List;
+
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -15,9 +18,6 @@ import com.coder.catclaws.commons.UserManager;
 import com.coder.catclaws.utils.Net;
 import com.github.lazylibrary.util.MiscUtils;
 
-import java.util.HashMap;
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -27,19 +27,28 @@ public class DeliverGoodsActivity extends BaseActivity {
 
 
     @BindView(R.id.person)
-    EditText person;
+    EditText mPerson;
+
+    @BindView(R.id.tel_phone)
+    TextView mTelPhone;
+
     @BindView(R.id.adress)
-    EditText adress;
+    TextView mAdress;
+
     @BindView(R.id.add)
-    TextView add;
+    TextView mAdd;
+
     @BindView(R.id.recycleView)
-    RecyclerView recycleView;
+    RecyclerView mRecycleView;
+
     @BindView(R.id.value)
-    TextView value;
+    TextView mValue;
+
     @BindView(R.id.recharge)
-    TextView recharge;
+    TextView mRecharge;
+
     @BindView(R.id.commit)
-    TextView commit;
+    TextView mCommit;
 
     @Override
     public boolean needTitle() {
@@ -112,15 +121,19 @@ public class DeliverGoodsActivity extends BaseActivity {
     }
 
     private void adressAction() {
-        Net.request(NetIndentify.LOGIN, new HashMap<String, String>() {{
-            put("token", UserManager.getInstance().getThirdLoginModel().getAccess_token());
-            put("opened", UserManager.getInstance().getThirdLoginModel().getOpenid());
-            put("imie", MiscUtils.getIMSI(MyApplication.applicationContext));
-        }});
+        PageJump.goInvertFriendActivity(this);
     }
 
     private void commitAction() {
+        showProgressDialog();
+        Net.request(NetIndentify.DELIVER_DOLL, new HashMap<String, String>() {{
+            put("gifted", UserManager.getInstance().getThirdLoginModel().getAccess_token());
+            put("addressed", UserManager.getInstance().getThirdLoginModel().getOpenid());
+        }});
+    }
 
+    private void rechargeAction() {
+        PageJump.goRechargeActivity(this);
     }
 
     @OnClick({R.id.add, R.id.recharge, R.id.commit})
@@ -130,7 +143,7 @@ public class DeliverGoodsActivity extends BaseActivity {
                 adressAction();
                 break;
             case R.id.recharge:
-                PageJump.goRechargeActivity(this);
+                rechargeAction();
                 break;
             case R.id.commit:
                 commitAction();

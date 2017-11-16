@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.alibaba.fastjson.JSON;
 import com.coder.catclaws.MyApplication;
+import com.coder.catclaws.commons.UserManager;
 import com.coder.catclaws.retrofit.convert.StringConverterFactory;
 import com.coder.catclaws.retrofit.services.CommonService;
 import com.coder.catclaws.retrofit.services.QuestionService;
@@ -31,20 +32,31 @@ import retrofit2.http.Url;
  * Created by hjzhang on 2016/7/26.
  */
 public class RetrofitHttpUtil {
+
     /**
      * 服务器地址
      */
     public static final String BASE_URL = "http://115.236.11.98:81";
+
     private CommonService commonService;
+
     private QuestionService questionService;
+
     private Retrofit retrofit = null;
+
     private static OkHttpClient okHttpClient = null;
+
     //    private static Context mContext;
     private int maxCacheTime = 0; //s
+
     private static RetrofitHttpUtil retrofitHttpUtil;
+
     private Map<String, String> headerParams = new HashMap<>();
+
     private boolean doubleRequest = false;
+
     public static final String HOME_CACHE_DATA = "HOME_CACHE_DATA";
+
     private static final boolean UseHttps = false;
 
     public RetrofitHttpUtil setDoubleRequest(boolean doubleRequest) {
@@ -71,7 +83,9 @@ public class RetrofitHttpUtil {
     }
 
     private Map<String, String> getParamFromUrl(String url, Map<String, String> params) {
-        if (params == null) params = new HashMap<>();
+        if (params == null) {
+            params = new HashMap<>();
+        }
 //        if (params.containsKey("plugin_ver")) {
 //            if (TextUtils.isEmpty(params.get("plugin_ver"))) {
 //                params.put("plugin_ver", GameCenterContants.SDK_VERSION);
@@ -88,7 +102,9 @@ public class RetrofitHttpUtil {
 //                params.put("user_id", UserManager.getInstance().getUID());
 //            }
 //        }
-        if (null == url || url.equals("")) return params;
+        if (null == url || url.equals("")) {
+            return params;
+        }
         String[] strs = url.split("\\?");
         if (strs != null && strs.length > 1) {
             String p = strs[1];
@@ -100,7 +116,9 @@ public class RetrofitHttpUtil {
                         if (t != null && !t.equals("")) {
                             String[] ts = t.split("=");
                             if (ts != null && ts.length > 1) {
-                                if (params == null) params = new HashMap<>();
+                                if (params == null) {
+                                    params = new HashMap<>();
+                                }
                                 params.put(ts[0], ts[1]);
                             }
                         }
@@ -112,7 +130,7 @@ public class RetrofitHttpUtil {
     }
 
     public void lunchTime(@Url String url, @QueryMap Map<String, String> params,
-                          GCNetCallBack<String> callBack) {
+            GCNetCallBack<String> callBack) {
         params = getParamFromUrl(url, params);
         url = checkUrl(url);
         checkParam(params);
@@ -123,7 +141,7 @@ public class RetrofitHttpUtil {
     }
 
     public void get(@Url String url, @QueryMap Map<String, String> params,
-                    GCNetCallBack<String> callBack) {
+            GCNetCallBack<String> callBack) {
         params = getParamFromUrl(url, params);
         url = checkUrl(url);
         checkParam(params);
@@ -133,7 +151,7 @@ public class RetrofitHttpUtil {
     }
 
     public void getUrl(@Url String url, @QueryMap Map<String, String> params,
-                       GCNetCallBack<String> callBack) {
+            GCNetCallBack<String> callBack) {
         params = getParamFromUrl(url, params);
         url = checkOutUrl(url);
         checkParam(params);
@@ -155,6 +173,18 @@ public class RetrofitHttpUtil {
         call.enqueue(callBack);
     }
 
+    public void postJson(@Url String url, Object params, GCNetCallBack<String> callBack) {
+        params = getParamFromUrl(url, null);
+        url = checkUrl(url);
+        checkParam(null);
+        initInner((url == null || "".equals(url)) ? BASE_URL : url, null);
+        //Call<String> call = commonService.post((url == null || "".equals(url)) ? BASE_URL : url, params);
+        String str = JSON.toJSONString(params);
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json;charset=UTF-8"), str);
+        Call<String> call = commonService.post((url == null || "".equals(url)) ? BASE_URL : url, requestBody);
+        call.enqueue(callBack);
+    }
+
     public void post(@Url String url, @FieldMap Map<String, String> params, GCNetCallBack<String> callBack) {
         params = getParamFromUrl(url, params);
         url = checkUrl(url);
@@ -166,7 +196,7 @@ public class RetrofitHttpUtil {
 
 
     public void getHome(@Url String url, @QueryMap Map<String, String> params,
-                        final GCNetCallBack<String> callBack) {
+            final GCNetCallBack<String> callBack) {
         params = getParamFromUrl(url, params);
         url = checkUrl(url);
         checkParam(params);
@@ -179,7 +209,7 @@ public class RetrofitHttpUtil {
     }
 
     public void getWxToken(@Url String url, @QueryMap Map<String, String> params,
-                           GCNetCallBack<String> callBack) {
+            GCNetCallBack<String> callBack) {
         params = getParamFromUrl(url, params);
         url = checkOutUrl(url);
         checkParam(params);
@@ -192,7 +222,7 @@ public class RetrofitHttpUtil {
     }
 
     public void getWxUserinfo(@Url String url, @QueryMap Map<String, String> params,
-                              GCNetCallBack<String> callBack) {
+            GCNetCallBack<String> callBack) {
         params = getParamFromUrl(url, params);
         url = checkOutUrl(url);
         checkParam(params);
@@ -205,7 +235,7 @@ public class RetrofitHttpUtil {
     }
 
     public void userGameBooked(@Url String url, @QueryMap Map<String, String> params,
-                               GCNetCallBack<String> callBack) {
+            GCNetCallBack<String> callBack) {
         params = getParamFromUrl(url, params);
         url = checkUrl(url);
         checkParam(params);
@@ -216,7 +246,7 @@ public class RetrofitHttpUtil {
     }
 
     public void markDownload(@Url String url, @QueryMap Map<String, String> params,
-                             GCNetCallBack<String> callBack) {
+            GCNetCallBack<String> callBack) {
         params = getParamFromUrl(url, params);
         url = checkUrl(url);
         checkParam(params);
@@ -227,7 +257,7 @@ public class RetrofitHttpUtil {
     }
 
     public void getGiftCenterData(@Url String url, @QueryMap Map<String, String> params,
-                                  GCNetCallBack<String> callBack) {
+            GCNetCallBack<String> callBack) {
         params = getParamFromUrl(url, params);
         url = checkUrl(url);
         checkParam(params);
@@ -238,7 +268,7 @@ public class RetrofitHttpUtil {
     }
 
     public void login(@Url String url, @QueryMap Map<String, String> params,
-                      GCNetCallBack<String> callBack) {
+            GCNetCallBack<String> callBack) {
         checkParam(params);
         url = checkUrl(url);
         initRetrofit((url == null || "".equals(url)) ? BASE_URL : url, null);
@@ -248,7 +278,7 @@ public class RetrofitHttpUtil {
     }
 
     public void yalogin(@Url String url, @QueryMap Map<String, String> params,
-                        GCNetCallBack<String> callBack) {
+            GCNetCallBack<String> callBack) {
         checkParam(params);
         url = checkUrl(url);
         initRetrofit((url == null || "".equals(url)) ? BASE_URL : url, null);
@@ -258,7 +288,7 @@ public class RetrofitHttpUtil {
     }
 
     public void queryMyPrize(@Url String url, @QueryMap Map<String, String> params,
-                             GCNetCallBack<String> callBack) {
+            GCNetCallBack<String> callBack) {
         params = getParamFromUrl(url, params);
         url = checkUrl(url);
         checkParam(params);
@@ -269,7 +299,7 @@ public class RetrofitHttpUtil {
     }
 
     public void savePrizeAdress(@Url String url, @QueryMap Map<String, String> params,
-                                GCNetCallBack<String> callBack) {
+            GCNetCallBack<String> callBack) {
         params = getParamFromUrl(url, params);
         url = checkUrl(url);
         checkParam(params);
@@ -281,7 +311,7 @@ public class RetrofitHttpUtil {
 
 
     public void sign(@Url String url, @QueryMap Map<String, String> params,
-                     GCNetCallBack<String> callBack) {
+            GCNetCallBack<String> callBack) {
         params = getParamFromUrl(url, params);
         url = checkUrl(url);
         checkParam(params);
@@ -298,7 +328,9 @@ public class RetrofitHttpUtil {
     }
 
     public RetrofitHttpUtil setHeaderParams(Map<String, String> params) {
-        if (params == null) params = new HashMap<>();
+        if (params == null) {
+            params = new HashMap<>();
+        }
         this.headerParams = params;
         return this;
     }
@@ -309,15 +341,20 @@ public class RetrofitHttpUtil {
     }
 
     private void initService(String url) {
-        if (commonService == null)
+        if (commonService == null) {
             commonService = retrofit.create(CommonService.class);
+        }
     }
 
     private String checkUrl(String url) {
-        if (null == url || url.equals("")) return "";
+        if (null == url || url.equals("")) {
+            return "";
+        }
         url = BASE_URL + File.separator + url;
         String[] strs = url.split("\\?");
-        if (strs != null && strs.length > 0) url = strs[0];
+        if (strs != null && strs.length > 0) {
+            url = strs[0];
+        }
         if (!url.endsWith(File.separator)) {
             url += File.separator;
         }
@@ -329,9 +366,13 @@ public class RetrofitHttpUtil {
     }
 
     private String checkOutUrl(String url) {
-        if (null == url || url.equals("")) return "";
+        if (null == url || url.equals("")) {
+            return "";
+        }
         String[] strs = url.split("\\?");
-        if (strs != null && strs.length > 0) url = strs[0];
+        if (strs != null && strs.length > 0) {
+            url = strs[0];
+        }
         if (!url.endsWith(File.separator)) {
             url += File.separator;
         }
@@ -346,6 +387,9 @@ public class RetrofitHttpUtil {
         if (param == null) {
             param = new HashMap<>();
             return;
+        }
+        if (!param.keySet().contains("token")) {
+            param.put("token", UserManager.getInstance().getToken());
         }
         for (String pa : param.keySet()) {
             if (param.get(pa) == null) {
@@ -435,7 +479,9 @@ public class RetrofitHttpUtil {
     }
 
     private void initRetrofit(String url, GCNetCallBack callBack) {
-        if (okHttpClient == null) initOkHttp(callBack);
+        if (okHttpClient == null) {
+            initOkHttp(callBack);
+        }
         retrofit = new Retrofit.Builder()
                 .baseUrl(url)
                 .client(okHttpClient)
@@ -443,7 +489,6 @@ public class RetrofitHttpUtil {
 //                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
     }
-
 
 //    public <T> void toSubscribe(Observable<T> o, Subscriber<T> s) {
 //        o.subscribeOn(Schedulers.io())

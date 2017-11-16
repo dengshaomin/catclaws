@@ -15,6 +15,7 @@ import com.coder.catclaws.R;
 import com.coder.catclaws.commons.GlobalMsg;
 import com.coder.catclaws.commons.ImageLoader;
 import com.coder.catclaws.commons.NetIndentify;
+import com.coder.catclaws.commons.PageJump;
 import com.coder.catclaws.models.MineDollModel;
 import com.coder.catclaws.utils.Net;
 import com.coder.catclaws.widgets.MineDollHeader;
@@ -32,9 +33,13 @@ public class MineDollActivity extends BaseActivity {
 
     @BindView(R.id.codeRecycleView)
     CodeRecycleView codeRecycleView;
+
     private int page = 1;
+
     private MineDollModel mineDollModel;
+
     private CommonAdapter commonAdapter;
+
     private MineDollHeader mineDollHeader;
 
     @Override
@@ -134,7 +139,9 @@ public class MineDollActivity extends BaseActivity {
                             TextView statu = rootView.findViewById(R.id.statu);
                             TextView date = rootView.findViewById(R.id.date);
                             SimpleDraweeView name = rootView.findViewById(R.id.name);
-                            if (contentBean == null) return;
+                            if (contentBean == null) {
+                                return;
+                            }
                             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.mm.dd kk:mm");
                             date.setText(dateFormat.format(contentBean.getGetTime()));
                             if (contentBean.getState() == 1) {
@@ -164,8 +171,8 @@ public class MineDollActivity extends BaseActivity {
                     codeRecycleView.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
                         @Override
                         public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-//                            PageJump.goRoomActivity(MineDollActivity.this, homeModel.getData().getRooms().getContent()
-//                                    .get(position));
+                            PageJump.goDetailActivity(MineDollActivity.this, mineDollModel.getData().getContent().get(position)
+                                    );
                         }
 
                         @Override

@@ -10,115 +10,170 @@ package com.coder.catclaws.activity;/*
  */
 
 
+import java.util.ArrayList;
+import java.util.List;
+
+import android.content.ComponentName;
 import android.content.Context;
-import android.content.res.Configuration;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
+import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.IBinder;
 import android.os.Vibrator;
 import android.util.Log;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.FrameLayout.LayoutParams;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.boom.service.room.netty.WaWaJiProtoType;
 import com.boom.service.room.netty.TCPClient;
+import com.boom.service.room.netty.WaWaJiProtoType;
 import com.coder.catclaws.R;
 import com.coder.catclaws.commons.GlobalMsg;
 import com.coder.catclaws.commons.IControlView;
 import com.coder.catclaws.commons.ImageLoader;
+import com.coder.catclaws.commons.MusicService;
+import com.coder.catclaws.commons.MusicService.MusicBinder;
 import com.coder.catclaws.commons.NetIndentify;
-import com.coder.catclaws.models.HomeModel;
+import com.coder.catclaws.models.HomeModel.DataBean.RoomsBean.ContentBean;
 import com.coder.catclaws.models.RoomModel;
-import com.coder.catclaws.models.UserInfoModel;
+import com.coder.catclaws.models.RoomModel.WaWaJiEntity;
+import com.coder.catclaws.models.UserInfoModel.DataBean.UserBean;
 import com.coder.catclaws.socks.MsgThread;
 import com.coder.catclaws.socks.SendThread;
 import com.coder.catclaws.widgets.ControlView;
+import com.coder.catclaws.widgets.FullDialog;
+import com.coder.catclaws.widgets.PickSuccessDialogView;
 import com.daniulive.smartplayer.SmartPlayerJni;
 import com.eventhandle.SmartEventCallback;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.github.lazylibrary.util.ToastUtils;
 import com.videoengine.NTRenderer;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.iwgang.countdownview.CountdownView;
+import cn.iwgang.countdownview.CountdownView.OnCountdownIntervalListener;
 import me.weyye.hipermission.PermissonItem;
 
 
 public class RoomActivity extends BaseActivity {
 
     @BindView(R.id.icon_mine)
-    SimpleDraweeView iconMine;
+    SimpleDraweeView mIconMine;
+
     @BindView(R.id.name)
-    TextView name;
+    TextView mName;
+
     @BindView(R.id.statu)
-    TextView statu;
+    TextView mStatu;
+
     @BindView(R.id.room_persons)
-    TextView roomPersons;
+    TextView mRoomPersons;
+
     @BindView(R.id.icon_other_0)
-    SimpleDraweeView iconOther0;
+    SimpleDraweeView mIconOther0;
+
     @BindView(R.id.icon_other_1)
-    SimpleDraweeView iconOther1;
+    SimpleDraweeView mIconOther1;
+
     @BindView(R.id.icon_other_2)
-    SimpleDraweeView iconOther2;
+    SimpleDraweeView mIconOther2;
+
     @BindView(R.id.icon_more)
-    ImageView iconMore;
-    @BindView(R.id.video_container)
-    FrameLayout videoContainer;
-    @BindView(R.id.start)
-    TextView start;
-    @BindView(R.id.onetime_coin)
-    TextView onetimeCoin;
-    @BindView(R.id.my_coin)
-    TextView myCoin;
-    @BindView(R.id.recharge)
-    ImageView recharge;
-    @BindView(R.id.normal_lay)
-    RelativeLayout normalLay;
-    @BindView(R.id.times)
-    TextView times;
-    @BindView(R.id.get)
-    TextView get;
-    @BindView(R.id.bottom_position_lay)
-    View bottomPositionLay;
-    @BindView(R.id.control_view)
-    ControlView controlView;
-    @BindView(R.id.catch_lay)
-    RelativeLayout catchLay;
+    ImageView mIconMore;
+
     @BindView(R.id.room_title_lay)
-    LinearLayout roomTitleLay;
+    LinearLayout mRoomTitleLay;
+
+    @BindView(R.id.video_container)
+    FrameLayout mVideoContainer;
+
+    @BindView(R.id.out)
+    TextView mOut;
+
+    @BindView(R.id.help)
+    TextView mHelp;
+
+    @BindView(R.id.record)
+    FrameLayout mRecord;
+
+    @BindView(R.id.count_down_timer)
+    CountdownView mCountDownTimer;
+
+    @BindView(R.id.count_down)
+    TextView mCountDown;
+
+    @BindView(R.id.catch_doll)
+    FrameLayout mCatchDoll;
+
+    @BindView(R.id.control_layout)
+    RelativeLayout mControlLayout;
+
+    @BindView(R.id.num_times)
+    TextView mNumTimes;
+
+    @BindView(R.id.msg)
+    TextView mMsg;
+
+    @BindView(R.id.recharge)
+    TextView mRecharge;
+
+    @BindView(R.id.start)
+    TextView mStart;
+
+    @BindView(R.id.mine_nums)
+    TextView mMineNums;
+
+    @BindView(R.id.start_layout)
+    LinearLayout mStartLayout;
+
+    @BindView(R.id.controlView)
+    ControlView mControlView;
+
     private SurfaceView sSurfaceView = null;
-    private HomeModel.DataBean.RoomsBean.ContentBean contentBean;
+
+    private ContentBean contentBean;
+
     private long playerHandle = 0;
 
     private static final int PORTRAIT = 1;        //竖屏
+
     private static final int LANDSCAPE = 2;        //横屏
+
     private static final String TAG = "SmartPlayer";
 
     private SmartPlayerJni libPlayer = null;
 
     private int currentOrigentation = PORTRAIT;
+
     private boolean isPlaybackViewStarted = false;
 
+    private final long countDownTimes = 24000;
+
+    private boolean isNowPicking = false;
+
     //    private String playbackUrl = "rtmp://119.29.226.242:1935/hls/stream10085";//rtmp://119.29.226.242:1935/hls/stream10085//rtmp://119.29.226.242:1935/hls/stream/xuebao //rtmp://player.daniulive.com:1935/hls/stream10089
-    private String playbackUrl = "rtmp://live2.iboom.tv/AppName/StreamName";//rtmp://119.29.226.242:1935/hls/stream10085//rtmp://119.29.226.242:1935/hls/stream/xuebao //rtmp://player.daniulive.com:1935/hls/stream10089
+    private String playbackUrl = "rtmp://live2.iboom.tv/AppName/StreamName";
+//rtmp://119.29.226.242:1935/hls/stream10085//rtmp://119.29.226.242:1935/hls/stream/xuebao //rtmp://player.daniulive.com:1935/hls/stream10089
+
     //    private String playbackUrl2 = "rtmp://119.29.226.242:1935/hls/stream10086";
     private String playbackUrl2 = "rtmp://live2.iboom.tv/AppName/Stream";
+
     //    private String switchURL = "rtmp://119.29.226.242:1935/hls/stream20086";
     private String switchURL = "rtmp://live2.iboom.tv/AppName/StreamName";
 
     private boolean isHardwareDecoder = true;
+
     private int playBuffer = 100; // 默认200ms
+
     private boolean isFastStartup = true; // 是否秒开, 默认true
+
     private boolean switchUrlFlag = false;
 
     //Button btnPopInputText;
@@ -127,13 +182,19 @@ public class RoomActivity extends BaseActivity {
     private Context myContext;
 
     public static SendThread sendThread;
+
     public static MsgThread msgThread;
+
     public String ServerHost = "192.168.0.4";
+
     public int ServerPort = 1090;
+
     public String ServerIP = "";
+
     public static String g_room_mac;//房间的mac用于发出命令
 
     boolean b_start_new_game = false;
+
     private RoomModel roomModel;
 
     static {
@@ -178,20 +239,51 @@ public class RoomActivity extends BaseActivity {
     }
 
     @Override
+    public boolean needDanMu() {
+        return true;
+    }
+
+    @Override
     public int setContentLayout() {
         return R.layout.activity_room;
     }
 
+    private Intent serviceIntent;
+
+    private MusicConnection mMusicConnection;
+
+    private MusicService mMusicService;
+
+    private class MusicConnection implements ServiceConnection {
+
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            mMusicService = ((MusicService.MusicBinder) service).getService();
+            mMusicService.startMusic();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+
+        }
+    }
+
+    private void initService() {
+        serviceIntent = new Intent(this, MusicService.class);
+        mMusicConnection = new MusicConnection();
+        bindService(serviceIntent, mMusicConnection, BIND_AUTO_CREATE);
+    }
+
     @Override
     public void initView() {
-
+        initService();
         libPlayer = new SmartPlayerJni();
 
         myContext = this.getApplicationContext();
         boolean bViewCreated = CreateView();
 
         if (bViewCreated) {
-            videoContainer.addView(sSurfaceView, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup
+            mVideoContainer.addView(sSurfaceView, new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup
                     .LayoutParams.MATCH_PARENT));
         }
         Log.i(TAG, "Start playback stream++");
@@ -225,7 +317,6 @@ public class RoomActivity extends BaseActivity {
             Log.i(TAG, "[daniulive] hwChecking: " + hwChecking);
         }
 
-
         if (playbackUrl == null) {
             Log.e(TAG, "playback URL with NULL...");
             return;
@@ -250,7 +341,7 @@ public class RoomActivity extends BaseActivity {
 //        btnChangeCam.setOnClickListener(b);
 //        btnChangeCam.setOnTouchListener(b);
 
-        controlView.setiControlView(new IControlView() {
+        mControlView.setiControlView(new IControlView() {
             @Override
             public void left() {
                 TCPClient.getInstance().send(contentBean.getIp(), WaWaJiProtoType.left);
@@ -275,7 +366,7 @@ public class RoomActivity extends BaseActivity {
 
     @Override
     public void initBundleData() {
-        contentBean = (HomeModel.DataBean.RoomsBean.ContentBean) getBunleData();
+        contentBean = (ContentBean) getBunleData();
         if (contentBean != null) {
             TCPClient.getInstance().send(contentBean.getIp(), WaWaJiProtoType.room);
         }
@@ -304,51 +395,98 @@ public class RoomActivity extends BaseActivity {
                 setRoomData();
             }
         } else if (NetIndentify.PLAY.equals(globalMsg.getMsgId())) {
-            catchLay.setVisibility(View.VISIBLE);
-            normalLay.setVisibility(View.INVISIBLE);
+            mControlLayout.setVisibility(View.VISIBLE);
+            mStartLayout.setVisibility(View.INVISIBLE);
+            mCountDownTimer.start(countDownTimes);
+            mCountDownTimer.setOnCountdownEndListener(new CountdownView.OnCountdownEndListener() {
+                @Override
+                public void onEnd(CountdownView cv) {
+
+                    mCountDown.setText(0 + "");
+                    startPick();
+                }
+            });
+            mCountDownTimer.setOnCountdownIntervalListener(1000, new OnCountdownIntervalListener() {
+                @Override
+                public void onInterval(CountdownView cv, long remainTime) {
+                    mCountDown.setText(remainTime / 1000 + "");
+                }
+            });
+
         } else if (NetIndentify.PLAYFAIL.equals(globalMsg.getMsgId())) {
             ToastUtils.showToast(this, "太可惜了~");
+            mControlLayout.setVisibility(View.GONE);
+            mStartLayout.setVisibility(View.VISIBLE);
         } else if (NetIndentify.PLAYSUCCESS.equals(globalMsg.getMsgId())) {
-            ToastUtils.showToast(this, "恭喜~");
+            showScuccessDialog();
         }
+    }
+
+    private void showScuccessDialog() {
+        PickSuccessDialogView pickSuccessDialogView = new PickSuccessDialogView(this);
+        final FullDialog fullDialog = FullDialog.create(this).addContentView(pickSuccessDialogView);
+        pickSuccessDialogView.getShare().setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        pickSuccessDialogView.getLook().setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        pickSuccessDialogView.getPlayAgain().setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TCPClient.getInstance().send(contentBean.getIp(), WaWaJiProtoType.again);
+                fullDialog.dismiss();
+            }
+        });
+        pickSuccessDialogView.getSuccessClose().setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fullDialog.dismiss();
+            }
+        });
+        fullDialog.show();
     }
 
     private void setRoomData() {
         if (roomModel.getPlayer() != null) {
-            UserInfoModel.DataBean.UserBean player = roomModel.getPlayer();
-            name.setText(player.getName());
-            statu.setText("游戏中");
-            ImageLoader.getInstance().loadImage(iconMine, player.getHeadImg());
+            UserBean player = roomModel.getPlayer();
+            mName.setText(player.getName());
+            mStatu.setText("游戏中");
+            ImageLoader.getInstance().loadImage(mIconMine, player.getHeadImg());
         } else {
-            statu.setText("空闲中");
+            mStatu.setText("空闲中");
         }
         if (roomModel.getWatcher() != null && roomModel.getWatcher().size() > 0) {
-            iconMore.setVisibility(View.VISIBLE);
 
-            iconOther0.setVisibility(View.VISIBLE);
+            mIconOther0.setVisibility(View.VISIBLE);
             if (roomModel.getWatcher().size() > 0) {
-                ImageLoader.getInstance().loadImage(iconOther0, roomModel.getWatcher().get(0).getHeadImg());
+                ImageLoader.getInstance().loadImage(mIconOther0, roomModel.getWatcher().get(0).getHeadImg());
             }
             if (roomModel.getWatcher().size() > 1) {
-                ImageLoader.getInstance().loadImage(iconOther1, roomModel.getWatcher().get(1).getHeadImg());
+                ImageLoader.getInstance().loadImage(mIconOther1, roomModel.getWatcher().get(1).getHeadImg());
             }
             if (roomModel.getWatcher().size() > 2) {
-                ImageLoader.getInstance().loadImage(iconOther2, roomModel.getWatcher().get(2).getHeadImg());
+                ImageLoader.getInstance().loadImage(mIconOther2, roomModel.getWatcher().get(2).getHeadImg());
             }
-            iconOther0.setVisibility(roomModel.getWatcher().size() > 0 ? View.INVISIBLE : View.INVISIBLE);
-            iconOther1.setVisibility(roomModel.getWatcher().size() > 1 ? View.INVISIBLE : View.INVISIBLE);
-            iconOther2.setVisibility(roomModel.getWatcher().size() > 2 ? View.INVISIBLE : View.INVISIBLE);
+            mIconOther0.setVisibility(roomModel.getWatcher().size() > 0 ? View.INVISIBLE : View.INVISIBLE);
+            mIconOther1.setVisibility(roomModel.getWatcher().size() > 1 ? View.INVISIBLE : View.INVISIBLE);
+            mIconOther2.setVisibility(roomModel.getWatcher().size() > 2 ? View.INVISIBLE : View.INVISIBLE);
         } else {
-            iconOther0.setVisibility(View.INVISIBLE);
-            iconOther1.setVisibility(View.INVISIBLE);
-            iconOther2.setVisibility(View.INVISIBLE);
-            iconMore.setVisibility(View.INVISIBLE);
+            mIconOther0.setVisibility(View.INVISIBLE);
+            mIconOther1.setVisibility(View.INVISIBLE);
+            mIconOther2.setVisibility(View.INVISIBLE);
         }
         if (roomModel.getWaWaJi() != null) {
-            RoomModel.WaWaJiEntity waWaJiEntity = roomModel.getWaWaJi();
-            onetimeCoin.setText(waWaJiEntity.getPrice() + "/次");
+            WaWaJiEntity waWaJiEntity = roomModel.getWaWaJi();
+            mNumTimes.setText(waWaJiEntity.getPrice() + "/次");
         }
-        roomPersons.setText(roomModel.getTotalWatcher() + "人");
+        mRoomPersons.setText(roomModel.getTotalWatcher() + "人");
 
     }
 
@@ -362,27 +500,38 @@ public class RoomActivity extends BaseActivity {
         return null;
     }
 
-
-    @OnClick({R.id.start, R.id.get})
+    @OnClick({R.id.icon_more, R.id.out, R.id.help, R.id.catch_doll, R.id.msg, R.id.recharge, R.id.start})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.icon_more:
+                break;
+            case R.id.out:
+                finish();
+                break;
+            case R.id.help:
+                break;
+            case R.id.catch_doll:
+                startPick();
+                break;
+            case R.id.msg:
+                break;
+            case R.id.recharge:
+                break;
             case R.id.start:
                 TCPClient.getInstance().send(contentBean.getIp(), WaWaJiProtoType.start);
-                break;
-            case R.id.get:
                 break;
         }
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
+    private void startPick() {
+        if (isNowPicking) {
+            return;
+        }
+        TCPClient.getInstance().send(contentBean.getIp(), WaWaJiProtoType.pick);
     }
 
-
     class EventHande implements SmartEventCallback {
+
         @Override
         public void onCallback(int code, long param1, long param2, String param3, String param4, Object param5) {
             switch (code) {
@@ -446,27 +595,6 @@ public class RoomActivity extends BaseActivity {
         return true;
     }
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        Log.i(TAG, "Run into onConfigurationChanged++");
-
-//        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-//            Log.i(TAG, "onConfigurationChanged, with LANDSCAPE。。");
-//            inflateLayout(LinearLayout.HORIZONTAL);
-//            currentOrigentation = LANDSCAPE;
-//        } else {
-//            Log.i(TAG, "onConfigurationChanged, with PORTRAIT。。");
-//            inflateLayout(LinearLayout.VERTICAL);
-//            currentOrigentation = PORTRAIT;
-//        }
-//
-//        if (!isPlaybackViewStarted)
-//            return;
-
-        //libPlayer.SmartPlayerSetOrientation(playerHandle, currentOrigentation);
-        Log.i(TAG, "Run out of onConfigurationChanged--");
-    }
 
     @Override
     protected void onDestroy() {
@@ -481,197 +609,4 @@ public class RoomActivity extends BaseActivity {
     }
 
 
-    int g_packget_id = 0;
-
-    byte[] user_uart_sendcom(int... params) {
-        byte send_buf[] = new byte[8 + params.length];
-        send_buf[0] = (byte) 0xfe;
-        send_buf[1] = (byte) (g_packget_id);
-        send_buf[2] = (byte) (g_packget_id >> 8);
-        send_buf[3] = (byte) ~send_buf[0];
-        send_buf[4] = (byte) ~send_buf[1];
-        send_buf[5] = (byte) ~send_buf[2];
-        send_buf[6] = (byte) (8 + params.length);
-        for (int i = 0; i < params.length; i++) {
-            send_buf[7 + i] = (byte) (params[i]);
-        }
-
-        int sum = 0;
-        for (int i = 6; i < (8 + params.length - 1); i++) {
-            sum += (send_buf[i] & 0xff);
-        }
-
-        send_buf[8 + params.length - 1] = (byte) (sum % 100);
-
-        g_packget_id++;
-        return send_buf;
-    }
-
-    boolean check_com_data(byte[] data, int len) {
-        /*if (len < 6) return false;
-
-		//计算校验和
-		int check_total = 0;
-		for (int i = 0; i < len; i++) {
-			if ((i >= 6) && (i < len - 1))
-				check_total += (data[i] & 0xff);
-		}
-
-		//取反校验
-		if (	data[0] != (byte)((~data[3])&0xff)
-				&& data[1] != (byte)((~data[4])&0xff)
-				&& data[2] != (byte)((~data[5])&0xff))
-			return false;
-
-		//检查校验和
-		if (check_total % 100 != data[len - 1] ) {
-			return false;
-		}
-*/
-        if (len < 6) return false;
-        int check_total = 0;
-
-        //计算校验和
-        for (int i = 0; i < len; i++) {
-            if ((i >= 6) && (i < len - 1))
-                check_total += (data[i] & 0xff);
-        }
-
-        //取反校验
-        if (data[0] != (byte) (~data[3] & 0xff) && data[1] != (byte) (~data[4] & 0xff) && data[2] != (byte) (~data[5] & 0xff))
-            return false;
-
-        //检查校验和
-
-        Log.e("==check==", Integer.toString(check_total) + "is " + Integer.toString(data[len - 1]));
-
-        if (check_total % 100 != data[len - 1]) {
-            return false;
-        }
-
-        return true;
-    }
-
-
-    Handler handler = new Handler() {
-
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case 0: {
-                    if (b_start_new_game == true) {
-                        b_start_new_game = false;
-
-                        int cmd = 0x31;//表示开局-开始抓娃娃
-                        int param_timeout = 60;//自动下抓时间 单位 秒
-                        int catch_result = 0;//表示本次抓取娃娃的结果。0没抓到 1抓到。客户端发过去永远是0.服务器端自己决定本次是否抓中
-                        int power_catch = 0;//抓起抓力 服务器填写。客户端发过去永远是0
-                        int power_ontop = 0;//到顶抓力 服务器填写。客户端发过去永远是0
-                        int power_move = 0;//移动抓力 服务器填写。客户端发过去永远是0
-                        int power_max = 0;//大抓力 服务器填写。客户端发过去永远是0
-                        int hold_height = 0;//抓起高度 服务器填写。客户端发过去永远是0 具体详询文档及微信公众号
-                        //注:catch_result = 1时， 后面设置的参数全部无效。 catch_result= 0时，如果后面参数全部最大，有可能会抓中.所以最好不要这么乱来
-                        //要么你设置catch_result. 要么你自己心里清楚这些参数的意义
-                        byte com_cmd[] = user_uart_sendcom(0x31, param_timeout, catch_result, power_catch, power_ontop, power_move, power_max, hold_height);
-                        Log.e("==sending==", sendThread.bytesToHexString(com_cmd));
-                        if (msgThread != null) {
-                            msgThread.putMsg(com_cmd);
-                        }
-                    }
-                }
-                break;
-                case 10: {
-                    int msg_len = msg.arg1;
-                    byte test_data[] = (byte[]) (msg.obj);
-                    if (check_com_data(test_data, msg_len) == false) {
-                        Log.e("=====data recv===", "-----com check error-----");
-                        break;
-                    }
-                    int cmd = (test_data[7] & 0xff);
-                    Log.e("==onhandle==", Integer.toString(cmd));
-                    switch (cmd) {
-                        case 0x31://new game 游戏可以开始了。显示移动按钮
-                        {
-//                            TextView zhuaText = (TextView) findViewById(R.id.room_name);
-//                            zhuaText.setText("");
-//
-//                            ImageButton mKaijuButton = (ImageButton) findViewById(R.id.btn_kaiju);
-//                            mKaijuButton.setVisibility(View.INVISIBLE);
-//
-//                            ImageButton mUpButton = (ImageButton) findViewById(R.id.btn_up);
-//                            mUpButton.setVisibility(View.VISIBLE);
-//
-//                            ImageButton mDownButton = (ImageButton) findViewById(R.id.btn_down);
-//                            mDownButton.setVisibility(View.VISIBLE);
-//
-//                            ImageButton mLeftButton = (ImageButton) findViewById(R.id.btn_left);
-//                            mLeftButton.setVisibility(View.VISIBLE);
-//
-//                            ImageButton mRightButton = (ImageButton) findViewById(R.id.btn_right);
-//                            mRightButton.setVisibility(View.VISIBLE);
-//
-//                            ImageButton mEnterButton = (ImageButton) findViewById(R.id.btn_enter);
-//                            mEnterButton.setVisibility(View.VISIBLE);
-                        }
-                        break;
-                        case 0x33://game end 游戏结束 重新设置界面
-                        {
-//                            int zhuawawaret = (test_data[8] & 0xff);
-//                            if (zhuawawaret == 1)//抓中
-//                            {
-//                                TextView zhuaText = (TextView) findViewById(R.id.room_name);
-//                                zhuaText.setText("恭喜.抓中了!");
-//                            } else if (zhuawawaret == 0)//没抓中
-//                            {
-//                                TextView zhuaText = (TextView) findViewById(R.id.room_name);
-//                                zhuaText.setText("没抓到!再接再厉.");
-//                            } else {
-//                                TextView zhuaText = (TextView) findViewById(R.id.room_name);
-//                                zhuaText.setText(zhuawawaret);
-//                            }
-//
-//                            //重新设置界面
-//                            ImageButton mKaijuButton = (ImageButton) findViewById(R.id.btn_kaiju);
-//                            mKaijuButton.setVisibility(View.VISIBLE);
-//
-//                            ImageButton mUpButton = (ImageButton) findViewById(R.id.btn_up);
-//                            mUpButton.setVisibility(View.INVISIBLE);
-//
-//                            ImageButton mDownButton = (ImageButton) findViewById(R.id.btn_down);
-//                            mDownButton.setVisibility(View.INVISIBLE);
-//
-//                            ImageButton mLeftButton = (ImageButton) findViewById(R.id.btn_left);
-//                            mLeftButton.setVisibility(View.INVISIBLE);
-//
-//                            ImageButton mRightButton = (ImageButton) findViewById(R.id.btn_right);
-//                            mRightButton.setVisibility(View.INVISIBLE);
-//
-//                            ImageButton mEnterButton = (ImageButton) findViewById(R.id.btn_enter);
-//                            mEnterButton.setVisibility(View.INVISIBLE);
-//                            Log.e("=====NotifyGameEnd===", "-----------------");
-                        }
-                        break;
-                    }
-                }
-                break;
-            }
-            super.handleMessage(msg);
-        }
-    };
-
-
-    public static final String bytesToHexString(byte[] buffer) {
-        StringBuffer sb = new StringBuffer(buffer.length);
-        String temp;
-
-        for (int i = 0; i < buffer.length; ++i) {
-            temp = Integer.toHexString(0xff & buffer[i]);
-            if (temp.length() < 2)
-                sb.append(0);
-
-            sb.append(temp);
-        }
-
-        return sb.toString();
-    }
 }

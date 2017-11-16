@@ -1,14 +1,17 @@
 package com.coder.catclaws.utils;
 
 import android.content.Context;
+import android.os.Message;
 
 import com.alibaba.fastjson.JSON;
 import com.andview.refreshview.utils.LogUtils;
 import com.coder.catclaws.commons.GlobalMsg;
 import com.coder.catclaws.commons.NetIndentify;
 import com.coder.catclaws.models.ALiOrderModel;
+import com.coder.catclaws.models.AddressModel;
 import com.coder.catclaws.models.BaseModel;
 import com.coder.catclaws.models.HomeModel;
+import com.coder.catclaws.models.MessageModel;
 import com.coder.catclaws.models.MineDollModel;
 import com.coder.catclaws.models.RechargeModel;
 import com.coder.catclaws.models.UserInfoModel;
@@ -64,6 +67,44 @@ public class Net {
                     case NetIndentify.ALI_PAY:
                         EventBus.getDefault().post(new GlobalMsg(true, indentify, JSON.parseObject(response,
                                 ALiOrderModel.class)));
+                    case NetIndentify.MINEMESSAGE:
+                        EventBus.getDefault().post(new GlobalMsg(true, indentify, JSON.parseObject(response,
+                                MessageModel.class)));
+                        break;
+                    case NetIndentify.ADRESS:
+                        EventBus.getDefault().post(new GlobalMsg(true, indentify, JSON.parseObject(response,
+                                AddressModel.class)));
+                        break;
+                    case NetIndentify.ADDADRESS:
+                        EventBus.getDefault().post(new GlobalMsg(true, indentify, JSON.parseObject(response,
+                                AddressModel.class)));
+                        break;
+                }
+            }
+
+            @Override
+            public void onError(String indentify, String code, String msg) {
+                EventBus.getDefault().post(new GlobalMsg(false, indentify, UKNOW_ERROR));
+            }
+
+        }));
+    }
+
+    public static void post(String url, Map<String, String> params) {
+        RetrofitHttpUtil.getInstance().postJson(url, params, new GCNetCallBack<String>(url, new NetInterface() {
+            @Override
+            public void onSuccess(String indentify, String code, String response) {
+                BaseModel baseModel = JSON.parseObject(response, BaseModel.class);
+                if (baseModel == null || baseModel.getCode() != 200) {
+                    EventBus.getDefault().post(new GlobalMsg(false, indentify, baseModel == null ? UKNOW_ERROR :
+                            baseModel
+                                    .getMsg()));
+                    return;
+                }
+                switch (indentify) {
+                    case NetIndentify.ADDADRESS:
+                        EventBus.getDefault().post(new GlobalMsg(true, indentify, JSON.parseObject(response,
+                                AddressModel.class)));
                         break;
                 }
             }

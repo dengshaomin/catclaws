@@ -136,11 +136,13 @@ public class MineInfoActivity extends BaseActivity {
                 PageJump.goRechargeActivity(MineInfoActivity.this);
                 break;
             case R.id.invert:
-                PageJump.goRechargeActivity(MineInfoActivity.this);
+                PageJump.goInvertFriendActivity(MineInfoActivity.this);
                 break;
             case R.id.msg:
+                PageJump.goMessageActivity(this);
                 break;
             case R.id.adress:
+                PageJump.goAddressActivity(this);
                 break;
             case R.id.contact:
                 break;
@@ -156,7 +158,7 @@ public class MineInfoActivity extends BaseActivity {
                 break;
             case R.id.setting_yinxiao:
                 boolean flag1 = PreferenceUtils.getInstance().getBoolean(PreferenceUtils.SETTING_YINXIAO_MUSIC, true);
-                mSettingBgMusic.setBackgroundResource(flag1 ? R.drawable.setting_close_bg : R.drawable.setting_open_bg);
+                mSettingYinxiao.setBackgroundResource(flag1 ? R.drawable.setting_close_bg : R.drawable.setting_open_bg);
                 PreferenceUtils.getInstance().setBoolean(PreferenceUtils.SETTING_YINXIAO_MUSIC, !flag1);
                 break;
         }

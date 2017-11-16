@@ -15,6 +15,7 @@ import org.w3c.dom.Text;
  */
 
 public class UserManager {
+
     private static UserManager userManager;
 
     private UserInfoModel userInfoModel;
@@ -45,23 +46,38 @@ public class UserManager {
     }
 
     public String getIcon() {
-        if (userInfoModel == null || userInfoModel.getData() == null || userInfoModel.getData().getUser() == null)
+        if (userInfoModel == null || userInfoModel.getData() == null || userInfoModel.getData().getUser() == null) {
             return MyApplication.DEBUG ? "http://img.zcool.cn/community/017bdc59420a3ea8012193a344b26a.png" : "";
+        }
         return userInfoModel.getData().getUser().getHeadImg();
     }
 
     public String getName() {
-        if (userInfoModel == null || userInfoModel.getData() == null || userInfoModel.getData().getUser() == null)
+        if (userInfoModel == null || userInfoModel.getData() == null || userInfoModel.getData().getUser() == null) {
             return MyApplication.DEBUG ? "剑指天下" : "";
+        }
         return userInfoModel.getData().getUser().getName();
     }
 
     public int getMb() {
-        if (userInfoModel == null || userInfoModel.getData() == null || userInfoModel.getData().getWallet() == null)
+        if (userInfoModel == null || userInfoModel.getData() == null || userInfoModel.getData().getWallet() == null) {
             return 0;
+        }
         return userInfoModel.getData().getWallet().getMb();
     }
 
+    public String getInvertCode() {
+        if (userInfoModel == null || userInfoModel.getData() == null || userInfoModel.getData().getWallet() == null) {
+            return "";
+        }
+        return userInfoModel.getData().getUser().getInviteCode();
+    }
+    public String getToken() {
+        if (userInfoModel == null || userInfoModel.getData() == null ) {
+            return "";
+        }
+        return userInfoModel.getData().getToken();
+    }
     public void setUserinfo(UserInfoModel userinfo) {
         this.userInfoModel = userinfo;
         PreferenceUtils.getInstance().saveString(PreferenceUtils.USERINFO, JSON.toJSONString(userInfoModel));

@@ -14,7 +14,9 @@ public class UserInfoModel {
      */
 
     private String msg;
+
     private int code;
+
     private DataBean data;
 
     public String getMsg() {
@@ -42,14 +44,27 @@ public class UserInfoModel {
     }
 
     public static class DataBean {
+
         /**
          * user : {"version":0,"disable":false,"id":1,"phone":null,"createTime":1510279827000,"openId":"o2ICJ0cY5sUNFzTRNLMkTxCTcHhk","qqId":null,"name":"你的益达","headImg":"/0","sex":"0","inviteCode":null}
          * wallet : {"version":0,"disable":false,"id":1,"userId":1,"mb":8347,"money":0}
          */
 
         private UserBean user;
+
         private WalletBean wallet;
+
         private String ccId;
+
+        private String token;
+
+        public String getToken() {
+            return token;
+        }
+
+        public void setToken(String token) {
+            this.token = token;
+        }
 
         public String getCcId() {
             return ccId;
@@ -76,6 +91,7 @@ public class UserInfoModel {
         }
 
         public static class UserBean {
+
             /**
              * version : 0
              * disable : false
@@ -91,15 +107,25 @@ public class UserInfoModel {
              */
 
             private int version;
+
             private boolean disable;
+
             private int id;
+
             private Object phone;
+
             private long createTime;
+
             private String openId;
+
             private Object qqId;
+
             private String name;
+
             private String headImg;
+
             private String sex;
+
             private String inviteCode;
 
             public int getVersion() {
@@ -192,6 +218,7 @@ public class UserInfoModel {
         }
 
         public static class WalletBean {
+
             /**
              * version : 0
              * disable : false
@@ -202,10 +229,15 @@ public class UserInfoModel {
              */
 
             private int version;
+
             private boolean disable;
+
             private int id;
+
             private int userId;
+
             private int mb;
+
             private double money;
 
             public int getVersion() {

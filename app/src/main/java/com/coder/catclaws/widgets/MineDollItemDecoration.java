@@ -24,7 +24,7 @@ public class MineDollItemDecoration extends RecyclerView.ItemDecoration {
         }
         itemPosition -= 1;
         outRect.set(itemPosition % 2 == 0 ? 8 * itemDecorationWidth : 2 * itemDecorationWidth, (itemPosition == 0 ||
-                        itemPosition == 1) ? 6 *
+                        itemPosition == 1) ? 8 *
                         itemDecorationWidth : 4 *
                         itemDecorationWidth,
                 itemPosition % 2 == 0 ? 2 * itemDecorationWidth : 8 * itemDecorationWidth,

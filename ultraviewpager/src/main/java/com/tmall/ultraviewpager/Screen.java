@@ -1,6 +1,8 @@
 package com.tmall.ultraviewpager;
 
+import android.app.Activity;
 import android.content.Context;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -20,4 +22,10 @@ public class Screen {
         int[] size = DensityUtil.getDeviceInfo(context);
         return size[1];
     }
+    public static int getScreenHeight(Activity activity) {
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        activity.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        return displaymetrics.heightPixels;
+    }
+
 }

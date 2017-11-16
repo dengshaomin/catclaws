@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:fresco="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="@dimen/titleBarHeight"
-              android:orientation="vertical">
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/titleBarHeight"
+    android:orientation="vertical"
+    >
 
     <RelativeLayout
         android:id="@+id/title_lay"
@@ -27,10 +28,12 @@
                 android:id="@+id/icon"
                 android:layout_width="34dp"
                 android:layout_height="34dp"
+                android:layout_margin="3dp"
                 fresco:actualImageScaleType="fitXY"
                 fresco:fadeDuration="300"
                 fresco:placeholderImageScaleType="fitXY"
-                fresco:viewAspectRatio="2.0"/>
+                fresco:viewAspectRatio="2.0"
+                />
 
         </RelativeLayout>
 
@@ -44,7 +47,8 @@
             android:text="猫爪子"
             android:textColor="@color/white"
             android:textSize="@dimen/text22"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            />
 
         <RelativeLayout
             android:id="@+id/home_right_image"
@@ -53,7 +57,8 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="20dp"
-            android:background="@drawable/icon_home_mine">
+            android:background="@drawable/icon_home_mine"
+            >
 
         </RelativeLayout>
     </RelativeLayout>

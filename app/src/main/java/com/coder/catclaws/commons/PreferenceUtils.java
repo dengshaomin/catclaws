@@ -46,7 +46,7 @@ public class PreferenceUtils extends BasePreference {
     }
 
     public boolean getFirstlaunch() {
-        return getBoolean(FIRST_LAUNCH);
+        return getBoolean(FIRST_LAUNCH,false);
     }
 
 

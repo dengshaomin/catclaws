@@ -55,7 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="8dp"
-            android:background="@drawable/cornert_2_353155"
+            android:background="@drawable/corner_2_353155"
             android:ellipsize="end"
             android:gravity="center"
             android:paddingLeft="5dp"

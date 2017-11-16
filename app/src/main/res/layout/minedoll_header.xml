@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="16dp"
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
     android:layout_marginTop="12dp"
@@ -46,8 +45,8 @@
 
                     <com.facebook.drawee.view.SimpleDraweeView
                         android:id="@+id/icon"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
                         android:padding="4dp"
                         fresco:actualImageScaleType="fitXY"
                         fresco:fadeDuration="300"
@@ -91,7 +90,7 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_toRightOf="@+id/iconbg"
-                            android:background="@drawable/cornert_2_353155"
+                            android:background="@drawable/corner_2_353155"
                             android:ellipsize="end"
                             android:gravity="center"
                             android:paddingLeft="8dp"

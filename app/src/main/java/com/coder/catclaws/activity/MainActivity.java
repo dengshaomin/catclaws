@@ -17,8 +17,11 @@ import com.coder.catclaws.commons.UserManager;
 import com.coder.catclaws.models.HomeModel;
 import com.coder.catclaws.utils.Net;
 import com.coder.catclaws.utils.StaticUtils;
+import com.coder.catclaws.widgets.FullDialog;
 import com.coder.catclaws.widgets.HomeItemDecoration;
 import com.coder.catclaws.widgets.HomeViewPager;
+import com.coder.catclaws.widgets.PickSuccessDialogView;
+import com.coder.catclaws.widgets.ShareDialogView;
 import com.coder.catclaws.widgets.codexrefreshview.CodeRecycleView;
 import com.coder.catclaws.widgets.codexrefreshview.CommonAdapter;
 import com.coder.catclaws.widgets.codexrefreshview.MultiItemTypeAdapter;
@@ -38,13 +41,18 @@ public class MainActivity extends BaseActivity {
 
     @BindView(R.id.icon)
     SimpleDraweeView icon;
+
     @BindView(R.id.home_left_image)
     RelativeLayout homeLeftImage;
+
     @BindView(R.id.home_right_image)
     RelativeLayout homeRightImage;
+
     HomeViewPager homeViewPager;
+
     @BindView(R.id.codeRecycleView)
     CodeRecycleView codeRecycleView;
+
     @BindView(R.id.title_lay)
     RelativeLayout titleLay;
 
@@ -118,10 +126,13 @@ public class MainActivity extends BaseActivity {
                             TextView statu = rootView.findViewById(R.id.statu);
                             TextView num = rootView.findViewById(R.id.num);
                             SimpleDraweeView name = rootView.findViewById(R.id.name);
-                            if (contentBean == null) return;
+                            if (contentBean == null) {
+                                return;
+                            }
                             ImageLoader.getInstance().loadImage(image, contentBean.getPhoto());
                             desc.setText(contentBean.getIntroduce());
-                            statu.setCompoundDrawablesWithIntrinsicBounds(contentBean.isCanUse() ? R.drawable.icon_room_free : R.drawable.icon_room_busy,
+                            statu.setCompoundDrawablesWithIntrinsicBounds(
+                                    contentBean.isCanUse() ? R.drawable.icon_room_free : R.drawable.icon_room_busy,
                                     0, 0, 0);
                             ImageLoader.getInstance().loadImage(name, contentBean.getNameImg());
                             num.setText(contentBean.getPrice() + "");
@@ -133,8 +144,8 @@ public class MainActivity extends BaseActivity {
                     codeRecycleView.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
                         @Override
                         public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-//                            PageJump.goRoomActivity(MainActivity.this, homeModel.getData().getRooms().getContent()
-//                                    .get(position));
+                            PageJump.goRoomActivity(MainActivity.this, homeModel.getData().getRooms().getContent()
+                                    .get(position));
                         }
 
                         @Override
@@ -187,7 +198,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public boolean needDanMu() {
-        return true;
+        return false;
     }
 
     @Override

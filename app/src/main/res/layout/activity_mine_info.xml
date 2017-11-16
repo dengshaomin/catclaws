@@ -46,12 +46,13 @@
 
                     <com.facebook.drawee.view.SimpleDraweeView
                         android:id="@+id/icon"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:padding="4dp"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:layout_margin="4dp"
                         fresco:actualImageScaleType="fitXY"
                         fresco:fadeDuration="300"
                         fresco:placeholderImageScaleType="fitXY"
+                        fresco:roundAsCircle="true"
                         fresco:viewAspectRatio="2.0"
                         />
 
@@ -92,7 +93,7 @@
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="-20dp"
                             android:layout_toRightOf="@+id/iconbg"
-                            android:background="@drawable/cornert_2_353155"
+                            android:background="@drawable/corner_2_353155"
                             android:ellipsize="end"
                             android:gravity="center"
                             android:paddingLeft="30dp"
@@ -225,7 +226,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
 
-                android:text="背景音乐"
+                android:text="音效"
                 android:textColor="#d9d9ef"
                 android:textSize="@dimen/text14"
                 />

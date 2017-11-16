@@ -153,7 +153,7 @@ public class MineDollModel {
             return content;
         }
 
-        public static class ContentEntity {
+        public static class ContentEntity extends MineSerializable{
             private int version;
             private boolean disable;
             private int id;

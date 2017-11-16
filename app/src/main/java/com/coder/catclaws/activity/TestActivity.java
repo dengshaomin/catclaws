@@ -91,7 +91,7 @@ public class TestActivity extends BaseActivity {
             @Override
             public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
                 ImageView imageView = new ImageView(TestActivity.this);
-                imageView.setBackgroundResource(R.drawable.mine_info_bg);
+                imageView.setBackgroundResource(R.drawable.mine_userinfo_bg);
                 return new CommonViewHolder(imageView);
             }
 
