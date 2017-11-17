@@ -18,6 +18,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
 import android.os.Vibrator;
 import android.util.Log;
@@ -33,6 +34,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.andview.refreshview.utils.LogUtils;
 import com.boom.service.room.netty.TCPClient;
 import com.boom.service.room.netty.WaWaJiProtoType;
 import com.coder.catclaws.R;
@@ -762,7 +764,12 @@ public class RoomActivity extends BaseActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            outAction();
+            new Handler(getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    outAction();
+                }
+            });
         }
         return true;
     }
