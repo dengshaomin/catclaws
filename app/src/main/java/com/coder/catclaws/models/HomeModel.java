@@ -252,8 +252,8 @@ public class HomeModel {
                 }
 
                 public String getIp() {
-                    return "192.168.1.100";
-//                    return ip;
+//                    return "192.168.1.100";
+                    return ip;
                 }
 
                 public void setIp(String ip) {

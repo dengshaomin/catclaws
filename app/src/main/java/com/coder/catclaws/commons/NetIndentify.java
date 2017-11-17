@@ -14,7 +14,7 @@ public class NetIndentify {
 
     public static final String SELFLOGIN = "selfLogin";
 
-    public static final String ROOM = "room";
+    public static final String ROOMINFO = "roomInfo";
 
     public static final String CHAT = "chat";
 
@@ -49,4 +49,6 @@ public class NetIndentify {
     public static final String MINEMESSAGE = "authorized/myMessage";
 
     public static final String ADDADRESS = "authorized/addOrUpdateAddress";
+
+    public static final String CHANGE_PLAYER = "changePlayer";
 }

@@ -112,7 +112,7 @@ public class SplashActivity extends PermissionActivity {
                     UserManager.getInstance().setUserinfo(userInfoModel);
                     PageJump.goMainActivity(SplashActivity.this);
                 } else {
-                    PageJump.goLoginActivity(SplashActivity.this);
+                    PageJump.goMainActivity(SplashActivity.this);
                     finish();
                 }
             }

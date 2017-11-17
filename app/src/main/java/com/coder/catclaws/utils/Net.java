@@ -2,6 +2,7 @@ package com.coder.catclaws.utils;
 
 import android.content.Context;
 import android.os.Message;
+import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.andview.refreshview.utils.LogUtils;

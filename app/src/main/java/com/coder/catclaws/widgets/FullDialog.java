@@ -49,6 +49,10 @@ public class FullDialog extends Dialog implements View.OnClickListener, DialogIn
         setContentView(LayoutInflater.from(context).inflate(R.layout.full_dialog, null), new ViewGroup
                 .LayoutParams
                 (Screen.getWidth(context), Screen.getHeight(context)));
+        getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+//        setContentView(LayoutInflater.from(context).inflate(R.layout.full_dialog, null), new ViewGroup
+//                .LayoutParams
+//                (ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         root_view = (RelativeLayout) findViewById(R.id.root_view);
         root_view.setOnClickListener(new View.OnClickListener() {
             @Override

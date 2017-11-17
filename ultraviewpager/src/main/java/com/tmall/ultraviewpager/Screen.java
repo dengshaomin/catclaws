@@ -22,10 +22,21 @@ public class Screen {
         int[] size = DensityUtil.getDeviceInfo(context);
         return size[1];
     }
+
     public static int getScreenHeight(Activity activity) {
         DisplayMetrics displaymetrics = new DisplayMetrics();
         activity.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
         return displaymetrics.heightPixels;
     }
 
+    public static int getStatuBarHeight(Context context) {
+        int statusBarHeight1 = -1;
+//获取status_bar_height资源的ID
+        int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            //根据资源ID获取响应的尺寸值
+            statusBarHeight1 = context.getResources().getDimensionPixelSize(resourceId);
+        }
+        return statusBarHeight1;
+    }
 }

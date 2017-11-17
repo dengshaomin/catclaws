@@ -55,10 +55,23 @@ public class MusicService extends Service {
         }
     }
 
+
     public class MusicBinder extends Binder {
 
         public MusicService getService() {
             return MusicService.this;
+        }
+    }
+
+    public void onPause() {
+        if (musicPlay != null && musicPlay.isPlaying()) {
+            musicPlay.pause();
+        }
+    }
+
+    public void onResume() {
+        if (musicPlay != null && !musicPlay.isPlaying()) {
+            musicPlay.start();
         }
     }
 

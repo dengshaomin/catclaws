@@ -22,6 +22,7 @@ import com.andview.refreshview.utils.LogUtils;
 import com.coder.catclaws.commons.GlobalMsg;
 import com.coder.catclaws.commons.NetIndentify;
 import com.coder.catclaws.models.RoomModel;
+import com.coder.catclaws.models.UserInfoModel;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -46,7 +47,7 @@ public class TCPResponse extends SimpleChannelInboundHandler<WaWaJiProto.Action>
             switch (times.getType()) {
                 case "roomInfo":
                     RoomModel roomModel = JSON.parseObject(times.getData(), RoomModel.class);
-                    EventBus.getDefault().post(new GlobalMsg(roomModel == null ? false : true, NetIndentify.ROOM,
+                    EventBus.getDefault().post(new GlobalMsg(roomModel == null ? false : true, NetIndentify.ROOMINFO,
                             roomModel));
                     break;
                 case "chat":
@@ -65,20 +66,26 @@ public class TCPResponse extends SimpleChannelInboundHandler<WaWaJiProto.Action>
                     EventBus.getDefault().post(new GlobalMsg(true, NetIndentify.PLAYSUCCESS,
                             times.getData()));
                     break;
-                case "Wait":
+                case "wait":
                     EventBus.getDefault().post(new GlobalMsg(true, NetIndentify.ROOM_WAIT,
                             times.getData()));
                     break;
-                case "Free":
+                case "free":
                     EventBus.getDefault().post(new GlobalMsg(true, NetIndentify.ROOM_FREE,
                             times.getData()));
                     break;
-                case "Error":
+                case "error":
                     EventBus.getDefault().post(new GlobalMsg(true, NetIndentify.ROOM_CONTROL_ERROR,
                             times.getData()));
                     break;
                 case "toLogin":
-                    TCPClient.getInstance().send(WaWaJiProtoType.auth, WaWaJiProtoType.auth);
+//                    TCPClient.getInstance().send(WaWaJiProtoType.auth, WaWaJiProtoType.auth);
+                    break;
+                case "changePlayer":
+                    UserInfoModel.DataBean.UserBean userBean = JSON.parseObject(times.getData(), UserInfoModel.DataBean.UserBean.class);
+                    ;
+                    EventBus.getDefault().post(new GlobalMsg(true, NetIndentify.CHANGE_PLAYER,
+                            userBean));
                     break;
             }
         }

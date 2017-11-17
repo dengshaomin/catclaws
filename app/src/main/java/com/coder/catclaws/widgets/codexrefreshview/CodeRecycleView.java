@@ -387,6 +387,7 @@ public class CodeRecycleView extends BaseLayout {
     private boolean isScrollBottom() {
         //recyclerView.canScrollVertically(1) //是否滑动到最底部
         //recyclerView.canScrollVertically(-1)  //是否滑动到最顶部
+        if (adapter == null) return true;
         int realyCount = adapter.getItemCount();
         if (layoutManager instanceof LinearLayoutManager) {
             return realyCount - WhitchPositionAutoShowLoadMoreFootView <= ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();

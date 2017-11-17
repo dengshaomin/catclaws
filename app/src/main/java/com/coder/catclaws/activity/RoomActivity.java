@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Vibrator;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -44,11 +45,13 @@ import com.coder.catclaws.commons.NetIndentify;
 import com.coder.catclaws.models.HomeModel.DataBean.RoomsBean.ContentBean;
 import com.coder.catclaws.models.RoomModel;
 import com.coder.catclaws.models.RoomModel.WaWaJiEntity;
+import com.coder.catclaws.models.UserInfoModel;
 import com.coder.catclaws.models.UserInfoModel.DataBean.UserBean;
 import com.coder.catclaws.socks.MsgThread;
 import com.coder.catclaws.socks.SendThread;
 import com.coder.catclaws.widgets.ControlView;
 import com.coder.catclaws.widgets.FullDialog;
+import com.coder.catclaws.widgets.HelpDialogView;
 import com.coder.catclaws.widgets.LiveRoomDialogView;
 import com.coder.catclaws.widgets.PickSuccessDialogView;
 import com.daniulive.smartplayer.SmartPlayerJni;
@@ -234,7 +237,7 @@ public class RoomActivity extends BaseActivity {
 
     @Override
     public boolean needTitle() {
-        return true;
+        return false;
     }
 
     @Override
@@ -409,16 +412,18 @@ public class RoomActivity extends BaseActivity {
     @Override
     public List<String> regeistEvent() {
         return new ArrayList<String>() {{
-            add(NetIndentify.ROOM);
+            add(NetIndentify.ROOMINFO);
             add(NetIndentify.PLAY);
             add(NetIndentify.PLAYFAIL);
             add(NetIndentify.PLAYSUCCESS);
+            add(NetIndentify.CHANGE_PLAYER);
+            add(NetIndentify.ROOM_FREE);
         }};
     }
 
     @Override
     public void eventComming(GlobalMsg globalMsg) {
-        if (NetIndentify.ROOM.equals(globalMsg.getMsgId())) {
+        if (NetIndentify.ROOMINFO.equals(globalMsg.getMsgId())) {
             if (globalMsg.isSuccess()) {
                 roomModel = (RoomModel) globalMsg.getMsg();
                 setRoomData();
@@ -448,6 +453,19 @@ public class RoomActivity extends BaseActivity {
             mStartLayout.setVisibility(View.VISIBLE);
         } else if (NetIndentify.PLAYSUCCESS.equals(globalMsg.getMsgId())) {
             showScuccessDialog();
+        } else if (NetIndentify.CHANGE_PLAYER.equals(globalMsg.getMsgId())) {
+            UserInfoModel.DataBean.UserBean player = (UserBean) globalMsg.getMsg();
+            ImageLoader.getInstance().loadImage(mIconMine, player.getHeadImg());
+            mName.setText(player.getName());
+            mStatu.setText("游戏中");
+            mStatu.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icon_room_busy, 0, 0, 0);
+        } else if (NetIndentify.ROOM_FREE.equals(globalMsg.getMsgId())) {
+//            UserInfoModel.DataBean.UserBean player = (UserBean) globalMsg.getMsg();
+//            ImageLoader.getInstance().loadImage(mIconMine,player.getHeadImg());
+            mIconMine.setBackgroundResource(0);
+            mName.setText("");
+            mStatu.setText("空闲中");
+            mStatu.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icon_room_free, 0, 0, 0);
         }
     }
 
@@ -488,8 +506,10 @@ public class RoomActivity extends BaseActivity {
             mName.setText(player.getName());
             mStatu.setText("游戏中");
             ImageLoader.getInstance().loadImage(mIconMine, player.getHeadImg());
+            mStatu.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icon_room_busy, 0, 0, 0);
         } else {
             mStatu.setText("空闲中");
+            mStatu.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icon_room_free, 0, 0, 0);
         }
         if (roomModel.getWatcher() != null && roomModel.getWatcher().size() > 0) {
 
@@ -503,9 +523,9 @@ public class RoomActivity extends BaseActivity {
             if (roomModel.getWatcher().size() > 2) {
                 ImageLoader.getInstance().loadImage(mIconOther2, roomModel.getWatcher().get(2).getHeadImg());
             }
-            mIconOther0.setVisibility(roomModel.getWatcher().size() > 0 ? View.INVISIBLE : View.INVISIBLE);
-            mIconOther1.setVisibility(roomModel.getWatcher().size() > 1 ? View.INVISIBLE : View.INVISIBLE);
-            mIconOther2.setVisibility(roomModel.getWatcher().size() > 2 ? View.INVISIBLE : View.INVISIBLE);
+            mIconOther0.setVisibility(roomModel.getWatcher().size() > 0 ? View.VISIBLE : View.INVISIBLE);
+            mIconOther1.setVisibility(roomModel.getWatcher().size() > 1 ? View.VISIBLE : View.INVISIBLE);
+            mIconOther2.setVisibility(roomModel.getWatcher().size() > 2 ? View.VISIBLE : View.INVISIBLE);
         } else {
             mIconOther0.setVisibility(View.INVISIBLE);
             mIconOther1.setVisibility(View.INVISIBLE);
@@ -539,6 +559,7 @@ public class RoomActivity extends BaseActivity {
                 outAction();
                 break;
             case R.id.help:
+                helpAction();
                 break;
             case R.id.catch_doll:
                 startPick();
@@ -573,6 +594,7 @@ public class RoomActivity extends BaseActivity {
 
     private void sendDanMuAction(String s) {
         mDanmuLay.setVisibility(View.GONE);
+        TCPClient.getInstance().send(s, WaWaJiProtoType.chat);
         addDanmaku(s);
     }
 
@@ -601,6 +623,36 @@ public class RoomActivity extends BaseActivity {
             public void onClick(View v) {
                 fullDialog.dismiss();
                 finish();
+            }
+        });
+        fullDialog.show();
+    }
+
+    private void helpAction() {
+        HelpDialogView helpDialogView = new HelpDialogView(this);
+        final FullDialog fullDialog = FullDialog.create(this).addContentView(helpDialogView);
+        helpDialogView.getQuestion1().setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fullDialog.dismiss();
+            }
+        });
+        helpDialogView.getQuestion2().setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fullDialog.dismiss();
+            }
+        });
+        helpDialogView.getQuestion3().setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fullDialog.dismiss();
+            }
+        });
+        helpDialogView.getQuestion4().setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fullDialog.dismiss();
             }
         });
         fullDialog.show();
@@ -689,8 +741,29 @@ public class RoomActivity extends BaseActivity {
             playerHandle = 0;
         }
         super.onDestroy();
-        finish();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mMusicService != null) {
+            mMusicService.onPause();
+        }
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mMusicService != null) {
+            mMusicService.onResume();
+        }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            outAction();
+        }
+        return true;
+    }
 }

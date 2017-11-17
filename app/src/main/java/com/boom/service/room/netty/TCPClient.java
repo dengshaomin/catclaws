@@ -17,6 +17,10 @@ package com.boom.service.room.netty;
 
 import android.text.TextUtils;
 
+import com.coder.catclaws.MyApplication;
+import com.coder.catclaws.commons.UserManager;
+import com.github.lazylibrary.util.ToastUtils;
+
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.EventLoopGroup;
@@ -94,6 +98,7 @@ public class TCPClient {
                     channel.writeAndFlush(WaWaJiProtoUtil.downBuild(ip));
                     break;
                 case WaWaJiProtoType.left:
+                    ToastUtils.showToast(MyApplication.applicationContext, "22222222222222");
                     channel.writeAndFlush(WaWaJiProtoUtil.leftBuild(ip));
                     break;
                 case WaWaJiProtoType.right:
@@ -103,7 +108,7 @@ public class TCPClient {
                     channel.writeAndFlush(WaWaJiProtoUtil.pickBuild(ip));
                     break;
                 case WaWaJiProtoType.auth:
-                    channel.writeAndFlush(WaWaJiProtoUtil.authBuild("1"));
+                    channel.writeAndFlush(WaWaJiProtoUtil.authBuild(UserManager.getInstance().getToken()));
                     break;
                 case WaWaJiProtoType.room:
                     channel.writeAndFlush(WaWaJiProtoUtil.roomBuild(ip));
@@ -116,6 +121,9 @@ public class TCPClient {
                     break;
                 case WaWaJiProtoType.start:
                     channel.writeAndFlush(WaWaJiProtoUtil.startBuild(ip));
+                    break;
+                case WaWaJiProtoType.chat:
+                    channel.writeAndFlush(WaWaJiProtoUtil.chatBuild(ip));
                     break;
             }
         } finally {

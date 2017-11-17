@@ -131,7 +131,7 @@ public class RetrofitHttpUtil {
     }
 
     public void lunchTime(@Url String url, @QueryMap Map<String, String> params,
-            GCNetCallBack<String> callBack) {
+                          GCNetCallBack<String> callBack) {
         params = getParamFromUrl(url, params);
         url = checkUrl(url);
         checkParam(params);
@@ -142,7 +142,7 @@ public class RetrofitHttpUtil {
     }
 
     public void get(@Url String url, @QueryMap Map<String, String> params,
-            GCNetCallBack<String> callBack) {
+                    GCNetCallBack<String> callBack) {
         params = getParamFromUrl(url, params);
         url = checkUrl(url);
         checkParam(params);
@@ -152,7 +152,7 @@ public class RetrofitHttpUtil {
     }
 
     public void getUrl(@Url String url, @QueryMap Map<String, String> params,
-            GCNetCallBack<String> callBack) {
+                       GCNetCallBack<String> callBack) {
         params = getParamFromUrl(url, params);
         url = checkOutUrl(url);
         checkParam(params);
@@ -197,7 +197,7 @@ public class RetrofitHttpUtil {
 
 
     public void getHome(@Url String url, @QueryMap Map<String, String> params,
-            final GCNetCallBack<String> callBack) {
+                        final GCNetCallBack<String> callBack) {
         params = getParamFromUrl(url, params);
         url = checkUrl(url);
         checkParam(params);
@@ -210,7 +210,7 @@ public class RetrofitHttpUtil {
     }
 
     public void getWxToken(@Url String url, @QueryMap Map<String, String> params,
-            GCNetCallBack<String> callBack) {
+                           GCNetCallBack<String> callBack) {
         params = getParamFromUrl(url, params);
         url = checkOutUrl(url);
         checkParam(params);
@@ -223,7 +223,7 @@ public class RetrofitHttpUtil {
     }
 
     public void getWxUserinfo(@Url String url, @QueryMap Map<String, String> params,
-            GCNetCallBack<String> callBack) {
+                              GCNetCallBack<String> callBack) {
         params = getParamFromUrl(url, params);
         url = checkOutUrl(url);
         checkParam(params);
@@ -236,7 +236,7 @@ public class RetrofitHttpUtil {
     }
 
     public void userGameBooked(@Url String url, @QueryMap Map<String, String> params,
-            GCNetCallBack<String> callBack) {
+                               GCNetCallBack<String> callBack) {
         params = getParamFromUrl(url, params);
         url = checkUrl(url);
         checkParam(params);
@@ -247,7 +247,7 @@ public class RetrofitHttpUtil {
     }
 
     public void markDownload(@Url String url, @QueryMap Map<String, String> params,
-            GCNetCallBack<String> callBack) {
+                             GCNetCallBack<String> callBack) {
         params = getParamFromUrl(url, params);
         url = checkUrl(url);
         checkParam(params);
@@ -258,7 +258,7 @@ public class RetrofitHttpUtil {
     }
 
     public void getGiftCenterData(@Url String url, @QueryMap Map<String, String> params,
-            GCNetCallBack<String> callBack) {
+                                  GCNetCallBack<String> callBack) {
         params = getParamFromUrl(url, params);
         url = checkUrl(url);
         checkParam(params);
@@ -269,7 +269,7 @@ public class RetrofitHttpUtil {
     }
 
     public void login(@Url String url, @QueryMap Map<String, String> params,
-            GCNetCallBack<String> callBack) {
+                      GCNetCallBack<String> callBack) {
         checkParam(params);
         url = checkUrl(url);
         initRetrofit((url == null || "".equals(url)) ? BASE_URL : url, null);
@@ -279,7 +279,7 @@ public class RetrofitHttpUtil {
     }
 
     public void yalogin(@Url String url, @QueryMap Map<String, String> params,
-            GCNetCallBack<String> callBack) {
+                        GCNetCallBack<String> callBack) {
         checkParam(params);
         url = checkUrl(url);
         initRetrofit((url == null || "".equals(url)) ? BASE_URL : url, null);
@@ -289,7 +289,7 @@ public class RetrofitHttpUtil {
     }
 
     public void queryMyPrize(@Url String url, @QueryMap Map<String, String> params,
-            GCNetCallBack<String> callBack) {
+                             GCNetCallBack<String> callBack) {
         params = getParamFromUrl(url, params);
         url = checkUrl(url);
         checkParam(params);
@@ -300,7 +300,7 @@ public class RetrofitHttpUtil {
     }
 
     public void savePrizeAdress(@Url String url, @QueryMap Map<String, String> params,
-            GCNetCallBack<String> callBack) {
+                                GCNetCallBack<String> callBack) {
         params = getParamFromUrl(url, params);
         url = checkUrl(url);
         checkParam(params);
@@ -312,7 +312,7 @@ public class RetrofitHttpUtil {
 
 
     public void sign(@Url String url, @QueryMap Map<String, String> params,
-            GCNetCallBack<String> callBack) {
+                     GCNetCallBack<String> callBack) {
         params = getParamFromUrl(url, params);
         url = checkUrl(url);
         checkParam(params);
@@ -389,8 +389,8 @@ public class RetrofitHttpUtil {
             param = new HashMap<>();
             return;
         }
-        if (!param.keySet().contains("token")) {
-            param.put("token", UserManager.getInstance().getToken());
+        if (!param.keySet().contains("xToken")) {
+            param.put("xToken", UserManager.getInstance().getToken());
         }
         if (!param.keySet().contains("ccId")) {
             param.put("ccId", UserManager.getInstance().getCcId());

@@ -80,7 +80,7 @@
                 />
 
             <TextView
-                android:id="@+id/question23"
+                android:id="@+id/question3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"

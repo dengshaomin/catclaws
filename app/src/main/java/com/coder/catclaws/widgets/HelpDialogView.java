@@ -32,8 +32,8 @@ public class HelpDialogView extends BaseLayout {
     @BindView(R.id.question2)
     TextView mQuestion2;
 
-    @BindView(R.id.question23)
-    TextView mQuestion23;
+    @BindView(R.id.question3)
+    TextView mQuestion3;
 
     @BindView(R.id.question4)
     TextView mQuestion4;
@@ -53,8 +53,8 @@ public class HelpDialogView extends BaseLayout {
         return mQuestion2;
     }
 
-    public TextView getQuestion23() {
-        return mQuestion23;
+    public TextView getQuestion3() {
+        return mQuestion3;
     }
 
     public TextView getQuestion4() {
