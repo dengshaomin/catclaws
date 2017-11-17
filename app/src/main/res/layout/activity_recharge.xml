@@ -31,7 +31,10 @@
         android:visibility="visible"
         >
 
-        <View style="@style/line" />
+        <View
+            style="@style/line"
+            android:layout_marginTop="8dp"
+            />
 
         <RelativeLayout
             android:id="@+id/zhifubaolay"

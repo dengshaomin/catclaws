@@ -286,6 +286,15 @@ public class MineDollModel {
                 private int id;
                 private String name;
                 private String photo;
+                private int mb;
+
+                public int getMb() {
+                    return mb;
+                }
+
+                public void setMb(int mb) {
+                    this.mb = mb;
+                }
 
                 public void setVersion(int version) {
                     this.version = version;

@@ -11,7 +11,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
+        android:layout_marginBottom="8dp"
         android:orientation="vertical"
         >
 
@@ -42,11 +42,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="12dp"
-            android:background="@drawable/num_bg"
+            android:background="@drawable/corner_2_353155"
             android:ellipsize="end"
             android:gravity="center"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
             android:singleLine="true"
             android:text="RMB 9.9"
             android:textColor="#d9d9d9"

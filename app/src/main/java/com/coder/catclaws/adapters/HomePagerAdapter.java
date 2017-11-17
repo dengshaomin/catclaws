@@ -74,7 +74,7 @@ public class HomePagerAdapter extends PagerAdapter {
         ViewSize.fixedSize(image, (int) (Screen.getWidth(context) * 5f / 7f), 450f / 780f);
         ViewSize.setSize(image, (int) (Screen.getWidth(context) * 5f / 7f), (int) (Screen.getWidth(context) * 5f / 7f *
                 450f / 780f - DensityUtil.dip2px(context, 12)));
-//        ImageLoader.getInstance().loadImage(image, bannersBeanList.get(position).getImg());
+        ImageLoader.getInstance().loadImage(image, bannersBeanList.get(position).getImg());
         container.addView(linearLayout);
 
         return linearLayout;

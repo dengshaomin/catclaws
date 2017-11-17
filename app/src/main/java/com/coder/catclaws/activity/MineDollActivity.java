@@ -16,6 +16,7 @@ import com.coder.catclaws.commons.GlobalMsg;
 import com.coder.catclaws.commons.ImageLoader;
 import com.coder.catclaws.commons.NetIndentify;
 import com.coder.catclaws.commons.PageJump;
+import com.coder.catclaws.commons.Tools;
 import com.coder.catclaws.models.MineDollModel;
 import com.coder.catclaws.utils.Net;
 import com.coder.catclaws.widgets.MineDollHeader;
@@ -142,18 +143,8 @@ public class MineDollActivity extends BaseActivity {
                             if (contentBean == null) {
                                 return;
                             }
-                            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.mm.dd kk:mm");
-                            date.setText(dateFormat.format(contentBean.getGetTime()));
-                            if (contentBean.getState() == 1) {
-                                statu.setText("寄存中");
-                            } else if (contentBean.getState() == 2) {
-                                statu.setText("配送中");
-                            } else if (contentBean.getState() == 3) {
-                                statu.setText("已兑换");
-                            }
-                            if (contentBean.getResult() == 1) {
-                                statu.setText("已签收");
-                            }
+                            date.setText(Tools.getTimeStr(contentBean.getGetTime()));
+                            statu.setText(Tools.getDollState(contentBean));
                             if (contentBean.getGood() != null) {
                                 MineDollModel.DataEntity.ContentEntity.GoodEntity goodEntity = contentBean.getGood();
                                 ImageLoader.getInstance().loadImage(image, goodEntity.getPhoto());
@@ -172,7 +163,7 @@ public class MineDollActivity extends BaseActivity {
                         @Override
                         public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
                             PageJump.goDetailActivity(MineDollActivity.this, mineDollModel.getData().getContent().get(position)
-                                    );
+                            );
                         }
 
                         @Override

@@ -73,8 +73,7 @@ public class SplashActivity extends PermissionActivity {
                 if (userInfoModel != null && userInfoModel.getData() != null) {
                     selfLogin();
                 } else {
-//                    PageJump.goMainActivity(SplashActivity.this);
-                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                    PageJump.goLoginActivity(SplashActivity.this);
                     finish();
                 }
             }
@@ -92,14 +91,14 @@ public class SplashActivity extends PermissionActivity {
         return new ArrayList<PermissonItem>() {{
             add(new PermissonItem(Manifest.permission.READ_EXTERNAL_STORAGE, "读取权限", R.drawable.permission_ic_memory));
             add(new PermissonItem(Manifest.permission.WRITE_EXTERNAL_STORAGE, "写权限", R.drawable.permission_ic_memory));
-//            add(new PermissonItem(Manifest.permission.READ_PHONE_STATE, "获取手机状态", R.drawable.permission_ic_memory));
+            add(new PermissonItem(Manifest.permission.READ_PHONE_STATE, "获取手机状态", R.drawable.permission_ic_memory));
         }};
     }
 
     private void selfLogin() {
         Net.request(NetIndentify.SELFLOGIN, new HashMap<String, String>() {{
-            put("ccId", UserManager.getInstance().getUserinfo().getData().getCcId());
-            put("imie", MiscUtils.getIMSI(MyApplication.applicationContext));
+            put("ccId", UserManager.getInstance().getCcId() + "");
+            put("imie", MiscUtils.getIMEI(MyApplication.applicationContext));
         }});
     }
 

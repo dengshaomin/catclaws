@@ -12,7 +12,7 @@ public class NetIndentify {
 
     public static final String LOGIN = "login";
 
-    public static final String SELFLOGIN = "self/Login";
+    public static final String SELFLOGIN = "selfLogin";
 
     public static final String ROOM = "room";
 

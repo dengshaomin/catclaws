@@ -1,12 +1,15 @@
 package com.coder.catclaws.commons;
 
 
+import java.sql.DatabaseMetaData;
+
 import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.coder.catclaws.MyApplication;
 import com.coder.catclaws.models.ThirdLoginModel;
 import com.coder.catclaws.models.UserInfoModel;
+import com.coder.catclaws.models.UserInfoModel.DataBean;
 
 import org.w3c.dom.Text;
 
@@ -41,8 +44,42 @@ public class UserManager {
         }
         if (MyApplication.DEBUG && userInfoModel == null) {
             userInfoModel = new UserInfoModel();
+            userInfoModel.setData(new DataBean());
         }
         return userInfoModel;
+    }
+
+    public String getCcId() {
+        if (userInfoModel == null) {
+            userInfoModel = JSON.parseObject(PreferenceUtils.getInstance().getString(PreferenceUtils.USERINFO),
+                    UserInfoModel.class);
+        }
+        if (MyApplication.DEBUG) {
+            if (userInfoModel == null) {
+                userInfoModel = new UserInfoModel();
+                DataBean dataBean = new DataBean();
+                userInfoModel.setData(dataBean);
+            }
+            userInfoModel.getData().setCcId("e2887c02-ba2d-4156-9e2c-c2985ed1e2f9");
+        }
+        return userInfoModel == null || userInfoModel.getData() == null ? "" : userInfoModel.getData().getCcId();
+    }
+
+    public String getToken() {
+        if (userInfoModel == null) {
+            userInfoModel = JSON.parseObject(PreferenceUtils.getInstance().getString(PreferenceUtils.USERINFO),
+                    UserInfoModel.class);
+        }
+        if (MyApplication.DEBUG) {
+            if (userInfoModel == null) {
+                userInfoModel = new UserInfoModel();
+                DataBean dataBean = new DataBean();
+                userInfoModel.setData(dataBean);
+            }
+            userInfoModel.getData().setToken("DB3500E754DD3CF7221334BE57A2DBE7");
+
+        }
+        return userInfoModel.getData().getToken();
     }
 
     public String getIcon() {
@@ -72,12 +109,8 @@ public class UserManager {
         }
         return userInfoModel.getData().getUser().getInviteCode();
     }
-    public String getToken() {
-        if (userInfoModel == null || userInfoModel.getData() == null ) {
-            return "";
-        }
-        return userInfoModel.getData().getToken();
-    }
+
+
     public void setUserinfo(UserInfoModel userinfo) {
         this.userInfoModel = userinfo;
         PreferenceUtils.getInstance().saveString(PreferenceUtils.USERINFO, JSON.toJSONString(userInfoModel));

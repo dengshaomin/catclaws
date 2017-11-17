@@ -1,39 +1,27 @@
 package com.coder.catclaws.activity;
 
-import android.Manifest;
-import android.content.BroadcastReceiver;
-import android.content.Context;
+import java.util.HashMap;
+import java.util.List;
+
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
-import com.andview.refreshview.utils.LogUtils;
-import com.coder.catclaws.InitService;
 import com.coder.catclaws.MyApplication;
 import com.coder.catclaws.R;
 import com.coder.catclaws.commons.AppIndentify;
 import com.coder.catclaws.commons.GlobalMsg;
 import com.coder.catclaws.commons.NetIndentify;
 import com.coder.catclaws.commons.PageJump;
-import com.coder.catclaws.commons.PreferenceUtils;
 import com.coder.catclaws.commons.UserManager;
 import com.coder.catclaws.models.ThirdLoginModel;
 import com.coder.catclaws.models.UserInfoModel;
 import com.coder.catclaws.utils.Net;
 import com.coder.catclaws.utils.StaticUtils;
-import com.coder.catclaws.utils.ViewSize;
-import com.github.lazylibrary.util.AppUtils;
-import com.github.lazylibrary.util.DeviceStatusUtils;
 import com.github.lazylibrary.util.MiscUtils;
 import com.github.lazylibrary.util.ToastUtils;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
@@ -44,10 +32,6 @@ import com.tencent.tauth.UiError;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -60,12 +44,17 @@ public class LoginActivity extends PermissionActivity {
 
     @BindView(R.id.bg)
     ImageView bg;
+
     @BindView(R.id.weichart)
     TextView weichart;
+
     @BindView(R.id.qq)
     TextView qq;
+
     Unbinder unbinder;
+
     public static final String ThirdLoginReceiveBrord = "ThirdLoginReceiveBrord";
+
     private IUiListener iUiListener;
 
     @Override
@@ -134,7 +123,7 @@ public class LoginActivity extends PermissionActivity {
                 public void onComplete(Object o) {
                     ThirdLoginModel thirdLoginModel = JSON.parseObject(o + "", ThirdLoginModel.class);
                     UserManager.getInstance().setThirdLoginModel(thirdLoginModel);
-                    login();
+                    login("qq");
                 }
 
                 @Override
@@ -170,6 +159,7 @@ public class LoginActivity extends PermissionActivity {
         req.state = "diandi_wx_login";
         StaticUtils.mWxApi.sendReq(req);
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(GlobalMsg event) {
         /* Do something */
@@ -178,7 +168,7 @@ public class LoginActivity extends PermissionActivity {
                 if (event.isSuccess()) {
                     ThirdLoginModel thirdLoginModel = (ThirdLoginModel) event.getMsg();
                     UserManager.getInstance().setThirdLoginModel(thirdLoginModel);
-                    login();
+                    login("wx");
                 } else {
 
                     loginError();
@@ -201,11 +191,12 @@ public class LoginActivity extends PermissionActivity {
         ToastUtils.showToast(LoginActivity.this, "登录失败~");
     }
 
-    private void login() {
+    private void login(final String type) {
         Net.request(NetIndentify.LOGIN, new HashMap<String, String>() {{
             put("token", UserManager.getInstance().getThirdLoginModel().getAccess_token());
-            put("opened", UserManager.getInstance().getThirdLoginModel().getOpenid());
+            put("openid", UserManager.getInstance().getThirdLoginModel().getOpenid());
             put("imie", MiscUtils.getIMSI(MyApplication.applicationContext));
+            put("type", type);
         }});
     }
 

@@ -1,9 +1,13 @@
 package com.coder.catclaws.activity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -17,20 +21,16 @@ import com.coder.catclaws.commons.UserManager;
 import com.coder.catclaws.models.HomeModel;
 import com.coder.catclaws.utils.Net;
 import com.coder.catclaws.utils.StaticUtils;
+import com.coder.catclaws.widgets.ExchangeSureDialogView;
 import com.coder.catclaws.widgets.FullDialog;
 import com.coder.catclaws.widgets.HomeItemDecoration;
 import com.coder.catclaws.widgets.HomeViewPager;
-import com.coder.catclaws.widgets.PickSuccessDialogView;
-import com.coder.catclaws.widgets.ShareDialogView;
 import com.coder.catclaws.widgets.codexrefreshview.CodeRecycleView;
 import com.coder.catclaws.widgets.codexrefreshview.CommonAdapter;
 import com.coder.catclaws.widgets.codexrefreshview.MultiItemTypeAdapter;
 import com.coder.catclaws.widgets.codexrefreshview.ViewHolder;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.github.lazylibrary.util.ToastUtils;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;

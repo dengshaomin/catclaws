@@ -79,7 +79,7 @@ public class AddressActivity extends BaseActivity {
 
     @Override
     public void titleLeftClick() {
-
+        finish();
     }
 
     @Override

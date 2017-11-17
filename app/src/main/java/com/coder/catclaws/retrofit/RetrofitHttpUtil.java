@@ -8,6 +8,7 @@ import com.coder.catclaws.commons.UserManager;
 import com.coder.catclaws.retrofit.convert.StringConverterFactory;
 import com.coder.catclaws.retrofit.services.CommonService;
 import com.coder.catclaws.retrofit.services.QuestionService;
+import com.github.lazylibrary.util.MiscUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -390,6 +391,12 @@ public class RetrofitHttpUtil {
         }
         if (!param.keySet().contains("token")) {
             param.put("token", UserManager.getInstance().getToken());
+        }
+        if (!param.keySet().contains("ccId")) {
+            param.put("ccId", UserManager.getInstance().getCcId());
+        }
+        if (!param.keySet().contains("imie")) {
+            param.put("imie", MiscUtils.getIMEI(MyApplication.applicationContext));
         }
         for (String pa : param.keySet()) {
             if (param.get(pa) == null) {

@@ -47,9 +47,10 @@
                         android:id="@+id/icon"
                         android:layout_width="56dp"
                         android:layout_height="56dp"
-                        android:padding="4dp"
+                        android:layout_margin="4dp"
                         fresco:actualImageScaleType="fitXY"
                         fresco:fadeDuration="300"
+                        fresco:roundAsCircle="true"
                         fresco:placeholderImageScaleType="fitXY"
                         fresco:viewAspectRatio="2.0"
                         />

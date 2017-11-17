@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@+id/dialog_root_view"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/room_help_bg"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    >
+
+    <ImageView
+        android:id="@+id/success_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_margin="8dp"
+        android:background="@drawable/icon_close"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="18dp"
+            android:layout_marginTop="48dp"
+            android:text="oh！喵币不够了！"
+            android:textColor="#6a4a18"
+            android:textSize="@dimen/text16"
+            android:textStyle="bold"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="邀请好友加入可获得喵币奖励"
+            android:textColor="#6a4a18"
+            android:textSize="@dimen/text16"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:id="@+id/question1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_weight="1"
+                android:background="@drawable/btn_blue_bg"
+                android:gravity="center"
+                android:text="画面黑屏或定个格"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text12"
+                />
+
+            <TextView
+                android:id="@+id/question2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/btn_blue_bg"
+                android:gravity="center"
+                android:text="按键操作失灵"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text12"
+                />
+
+            <TextView
+                android:id="@+id/question23"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/btn_blue_bg"
+                android:gravity="center"
+                android:text="爪子卡主不动了"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text12"
+                />
+
+            <TextView
+                android:id="@+id/question4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/btn_blue_bg"
+                android:gravity="center"
+                android:text="其他影响操作的问题"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text12"
+                />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

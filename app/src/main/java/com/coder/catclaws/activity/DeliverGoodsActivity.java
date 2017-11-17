@@ -6,6 +6,7 @@ import java.util.List;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -16,6 +17,8 @@ import com.coder.catclaws.commons.NetIndentify;
 import com.coder.catclaws.commons.PageJump;
 import com.coder.catclaws.commons.UserManager;
 import com.coder.catclaws.utils.Net;
+import com.coder.catclaws.widgets.ExchangeSureDialogView;
+import com.coder.catclaws.widgets.FullDialog;
 import com.github.lazylibrary.util.MiscUtils;
 
 import butterknife.BindView;

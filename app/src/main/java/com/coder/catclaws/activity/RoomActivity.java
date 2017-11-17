@@ -17,6 +17,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Vibrator;
 import android.util.Log;
@@ -48,16 +49,21 @@ import com.coder.catclaws.socks.MsgThread;
 import com.coder.catclaws.socks.SendThread;
 import com.coder.catclaws.widgets.ControlView;
 import com.coder.catclaws.widgets.FullDialog;
+import com.coder.catclaws.widgets.LiveRoomDialogView;
 import com.coder.catclaws.widgets.PickSuccessDialogView;
 import com.daniulive.smartplayer.SmartPlayerJni;
 import com.eventhandle.SmartEventCallback;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.github.lazylibrary.util.DensityUtil;
 import com.github.lazylibrary.util.ToastUtils;
+import com.tmall.ultraviewpager.Screen;
 import com.videoengine.NTRenderer;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.iwgang.countdownview.CountdownView;
+import cn.iwgang.countdownview.CountdownView.OnCountdownEndListener;
 import cn.iwgang.countdownview.CountdownView.OnCountdownIntervalListener;
 import me.weyye.hipermission.PermissonItem;
 
@@ -135,6 +141,24 @@ public class RoomActivity extends BaseActivity {
 
     @BindView(R.id.controlView)
     ControlView mControlView;
+
+    @BindView(R.id.danmu0)
+    TextView mDanmu0;
+
+    @BindView(R.id.danmu1)
+    TextView mDanmu1;
+
+    @BindView(R.id.danmu2)
+    TextView mDanmu2;
+
+    @BindView(R.id.danmu3)
+    TextView mDanmu3;
+
+    @BindView(R.id.danmu4)
+    TextView mDanmu4;
+
+    @BindView(R.id.danmu_lay)
+    LinearLayout mDanmuLay;
 
     private SurfaceView sSurfaceView = null;
 
@@ -254,11 +278,12 @@ public class RoomActivity extends BaseActivity {
 
     private MusicService mMusicService;
 
+
     private class MusicConnection implements ServiceConnection {
 
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            mMusicService = ((MusicService.MusicBinder) service).getService();
+            mMusicService = ((MusicBinder) service).getService();
             mMusicService.startMusic();
         }
 
@@ -344,21 +369,25 @@ public class RoomActivity extends BaseActivity {
         mControlView.setiControlView(new IControlView() {
             @Override
             public void left() {
+                mMusicService.startPressSound();
                 TCPClient.getInstance().send(contentBean.getIp(), WaWaJiProtoType.left);
             }
 
             @Override
             public void up() {
+                mMusicService.startPressSound();
                 TCPClient.getInstance().send(contentBean.getIp(), WaWaJiProtoType.up);
             }
 
             @Override
             public void right() {
+                mMusicService.startPressSound();
                 TCPClient.getInstance().send(contentBean.getIp(), WaWaJiProtoType.right);
             }
 
             @Override
             public void down() {
+                mMusicService.startPressSound();
                 TCPClient.getInstance().send(contentBean.getIp(), WaWaJiProtoType.down);
             }
         });
@@ -398,7 +427,7 @@ public class RoomActivity extends BaseActivity {
             mControlLayout.setVisibility(View.VISIBLE);
             mStartLayout.setVisibility(View.INVISIBLE);
             mCountDownTimer.start(countDownTimes);
-            mCountDownTimer.setOnCountdownEndListener(new CountdownView.OnCountdownEndListener() {
+            mCountDownTimer.setOnCountdownEndListener(new OnCountdownEndListener() {
                 @Override
                 public void onEnd(CountdownView cv) {
 
@@ -500,13 +529,14 @@ public class RoomActivity extends BaseActivity {
         return null;
     }
 
-    @OnClick({R.id.icon_more, R.id.out, R.id.help, R.id.catch_doll, R.id.msg, R.id.recharge, R.id.start})
+    @OnClick({R.id.icon_more, R.id.out, R.id.help, R.id.catch_doll, R.id.msg, R.id.recharge, R.id.start, R.id.danmu0, R.id.danmu1, R.id.danmu2,
+            R.id.danmu3, R.id.danmu4, R.id.danmu_lay})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.icon_more:
                 break;
             case R.id.out:
-                finish();
+                outAction();
                 break;
             case R.id.help:
                 break;
@@ -514,19 +544,73 @@ public class RoomActivity extends BaseActivity {
                 startPick();
                 break;
             case R.id.msg:
+                msgAction();
                 break;
             case R.id.recharge:
                 break;
             case R.id.start:
                 TCPClient.getInstance().send(contentBean.getIp(), WaWaJiProtoType.start);
                 break;
+            case R.id.danmu0:
+                sendDanMuAction(mDanmu0.getText().toString());
+                break;
+            case R.id.danmu1:
+                sendDanMuAction(mDanmu1.getText().toString());
+                break;
+            case R.id.danmu2:
+                sendDanMuAction(mDanmu2.getText().toString());
+                break;
+            case R.id.danmu3:
+                sendDanMuAction(mDanmu3.getText().toString());
+                break;
+            case R.id.danmu4:
+                sendDanMuAction(mDanmu4.getText().toString());
+                break;
+            case R.id.danmu_lay:
+                break;
         }
+    }
+
+    private void sendDanMuAction(String s) {
+        mDanmuLay.setVisibility(View.GONE);
+        addDanmaku(s);
+    }
+
+    private void msgAction() {
+        int[] msgLocaltion = new int[2];
+        mMsg.getLocationOnScreen(msgLocaltion);
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) mDanmuLay.getLayoutParams();
+        layoutParams.setMargins(layoutParams.leftMargin, layoutParams.topMargin, layoutParams.rightMargin, Screen.getHeight(this) -
+                msgLocaltion[1] +
+                DensityUtil.dip2px(this, 20));
+//        mDanmuLay.setPadding(mDanmuLay.getPaddingLeft(), mDanmuLay.getPaddingTop(), mDanmuLay.getPaddingRight(), Screen.getHeight(this) -
+//                msgLocaltion[1] +
+//                DensityUtil.dip2px(this, 20));
+        if (mDanmuLay.getVisibility() == View.GONE) {
+            mDanmuLay.setVisibility(View.VISIBLE);
+        } else {
+            mDanmuLay.setVisibility(View.GONE);
+        }
+    }
+
+    private void outAction() {
+        LiveRoomDialogView liveRoomDialogView = new LiveRoomDialogView(this);
+        final FullDialog fullDialog = FullDialog.create(this).addContentView(liveRoomDialogView);
+        liveRoomDialogView.getSure().setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fullDialog.dismiss();
+                finish();
+            }
+        });
+        fullDialog.show();
     }
 
     private void startPick() {
         if (isNowPicking) {
             return;
         }
+        mMusicService.startPickSound();
         TCPClient.getInstance().send(contentBean.getIp(), WaWaJiProtoType.pick);
     }
 
