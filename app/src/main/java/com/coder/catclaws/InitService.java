@@ -2,8 +2,12 @@ package com.coder.catclaws;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.os.Environment;
 
 import com.alibaba.fastjson.JSON;
+import com.alivc.player.AliVcMediaPlayer;
+import com.aliyun.vodplayer.downloader.AliyunDownloadConfig;
+import com.aliyun.vodplayer.downloader.AliyunDownloadManager;
 import com.coder.catclaws.utils.StaticUtils;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
@@ -37,6 +41,7 @@ public class InitService extends IntentService {
         if (null == intent) {
             return;
         }
+        initAliPlayer();
         registToWX();
         registToQQ();
         initFresco();
@@ -58,6 +63,23 @@ public class InitService extends IntentService {
 
     private void registToQQ() {
         StaticUtils.mTencent = Tencent.createInstance(StaticUtils.QQ_APPID, this.getApplicationContext());
+    }
+
+    private void initAliPlayer() {
+        //初始化播放器
+        final String businessId = "";
+        AliVcMediaPlayer.init(getApplicationContext(), businessId);
+
+        //设置保存密码。此密码如果更换，则之前保存的视频无法播放
+        AliyunDownloadConfig config = new AliyunDownloadConfig();
+        config.setSecretImagePath(Environment.getExternalStorageDirectory().getAbsolutePath() + "/aliyun/encryptedApp.dat");
+//        config.setDownloadPassword("123456789");
+        //设置保存路径。请确保有SD卡访问权限。
+        config.setDownloadDir(Environment.getExternalStorageDirectory().getAbsolutePath() + "/test_save/");
+        //设置同时下载个数
+        config.setMaxNums(2);
+
+        AliyunDownloadManager.getInstance(this).setDownloadConfig(config);
     }
 
     private void initFresco() {

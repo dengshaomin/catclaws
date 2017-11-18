@@ -76,8 +76,10 @@ public class SplashActivity extends PermissionActivity {
                     PageJump.goLoginActivity(SplashActivity.this);
                     finish();
                 }
+
             }
         }, 500);
+//        startActivity(new Intent(SplashActivity.this, LiveModeActivity.class));
     }
 
     @Override

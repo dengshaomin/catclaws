@@ -4,7 +4,7 @@ android {
     compileSdkVersion 26
     defaultConfig {
         applicationId "com.coder.catclaws"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 26
         versionCode 1
         multiDexEnabled true
@@ -27,6 +27,9 @@ android {
 //        preDexLibraries = false
         javaMaxHeapSize "4g"
 //        jumboMode true
+    }
+    repositories {
+        flatDir { dirs 'libs' }
     }
 
 }
@@ -64,6 +67,10 @@ dependencies {
     compile 'com.github.ctiao:ndkbitmap-armv5:0.9.16'
     compile 'com.github.ctiao:ndkbitmap-x86:0.9.16'
     compile 'com.github.addappcn:android-pickers:1.0.1'
+
+    compile(name: 'AlivcPlayer', ext: 'aar')
+    compile(name: 'AliyunVodPlayer', ext: 'aar')
+    compile(name: 'AliyunVodPlayerView', ext: 'aar')
 //    compile 'com.android.support:multidex:1.0.1'
     implementation project(':xrefreshview')
     implementation project(':ultraviewpager')
