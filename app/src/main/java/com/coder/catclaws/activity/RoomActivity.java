@@ -17,7 +17,8 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.os.Bundle;
+import android.media.projection.MediaProjection;
+import android.media.projection.MediaProjectionManager;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Vibrator;
@@ -34,15 +35,15 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.andview.refreshview.utils.LogUtils;
 import com.boom.service.room.netty.TCPClient;
 import com.boom.service.room.netty.WaWaJiProtoType;
 import com.coder.catclaws.R;
+import com.coder.catclaws.RecordService;
 import com.coder.catclaws.commons.GlobalMsg;
 import com.coder.catclaws.commons.IControlView;
 import com.coder.catclaws.commons.ImageLoader;
-import com.coder.catclaws.commons.MusicService;
-import com.coder.catclaws.commons.MusicService.MusicBinder;
+import com.coder.catclaws.MusicService;
+import com.coder.catclaws.MusicService.MusicBinder;
 import com.coder.catclaws.commons.NetIndentify;
 import com.coder.catclaws.models.HomeModel.DataBean.RoomsBean.ContentBean;
 import com.coder.catclaws.models.RoomModel;
@@ -65,7 +66,6 @@ import com.tmall.ultraviewpager.Screen;
 import com.videoengine.NTRenderer;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.iwgang.countdownview.CountdownView;
 import cn.iwgang.countdownview.CountdownView.OnCountdownEndListener;
@@ -164,7 +164,9 @@ public class RoomActivity extends BaseActivity {
 
     @BindView(R.id.danmu_lay)
     LinearLayout mDanmuLay;
-
+    private MediaProjectionManager projectionManager;
+    private MediaProjection mediaProjection;
+    private RecordService recordService;
     private SurfaceView sSurfaceView = null;
 
     private ContentBean contentBean;
@@ -298,7 +300,7 @@ public class RoomActivity extends BaseActivity {
         }
     }
 
-    private void initService() {
+    private void initMusicService() {
         serviceIntent = new Intent(this, MusicService.class);
         mMusicConnection = new MusicConnection();
         bindService(serviceIntent, mMusicConnection, BIND_AUTO_CREATE);
@@ -306,7 +308,7 @@ public class RoomActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        initService();
+        initMusicService();
         libPlayer = new SmartPlayerJni();
 
         myContext = this.getApplicationContext();
@@ -550,6 +552,10 @@ public class RoomActivity extends BaseActivity {
     public List<PermissonItem> needPermissions() {
         return null;
     }
+
+    private void initRecordService(){
+
+    };
 
     @OnClick({R.id.icon_more, R.id.out, R.id.help, R.id.catch_doll, R.id.msg, R.id.recharge, R.id.start, R.id.danmu0, R.id.danmu1, R.id.danmu2,
             R.id.danmu3, R.id.danmu4, R.id.danmu_lay})

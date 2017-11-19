@@ -15,6 +15,7 @@
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
 
     <application
         android:name=".MyApplication"
@@ -26,8 +27,8 @@
         android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
         >
         <service android:name=".InitService" />
-        <service android:name=".commons.MusicService" />
-
+        <service android:name=".MusicService" />
+        <service android:name=".RecordService" />
         <activity android:name=".activity.MainActivity">
 
             <!-- <intent-filter> -->

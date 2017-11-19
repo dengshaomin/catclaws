@@ -79,7 +79,6 @@ public class SplashActivity extends PermissionActivity {
 
             }
         }, 500);
-//        startActivity(new Intent(SplashActivity.this, LiveModeActivity.class));
     }
 
     @Override
@@ -94,6 +93,7 @@ public class SplashActivity extends PermissionActivity {
             add(new PermissonItem(Manifest.permission.READ_EXTERNAL_STORAGE, "读取权限", R.drawable.permission_ic_memory));
             add(new PermissonItem(Manifest.permission.WRITE_EXTERNAL_STORAGE, "写权限", R.drawable.permission_ic_memory));
             add(new PermissonItem(Manifest.permission.READ_PHONE_STATE, "获取手机状态", R.drawable.permission_ic_memory));
+            add(new PermissonItem(Manifest.permission.RECORD_AUDIO, "屏幕录制", R.drawable.permission_ic_memory));
         }};
     }
 

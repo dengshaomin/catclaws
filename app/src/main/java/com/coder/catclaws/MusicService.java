@@ -1,4 +1,4 @@
-package com.coder.catclaws.commons;
+package com.coder.catclaws;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,7 +12,7 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
-import com.coder.catclaws.R;
+import com.coder.catclaws.commons.PreferenceUtils;
 
 /**
  * Created by dengshaomin on 2017/11/16.

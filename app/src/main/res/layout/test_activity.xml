@@ -4,44 +4,21 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="match_parent">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <cn.iwgang.countdownview.CountdownView
-            android:id="@+id/count"
+        <TextView
+            android:id="@+id/action"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:isHideTimeBackground="true"
-            app:isShowDay="false"
-            app:isShowHour="false"
-            app:isShowMillisecond="false"
-            app:isShowMinute="false"
-            app:isShowSecond="true"
-            app:isTimeTextBold="true"
-            app:suffixGravity="bottom"
-            app:suffixHour="时"
-            app:suffixMillisecond="毫秒"
-            app:suffixMinute="分"
-            app:suffixSecond=""
-            app:suffixTextColor="#000000"
-            app:suffixTextSize="12sp"
-            app:timeTextColor="#000000"
-            app:timeTextSize="22sp"/>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycleView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorAccent"/>
-
-
-        <com.coder.catclaws.danmu.MineDanMuView
-            android:id="@+id/danmu_view"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"/>
-    </LinearLayout>
+            android:layout_centerInParent="true"
+            android:background="@color/white"
+            android:padding="10dp"
+            android:text="开始"
+            android:textColor="#000000"/>
+    </RelativeLayout>
 
 
 </android.support.v4.widget.NestedScrollView>

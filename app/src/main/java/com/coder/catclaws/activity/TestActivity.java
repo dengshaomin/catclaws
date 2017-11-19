@@ -1,23 +1,24 @@
 package com.coder.catclaws.activity;
 
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.ServiceConnection;
+import android.media.projection.MediaProjection;
+import android.media.projection.MediaProjectionManager;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.os.IBinder;
+import android.util.DisplayMetrics;
+import android.widget.TextView;
 
-import com.andview.refreshview.utils.LogUtils;
 import com.coder.catclaws.R;
+import com.coder.catclaws.RecordService;
 import com.coder.catclaws.commons.GlobalMsg;
-import com.coder.catclaws.danmu.MineDanMuView;
-import com.coder.catclaws.widgets.CommonViewHolder;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import cn.iwgang.countdownview.CountdownView;
-import cn.iwgang.countdownview.CountdownView.OnCountdownIntervalListener;
+import butterknife.OnClick;
 import me.weyye.hipermission.PermissonItem;
 
 /**
@@ -26,12 +27,11 @@ import me.weyye.hipermission.PermissonItem;
 
 public class TestActivity extends BaseActivity {
 
-    @BindView(R.id.count)
-    CountdownView count;
-    @BindView(R.id.recycleView)
-    RecyclerView recycleView;
-    @BindView(R.id.danmu_view)
-    MineDanMuView danmuView;
+    private MediaProjectionManager projectionManager;
+    private MediaProjection mediaProjection;
+    private RecordService recordService;
+    @BindView(R.id.action)
+    TextView action;
 
     @Override
     public boolean needTitle() {
@@ -70,41 +70,9 @@ public class TestActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        count.start(20000);
-        count.setOnCountdownEndListener(new CountdownView.OnCountdownEndListener() {
-            @Override
-            public void onEnd(CountdownView cv) {
-                int a = 1;
-            }
-        });
-        count.setOnCountdownIntervalListener(1000, new OnCountdownIntervalListener() {
-            @Override
-            public void onInterval(CountdownView cv, long remainTime) {
-                int a = 1;
-                LogUtils.e(remainTime + "");
-                //只用他的定时器，用这个监听去更新自己的VIEW
-            }
-        });
-
-        recycleView.setLayoutManager(new GridLayoutManager(this, 3));
-        recycleView.setAdapter(new RecyclerView.Adapter() {
-            @Override
-            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                ImageView imageView = new ImageView(TestActivity.this);
-                imageView.setBackgroundResource(R.drawable.mine_userinfo_bg);
-                return new CommonViewHolder(imageView);
-            }
-
-            @Override
-            public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
-            }
-
-            @Override
-            public int getItemCount() {
-                return 6;
-            }
-        });
+        projectionManager = (MediaProjectionManager) getSystemService(MEDIA_PROJECTION_SERVICE);
+        Intent intent = new Intent(this, RecordService.class);
+        bindService(intent, recordConnection, BIND_AUTO_CREATE);
     }
 
     @Override
@@ -137,4 +105,44 @@ public class TestActivity extends BaseActivity {
         return null;
     }
 
+    private static final int RECORD_REQUEST_CODE = 101;
+    private void initRecordService(){
+
+
+    }
+    private ServiceConnection recordConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName className, IBinder service) {
+            DisplayMetrics metrics = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getMetrics(metrics);
+            RecordService.RecordBinder binder = (RecordService.RecordBinder) service;
+            recordService = binder.getRecordService();
+            recordService.setConfig(metrics.widthPixels, metrics.heightPixels, metrics.densityDpi);
+            action.setText(recordService.isRunning() ? "结束" : "开始");
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName arg0) {
+        }
+    };
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == RECORD_REQUEST_CODE && resultCode == RESULT_OK) {
+            mediaProjection = projectionManager.getMediaProjection(resultCode, data);
+            recordService.setMediaProject(mediaProjection);
+            recordService.startRecord();
+            action.setText(recordService.isRunning() ? "结束" : "开始");
+        }
+    }
+    @OnClick(R.id.action)
+    public void onViewClicked() {
+        initRecordService();
+        if (recordService.isRunning()) {
+            recordService.stopRecord();
+            action.setText(recordService.isRunning() ? "结束" : "开始");
+        } else {
+            Intent captureIntent = projectionManager.createScreenCaptureIntent();
+            startActivityForResult(captureIntent, RECORD_REQUEST_CODE);
+        }
+    }
 }
