@@ -41,10 +41,10 @@ public class InitService extends IntentService {
         if (null == intent) {
             return;
         }
-        initAliPlayer();
         registToWX();
         registToQQ();
         initFresco();
+        initAliPlayer();
         String json = null;
         try {
             json = ConvertUtils.toString(this.getAssets().open("city.json"));

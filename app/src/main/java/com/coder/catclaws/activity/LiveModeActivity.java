@@ -121,6 +121,10 @@ public class LiveModeActivity extends Activity {
 
         initVodPlayer();
         setPlaySource();
+        replay();
+        if (mMute) {
+            mPlayer.setMuteMode(mMute);
+        }
     }
 
 

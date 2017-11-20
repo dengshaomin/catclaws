@@ -79,7 +79,7 @@ public class UserManager {
             userInfoModel.getData().setToken("DB3500E754DD3CF7221334BE57A2DBE7");
 
         }
-        return userInfoModel.getData().getToken();
+        return userInfoModel == null || userInfoModel.getData() == null ? "" : userInfoModel.getData().getToken();
     }
 
     public String getIcon() {

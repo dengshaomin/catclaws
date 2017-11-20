@@ -203,7 +203,6 @@ public class AddressActivity extends BaseActivity {
                 mContentBean.setPhone(mPhone.getText().toString());
                 mContentBean.setAddre(mAddressDetail.getText().toString());
                 Net.request(NetIndentify.ADDADRESS, new HashMap<String, String>() {{
-                    put("token", UserManager.getInstance().getToken());
                     put("provice", mContentBean.getProvince());
                     put("city", mContentBean.getCity());
                     put("area", mContentBean.getArea());

@@ -12,65 +12,73 @@ package com.coder.catclaws.activity;/*
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.media.projection.MediaProjection;
 import android.media.projection.MediaProjectionManager;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
-import android.os.Vibrator;
-import android.util.Log;
-import android.view.KeyEvent;
+import android.view.SurfaceHolder;
+import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
+import android.view.WindowManager.LayoutParams;
 import android.widget.FrameLayout;
-import android.widget.FrameLayout.LayoutParams;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.alivc.player.AliVcMediaPlayer;
+import com.alivc.player.MediaPlayer.MediaPlayerBufferingUpdateListener;
+import com.alivc.player.MediaPlayer.MediaPlayerCompletedListener;
+import com.alivc.player.MediaPlayer.MediaPlayerErrorListener;
+import com.alivc.player.MediaPlayer.MediaPlayerFrameInfoListener;
+import com.alivc.player.MediaPlayer.MediaPlayerPreparedListener;
+import com.alivc.player.MediaPlayer.MediaPlayerSeekCompleteListener;
+import com.alivc.player.MediaPlayer.MediaPlayerStoppedListener;
 import com.boom.service.room.netty.TCPClient;
 import com.boom.service.room.netty.WaWaJiProtoType;
+import com.coder.catclaws.MusicService;
+import com.coder.catclaws.MusicService.MusicBinder;
 import com.coder.catclaws.R;
 import com.coder.catclaws.RecordService;
 import com.coder.catclaws.commons.GlobalMsg;
 import com.coder.catclaws.commons.IControlView;
 import com.coder.catclaws.commons.ImageLoader;
-import com.coder.catclaws.MusicService;
-import com.coder.catclaws.MusicService.MusicBinder;
 import com.coder.catclaws.commons.NetIndentify;
+import com.coder.catclaws.commons.PageJump;
+import com.coder.catclaws.commons.UserManager;
 import com.coder.catclaws.models.HomeModel.DataBean.RoomsBean.ContentBean;
 import com.coder.catclaws.models.RoomModel;
 import com.coder.catclaws.models.RoomModel.WaWaJiEntity;
-import com.coder.catclaws.models.UserInfoModel;
 import com.coder.catclaws.models.UserInfoModel.DataBean.UserBean;
-import com.coder.catclaws.socks.MsgThread;
-import com.coder.catclaws.socks.SendThread;
+import com.coder.catclaws.widgets.CoinNotEnoughDialogView;
 import com.coder.catclaws.widgets.ControlView;
 import com.coder.catclaws.widgets.FullDialog;
 import com.coder.catclaws.widgets.HelpDialogView;
 import com.coder.catclaws.widgets.LiveRoomDialogView;
 import com.coder.catclaws.widgets.PickSuccessDialogView;
-import com.daniulive.smartplayer.SmartPlayerJni;
-import com.eventhandle.SmartEventCallback;
+import com.coder.catclaws.widgets.SquareLayout;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.github.lazylibrary.util.DensityUtil;
 import com.github.lazylibrary.util.ToastUtils;
 import com.tmall.ultraviewpager.Screen;
-import com.videoengine.NTRenderer;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.iwgang.countdownview.CountdownView;
 import cn.iwgang.countdownview.CountdownView.OnCountdownEndListener;
 import cn.iwgang.countdownview.CountdownView.OnCountdownIntervalListener;
 import me.weyye.hipermission.PermissonItem;
+
+import static android.view.SurfaceHolder.SURFACE_TYPE_GPU;
 
 
 public class RoomActivity extends BaseActivity {
@@ -102,8 +110,6 @@ public class RoomActivity extends BaseActivity {
     @BindView(R.id.room_title_lay)
     LinearLayout mRoomTitleLay;
 
-    @BindView(R.id.video_container)
-    FrameLayout mVideoContainer;
 
     @BindView(R.id.out)
     TextView mOut;
@@ -164,80 +170,47 @@ public class RoomActivity extends BaseActivity {
 
     @BindView(R.id.danmu_lay)
     LinearLayout mDanmuLay;
+
+    @BindView(R.id.surfaceView)
+    SurfaceView mSurfaceView;
+
+    @BindView(R.id.player_info)
+    LinearLayout mPlayerInfo;
+
+    @BindView(R.id.icon_other_0_lay)
+    SquareLayout mIconOther0Lay;
+
+    @BindView(R.id.icon_other_1_lay)
+    SquareLayout mIconOther1Lay;
+
+    @BindView(R.id.icon_other_2_lay)
+    SquareLayout mIconOther2Lay;
+
     private MediaProjectionManager projectionManager;
+
     private MediaProjection mediaProjection;
+
     private RecordService recordService;
-    private SurfaceView sSurfaceView = null;
+
+    private AliVcMediaPlayer mPlayer;
 
     private ContentBean contentBean;
 
-    private long playerHandle = 0;
 
     private static final int PORTRAIT = 1;        //竖屏
 
     private static final int LANDSCAPE = 2;        //横屏
 
-    private static final String TAG = "SmartPlayer";
-
-    private SmartPlayerJni libPlayer = null;
-
-    private int currentOrigentation = PORTRAIT;
-
-    private boolean isPlaybackViewStarted = false;
 
     private final long countDownTimes = 24000;
 
     private boolean isNowPicking = false;
 
-    //    private String playbackUrl = "rtmp://119.29.226.242:1935/hls/stream10085";//rtmp://119.29.226.242:1935/hls/stream10085//rtmp://119.29.226.242:1935/hls/stream/xuebao //rtmp://player.daniulive.com:1935/hls/stream10089
-    private String playbackUrl = "rtmp://live2.iboom.tv/AppName/StreamName";
-//rtmp://119.29.226.242:1935/hls/stream10085//rtmp://119.29.226.242:1935/hls/stream/xuebao //rtmp://player.daniulive.com:1935/hls/stream10089
-
-    //    private String playbackUrl2 = "rtmp://119.29.226.242:1935/hls/stream10086";
-    private String playbackUrl2 = "rtmp://live2.iboom.tv/AppName/Stream";
-
-    //    private String switchURL = "rtmp://119.29.226.242:1935/hls/stream20086";
-    private String switchURL = "rtmp://live2.iboom.tv/AppName/StreamName";
-
-    private boolean isHardwareDecoder = true;
-
-    private int playBuffer = 100; // 默认200ms
-
-    private boolean isFastStartup = true; // 是否秒开, 默认true
-
-    private boolean switchUrlFlag = false;
-
-    //Button btnPopInputText;
-    private Vibrator vibrator;
-
-    private Context myContext;
-
-    public static SendThread sendThread;
-
-    public static MsgThread msgThread;
-
-    public String ServerHost = "192.168.0.4";
-
-    public int ServerPort = 1090;
-
-    public String ServerIP = "";
-
-    public static String g_room_mac;//房间的mac用于发出命令
-
-    boolean b_start_new_game = false;
+    private boolean firstVisualAngle = true;
 
     private RoomModel roomModel;
 
-    static {
-        System.loadLibrary("SmartPlayer");
-    }
-
-
-    public void onClickClose(View view) {
-        libPlayer.SmartPlayerClose(playerHandle);
-        playerHandle = 0;
-        finish();
-    }
+    private UserBean currentUser;
 
     @Override
     public boolean needTitle() {
@@ -306,73 +279,103 @@ public class RoomActivity extends BaseActivity {
         bindService(serviceIntent, mMusicConnection, BIND_AUTO_CREATE);
     }
 
+    private void initAliVedio() {
+        mSurfaceView.getHolder().addCallback(new Callback() {
+            public void surfaceCreated(SurfaceHolder holder) {
+                holder.setType(SURFACE_TYPE_GPU);
+                holder.setKeepScreenOn(true);
+
+                // Important: surfaceView changed from background to front, we need reset surface to mediaplayer.
+                // 对于从后台切换到前台,需要重设surface;部分手机锁屏也会做前后台切换的处理
+                if (mPlayer != null) {
+                    mPlayer.setVideoSurface(mSurfaceView.getHolder().getSurface());
+                }
+
+            }
+
+            public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
+                if (mPlayer != null) {
+                    mPlayer.setSurfaceChanged();
+                }
+            }
+
+            public void surfaceDestroyed(SurfaceHolder holder) {
+            }
+        });
+        initVodPlayer();
+        if (contentBean != null) {
+            mPlayer.prepareAndPlay(contentBean.getFirstCamera());
+        }
+    }
+
+    private void initVodPlayer() {
+        mPlayer = new AliVcMediaPlayer(this, mSurfaceView);
+
+        mPlayer.setPreparedListener(new MediaPlayerPreparedListener() {
+            @Override
+            public void onPrepared() {
+//                Toast.makeText(LiveModeActivity.this.getApplicationContext(), R.string.toast_prepare_success, Toast.LENGTH_SHORT).show();
+
+            }
+        });
+        mPlayer.setFrameInfoListener(new MediaPlayerFrameInfoListener() {
+            @Override
+            public void onFrameInfoListener() {
+                Map<String, String> debugInfo = mPlayer.getAllDebugInfo();
+                long createPts = 0;
+                if (debugInfo.get("create_player") != null) {
+                    String time = debugInfo.get("create_player");
+                    createPts = (long) Double.parseDouble(time);
+                }
+                if (debugInfo.get("open-url") != null) {
+                    String time = debugInfo.get("open-url");
+                    long openPts = (long) Double.parseDouble(time) + createPts;
+                }
+                if (debugInfo.get("find-stream") != null) {
+                    String time = debugInfo.get("find-stream");
+                    long findPts = (long) Double.parseDouble(time) + createPts;
+                }
+                if (debugInfo.get("open-stream") != null) {
+                    String time = debugInfo.get("open-stream");
+                    long openPts = (long) Double.parseDouble(time) + createPts;
+                }
+            }
+        });
+        mPlayer.setErrorListener(new MediaPlayerErrorListener() {
+            @Override
+            public void onError(int i, String msg) {
+//                Toast.makeText(LiveModeActivity.this.getApplicationContext(), getString(R.string.toast_fail_msg) + msg, Toast.LENGTH_SHORT).show();
+            }
+        });
+        mPlayer.setCompletedListener(new MediaPlayerCompletedListener() {
+            @Override
+            public void onCompleted() {
+            }
+        });
+        mPlayer.setSeekCompleteListener(new MediaPlayerSeekCompleteListener() {
+            @Override
+            public void onSeekCompleted() {
+            }
+        });
+        mPlayer.setStoppedListener(new MediaPlayerStoppedListener() {
+            @Override
+            public void onStopped() {
+            }
+        });
+        mPlayer.setBufferingUpdateListener(new MediaPlayerBufferingUpdateListener() {
+            @Override
+            public void onBufferingUpdateListener(int percent) {
+            }
+        });
+        mPlayer.enableNativeLog();
+
+    }
+
     @Override
     public void initView() {
+        getWindow().addFlags(LayoutParams.FLAG_KEEP_SCREEN_ON);
+        mMineNums.setText("我的猫币:" + UserManager.getInstance().getMb());
         initMusicService();
-        libPlayer = new SmartPlayerJni();
-
-        myContext = this.getApplicationContext();
-        boolean bViewCreated = CreateView();
-
-        if (bViewCreated) {
-            mVideoContainer.addView(sSurfaceView, new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup
-                    .LayoutParams.MATCH_PARENT));
-        }
-        Log.i(TAG, "Start playback stream++");
-
-        playerHandle = libPlayer.SmartPlayerInit(myContext);
-
-        if (playerHandle == 0) {
-            Log.e(TAG, "surfaceHandle with nil..");
-            return;
-        }
-
-        libPlayer.SetSmartPlayerEventCallback(playerHandle, new EventHande());
-
-        libPlayer.SmartPlayerSetSurface(playerHandle, sSurfaceView);    //if set the second param with null, it means it will playback audio only..
-
-        libPlayer.SmartPlayerSetAudioOutputType(playerHandle, 0);
-
-        libPlayer.SmartPlayerSetBuffer(playerHandle, playBuffer);
-
-        libPlayer.SmartPlayerSetFastStartup(playerHandle, isFastStartup ? 1 : 0);
-
-        libPlayer.SmartPlayerSaveImageFlag(playerHandle, 1);
-
-        libPlayer.SmartPlayerSetMute(playerHandle, 1);
-
-        if (isHardwareDecoder) {
-            Log.i(TAG, "check isHardwareDecoder: " + isHardwareDecoder);
-
-            int hwChecking = libPlayer.SetSmartPlayerVideoHWDecoder(playerHandle, isHardwareDecoder ? 1 : 0);
-
-            Log.i(TAG, "[daniulive] hwChecking: " + hwChecking);
-        }
-
-        if (playbackUrl == null) {
-            Log.e(TAG, "playback URL with NULL...");
-            return;
-        }
-
-        int iPlaybackRet = libPlayer.SmartPlayerStartPlayback(playerHandle, playbackUrl);
-
-        if (iPlaybackRet != 0) {
-            Log.e(TAG, "StartPlayback strem failed..");
-            return;
-        }
-
-        //ButtonListener b = new ButtonListener();
-        //TextView textRoomName = (TextView) findViewById(R.id.room_name);
-        //textRoomName.setText(roomName);
-
-        // 震动效果的系统服务
-        vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-
-//        ImageButton btnChangeCam = (ImageButton) findViewById(R.id.btn_changeCam);
-//        btnChangeCam.bringToFront();
-//        btnChangeCam.setOnClickListener(b);
-//        btnChangeCam.setOnTouchListener(b);
-
         mControlView.setiControlView(new IControlView() {
             @Override
             public void left() {
@@ -406,6 +409,13 @@ public class RoomActivity extends BaseActivity {
         if (contentBean != null) {
             TCPClient.getInstance().send(contentBean.getIp(), WaWaJiProtoType.room);
         }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                initAliVedio();
+            }
+        }, 800);
+
     }
 
     @Override
@@ -431,6 +441,9 @@ public class RoomActivity extends BaseActivity {
             if (globalMsg.isSuccess()) {
                 roomModel = (RoomModel) globalMsg.getMsg();
                 setRoomData();
+                if (roomModel != null) {
+                    currentUser = roomModel.getPlayer();
+                }
             }
         } else if (NetIndentify.PLAY.equals(globalMsg.getMsgId())) {
             mControlLayout.setVisibility(View.VISIBLE);
@@ -458,18 +471,9 @@ public class RoomActivity extends BaseActivity {
         } else if (NetIndentify.PLAYSUCCESS.equals(globalMsg.getMsgId())) {
             showScuccessDialog();
         } else if (NetIndentify.CHANGE_PLAYER.equals(globalMsg.getMsgId())) {
-            UserInfoModel.DataBean.UserBean player = (UserBean) globalMsg.getMsg();
-            ImageLoader.getInstance().loadImage(mIconMine, player.getHeadImg());
-            mName.setText(player.getName());
-            mStatu.setText("游戏中");
-            mStatu.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icon_room_busy, 0, 0, 0);
+            setPlayer((UserBean) globalMsg.getMsg());
         } else if (NetIndentify.ROOM_FREE.equals(globalMsg.getMsgId())) {
-//            UserInfoModel.DataBean.UserBean player = (UserBean) globalMsg.getMsg();
-//            ImageLoader.getInstance().loadImage(mIconMine,player.getHeadImg());
-            mIconMine.setBackgroundResource(0);
-            mName.setText("");
-            mStatu.setText("空闲中");
-            mStatu.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icon_room_free, 0, 0, 0);
+            setPlayer((UserBean) globalMsg.getMsg());
         }
     }
 
@@ -504,20 +508,27 @@ public class RoomActivity extends BaseActivity {
         fullDialog.show();
     }
 
-    private void setRoomData() {
-        if (roomModel.getPlayer() != null) {
-            UserBean player = roomModel.getPlayer();
+    private void setPlayer(UserBean player) {
+        if (player != null) {
             mName.setText(player.getName());
             mStatu.setText("游戏中");
             ImageLoader.getInstance().loadImage(mIconMine, player.getHeadImg());
             mStatu.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icon_room_busy, 0, 0, 0);
+        } else {
+            mIconMine.setBackgroundResource(0);
+        }
+        mPlayerInfo.setVisibility(player == null ? View.INVISIBLE : View.VISIBLE);
+    }
+
+    private void setRoomData() {
+        if (roomModel.getPlayer() != null) {
+            setPlayer(roomModel.getPlayer());
         } else {
             mStatu.setText("空闲中");
             mStatu.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icon_room_free, 0, 0, 0);
         }
         if (roomModel.getWatcher() != null && roomModel.getWatcher().size() > 0) {
 
-            mIconOther0.setVisibility(View.VISIBLE);
             if (roomModel.getWatcher().size() > 0) {
                 ImageLoader.getInstance().loadImage(mIconOther0, roomModel.getWatcher().get(0).getHeadImg());
             }
@@ -527,14 +538,16 @@ public class RoomActivity extends BaseActivity {
             if (roomModel.getWatcher().size() > 2) {
                 ImageLoader.getInstance().loadImage(mIconOther2, roomModel.getWatcher().get(2).getHeadImg());
             }
-            mIconOther0.setVisibility(roomModel.getWatcher().size() > 0 ? View.VISIBLE : View.INVISIBLE);
-            mIconOther1.setVisibility(roomModel.getWatcher().size() > 1 ? View.VISIBLE : View.INVISIBLE);
-            mIconOther2.setVisibility(roomModel.getWatcher().size() > 2 ? View.VISIBLE : View.INVISIBLE);
+            mIconOther0Lay.setVisibility(roomModel.getWatcher().size() > 0 ? View.VISIBLE : View.INVISIBLE);
+            mIconOther1Lay.setVisibility(roomModel.getWatcher().size() > 1 ? View.VISIBLE : View.INVISIBLE);
+            mIconOther2Lay.setVisibility(roomModel.getWatcher().size() > 2 ? View.VISIBLE : View.INVISIBLE);
         } else {
-            mIconOther0.setVisibility(View.INVISIBLE);
-            mIconOther1.setVisibility(View.INVISIBLE);
-            mIconOther2.setVisibility(View.INVISIBLE);
+            mIconOther0Lay.setVisibility(View.INVISIBLE);
+            mIconOther1Lay.setVisibility(View.INVISIBLE);
+            mIconOther2Lay.setVisibility(View.INVISIBLE);
         }
+        mIconMore.setVisibility(
+                roomModel == null || roomModel.getWatcher() == null || roomModel.getWatcher().size() < 4 ? View.INVISIBLE : View.VISIBLE);
         if (roomModel.getWaWaJi() != null) {
             WaWaJiEntity waWaJiEntity = roomModel.getWaWaJi();
             mNumTimes.setText(waWaJiEntity.getPrice() + "/次");
@@ -553,12 +566,39 @@ public class RoomActivity extends BaseActivity {
         return null;
     }
 
-    private void initRecordService(){
+    private void initRecordService() {
 
-    };
+    }
+
+    private void startAction() {
+        if (roomModel != null && roomModel.getWaWaJi() != null) {
+            if (UserManager.getInstance().getMb() < roomModel.getWaWaJi().getPrice()) {
+                CoinNotEnoughDialogView coinNotEnoughDialogView = new CoinNotEnoughDialogView(RoomActivity.this);
+                final FullDialog fullDialog = FullDialog.create(RoomActivity.this).addContentView(coinNotEnoughDialogView);
+                coinNotEnoughDialogView.getInvert().setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        fullDialog.dismiss();
+                        PageJump.goInvertFriendActivity(RoomActivity.this);
+                    }
+                });
+                coinNotEnoughDialogView.getRecharge().setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        fullDialog.dismiss();
+                        PageJump.goRechargeActivity(RoomActivity.this);
+                    }
+                });
+                fullDialog.show();
+            } else {
+                TCPClient.getInstance().send(contentBean.getIp(), WaWaJiProtoType.start);
+            }
+
+        }
+    }
 
     @OnClick({R.id.icon_more, R.id.out, R.id.help, R.id.catch_doll, R.id.msg, R.id.recharge, R.id.start, R.id.danmu0, R.id.danmu1, R.id.danmu2,
-            R.id.danmu3, R.id.danmu4, R.id.danmu_lay})
+            R.id.danmu3, R.id.danmu4, R.id.danmu_lay, R.id.record})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.icon_more:
@@ -576,9 +616,10 @@ public class RoomActivity extends BaseActivity {
                 msgAction();
                 break;
             case R.id.recharge:
+                PageJump.goRechargeActivity(RoomActivity.this);
                 break;
             case R.id.start:
-                TCPClient.getInstance().send(contentBean.getIp(), WaWaJiProtoType.start);
+                startAction();
                 break;
             case R.id.danmu0:
                 sendDanMuAction(mDanmu0.getText().toString());
@@ -597,13 +638,21 @@ public class RoomActivity extends BaseActivity {
                 break;
             case R.id.danmu_lay:
                 break;
+            case R.id.record:
+                if (mPlayer != null && contentBean != null) {
+                    mPlayer.stop();
+                    mPlayer.prepareAndPlay(firstVisualAngle ? contentBean.getSecondCamera() : contentBean.getFirstCamera());
+                    firstVisualAngle = !firstVisualAngle;
+                }
+
+                break;
         }
     }
 
     private void sendDanMuAction(String s) {
         mDanmuLay.setVisibility(View.GONE);
         TCPClient.getInstance().send(s, WaWaJiProtoType.chat);
-        addDanmaku(s);
+//        addDanmaku(s);
     }
 
     private void msgAction() {
@@ -624,6 +673,10 @@ public class RoomActivity extends BaseActivity {
     }
 
     private void outAction() {
+        if (currentUser == null || !currentUser.getOpenId().equals(UserManager.getInstance().getThirdLoginModel().getOpenid())) {
+            finish();
+            return;
+        }
         LiveRoomDialogView liveRoomDialogView = new LiveRoomDialogView(this);
         final FullDialog fullDialog = FullDialog.create(this).addContentView(liveRoomDialogView);
         liveRoomDialogView.getSure().setOnClickListener(new OnClickListener() {
@@ -674,81 +727,15 @@ public class RoomActivity extends BaseActivity {
         TCPClient.getInstance().send(contentBean.getIp(), WaWaJiProtoType.pick);
     }
 
-    class EventHande implements SmartEventCallback {
-
-        @Override
-        public void onCallback(int code, long param1, long param2, String param3, String param4, Object param5) {
-            switch (code) {
-                case EVENTID.EVENT_DANIULIVE_ERC_PLAYER_STARTED:
-                    Log.i(TAG, "开始。。");
-                    break;
-                case EVENTID.EVENT_DANIULIVE_ERC_PLAYER_CONNECTING:
-                    Log.i(TAG, "连接中。。");
-                    break;
-                case EVENTID.EVENT_DANIULIVE_ERC_PLAYER_CONNECTION_FAILED:
-                    Log.i(TAG, "连接失败。。");
-                    break;
-                case EVENTID.EVENT_DANIULIVE_ERC_PLAYER_CONNECTED:
-                    Log.i(TAG, "连接成功。。");
-                    break;
-                case EVENTID.EVENT_DANIULIVE_ERC_PLAYER_DISCONNECTED:
-                    Log.i(TAG, "连接断开。。");
-                    break;
-                case EVENTID.EVENT_DANIULIVE_ERC_PLAYER_STOP:
-                    Log.i(TAG, "关闭。。");
-                    break;
-                case EVENTID.EVENT_DANIULIVE_ERC_PLAYER_RESOLUTION_INFO:
-                    Log.i(TAG, "分辨率信息: width: " + param1 + ", height: " + param2);
-                    break;
-                case EVENTID.EVENT_DANIULIVE_ERC_PLAYER_NO_MEDIADATA_RECEIVED:
-                    Log.i(TAG, "收不到媒体数据，可能是url错误。。");
-                    break;
-                case EVENTID.EVENT_DANIULIVE_ERC_PLAYER_SWITCH_URL:
-                    Log.i(TAG, "切换播放URL。。");
-                    break;
-                case EVENTID.EVENT_DANIULIVE_ERC_PLAYER_CAPTURE_IMAGE:
-                    Log.i(TAG, "快照: " + param1 + " 路径：" + param3);
-
-                    if (param1 == 0) {
-                        Log.i(TAG, "截取快照成功。.");
-                    } else {
-                        Log.i(TAG, "截取快照失败。.");
-                    }
-                    break;
-            }
-        }
-    }
-
-    /* Create rendering */
-    private boolean CreateView() {
-
-        if (sSurfaceView == null) {
-             /*
-             *  useOpenGLES2:
-             *  If with true: Check if system supports openGLES, if supported, it will choose openGLES.
-             *  If with false: it will set with default surfaceView;
-             */
-            sSurfaceView = NTRenderer.CreateRenderer(this, true);
-        }
-
-        if (sSurfaceView == null) {
-            Log.i(TAG, "Create render failed..");
-            return false;
-        }
-
-        return true;
-    }
-
 
     @Override
     protected void onDestroy() {
-        Log.i(TAG, "Run into activity destory++");
-
-        if (playerHandle != 0) {
-            libPlayer.SmartPlayerClose(playerHandle);
-            playerHandle = 0;
-        }
         super.onDestroy();
+        if (mPlayer != null) {
+            mPlayer.stop();
+            mPlayer.destroy();
+        }
+        unbindService(mMusicConnection);
     }
 
     @Override
@@ -756,6 +743,11 @@ public class RoomActivity extends BaseActivity {
         super.onPause();
         if (mMusicService != null) {
             mMusicService.onPause();
+        }
+        if (mPlayer != null && mPlayer.isPlaying()) {
+            //we pause the player for not playing on the background
+            // 不可见，暂停播放器
+            mPlayer.pause();
         }
     }
 
@@ -765,18 +757,16 @@ public class RoomActivity extends BaseActivity {
         if (mMusicService != null) {
             mMusicService.onResume();
         }
+        if (mPlayer != null) {
+            //we pause the player for not playing on the background
+            mPlayer.play();
+        }
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            new Handler(getMainLooper()).post(new Runnable() {
-                @Override
-                public void run() {
-                    outAction();
-                }
-            });
-        }
-        return true;
+    public void onBackPressed() {
+        outAction();
+//        super.onBackPressed();
     }
+
 }

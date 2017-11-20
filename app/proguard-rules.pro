@@ -234,3 +234,8 @@ public static final android.os.Parcelable$Creator *;
 -keepclassmembers class * extends org.greenrobot.eventbus.util.ThrowableFailureEvent {
     <init>(java.lang.Throwable);
 }
+
+#阿里云直播
+-keep class com.alivc.player.**{*;}
+-keep class com.aliyun.vodplayer.**{*;}
+-keep class com.aliyun.vodplayerview.**{*;}

@@ -26,6 +26,7 @@ import com.coder.catclaws.commons.ITitle;
 import com.coder.catclaws.commons.NetIndentify;
 import com.coder.catclaws.danmu.BiliDanmukuParser;
 import com.coder.catclaws.danmu.MineDanMuView;
+import com.coder.catclaws.utils.CleanLeakUtils;
 import com.coder.catclaws.widgets.BaseLayout;
 
 import org.greenrobot.eventbus.EventBus;
@@ -336,8 +337,10 @@ public abstract class BaseActivity extends PermissionActivity implements IBaseLa
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         unbinder.unbind();
+        CleanLeakUtils.fixInputMethodManagerLeak(this);
+        CleanLeakUtils.fixHuaWeiMemoryLeak(this);
+        super.onDestroy();
     }
 
 

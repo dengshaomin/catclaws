@@ -1,16 +1,20 @@
 package com.coder.catclaws.activity;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
+import com.andview.refreshview.utils.LogUtils;
 import com.coder.catclaws.MyApplication;
 import com.coder.catclaws.R;
 import com.coder.catclaws.commons.AppIndentify;
@@ -22,6 +26,7 @@ import com.coder.catclaws.models.ThirdLoginModel;
 import com.coder.catclaws.models.UserInfoModel;
 import com.coder.catclaws.utils.Net;
 import com.coder.catclaws.utils.StaticUtils;
+import com.github.lazylibrary.util.FileUtils;
 import com.github.lazylibrary.util.MiscUtils;
 import com.github.lazylibrary.util.ToastUtils;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
@@ -121,7 +126,9 @@ public class LoginActivity extends PermissionActivity {
             iUiListener = new IUiListener() {
                 @Override
                 public void onComplete(Object o) {
+                    FileUtils.saveStrToFile(JSON.toJSONString(o), Environment.getExternalStorageDirectory() + File.separator + "111.txt");
                     ThirdLoginModel thirdLoginModel = JSON.parseObject(o + "", ThirdLoginModel.class);
+                    ToastUtils.showToast(LoginActivity.this, thirdLoginModel.getOpenid());
                     UserManager.getInstance().setThirdLoginModel(thirdLoginModel);
                     login("qq");
                 }
@@ -170,7 +177,6 @@ public class LoginActivity extends PermissionActivity {
                     UserManager.getInstance().setThirdLoginModel(thirdLoginModel);
                     login("wx");
                 } else {
-
                     loginError();
                 }
             } else if (NetIndentify.LOGIN.equals(event.getMsgId())) {

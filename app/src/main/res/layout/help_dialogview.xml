@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:fresco="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/dialog_root_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/room_help_bg"
-                android:gravity="center_horizontal"
-                android:orientation="vertical"
+<RelativeLayout android:id="@+id/dialog_root_view"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/room_help_bg"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
     >
 
     <ImageView
@@ -30,7 +30,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="18dp"
             android:layout_marginTop="48dp"
-            android:text="oh！喵币不够了！"
+            android:text="请求帮助"
             android:textColor="#6a4a18"
             android:textSize="@dimen/text16"
             android:textStyle="bold"
@@ -40,7 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="邀请好友加入可获得喵币奖励"
+            android:text="选择您遇到的问题发送"
             android:textColor="#6a4a18"
             android:textSize="@dimen/text16"
             />

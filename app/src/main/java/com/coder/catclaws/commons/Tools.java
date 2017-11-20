@@ -31,7 +31,7 @@ public class Tools {
     }
 
     public static String getTimeStr(long time) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY.MM.dd kk:mm");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.mm.dd kk:mm");
         return dateFormat.format(time);
     }
 

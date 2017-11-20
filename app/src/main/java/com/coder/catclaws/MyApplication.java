@@ -12,9 +12,10 @@ import com.facebook.drawee.backends.pipeline.Fresco;
  */
 
 public class MyApplication extends Application {
+
     public static Context applicationContext;
 
-    public static final boolean DEBUG = false;
+    public static final boolean DEBUG = true;
 
     @Override
     public void onCreate() {
