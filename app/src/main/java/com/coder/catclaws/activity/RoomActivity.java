@@ -440,10 +440,10 @@ public class RoomActivity extends BaseActivity {
         if (NetIndentify.ROOMINFO.equals(globalMsg.getMsgId())) {
             if (globalMsg.isSuccess()) {
                 roomModel = (RoomModel) globalMsg.getMsg();
-                setRoomData();
                 if (roomModel != null) {
                     currentUser = roomModel.getPlayer();
                 }
+                setRoomData();
             }
         } else if (NetIndentify.PLAY.equals(globalMsg.getMsgId())) {
             mControlLayout.setVisibility(View.VISIBLE);
@@ -479,6 +479,7 @@ public class RoomActivity extends BaseActivity {
 
     private void showScuccessDialog() {
         PickSuccessDialogView pickSuccessDialogView = new PickSuccessDialogView(this);
+        pickSuccessDialogView.setViewData(contentBean);
         final FullDialog fullDialog = FullDialog.create(this).addContentView(pickSuccessDialogView);
         pickSuccessDialogView.getShare().setOnClickListener(new OnClickListener() {
             @Override
@@ -517,16 +518,13 @@ public class RoomActivity extends BaseActivity {
         } else {
             mIconMine.setBackgroundResource(0);
         }
+        mStart.setBackgroundResource(player == null ? R.drawable.room_start_btn_bg : R.drawable
+                .room_start_btn_disable_bg);
         mPlayerInfo.setVisibility(player == null ? View.INVISIBLE : View.VISIBLE);
     }
 
     private void setRoomData() {
-        if (roomModel.getPlayer() != null) {
-            setPlayer(roomModel.getPlayer());
-        } else {
-            mStatu.setText("空闲中");
-            mStatu.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icon_room_free, 0, 0, 0);
-        }
+        setPlayer(roomModel == null ? null : roomModel.getPlayer());
         if (roomModel.getWatcher() != null && roomModel.getWatcher().size() > 0) {
 
             if (roomModel.getWatcher().size() > 0) {

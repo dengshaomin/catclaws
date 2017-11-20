@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import com.coder.catclaws.R;
 import com.coder.catclaws.commons.GlobalMsg;
+import com.coder.catclaws.commons.ImageLoader;
+import com.coder.catclaws.models.HomeModel;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.tmall.ultraviewpager.Screen;
 
@@ -41,7 +43,7 @@ public class PickSuccessDialogView extends BaseLayout {
 
     @BindView(R.id.success_close)
     ImageView mSuccessClose;
-
+    private HomeModel.DataBean.RoomsBean.ContentBean contentBean;
     public TextView getShare() {
         return mShare;
     }
@@ -121,6 +123,9 @@ public class PickSuccessDialogView extends BaseLayout {
 
     @Override
     public void setViewData(Object data) {
-
+        contentBean = (HomeModel.DataBean.RoomsBean.ContentBean) data;
+        if(contentBean != null){
+            ImageLoader.getInstance().loadImage(mImage,contentBean.getPhoto());
+        }
     }
 }
