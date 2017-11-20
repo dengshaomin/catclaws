@@ -23,26 +23,43 @@ import java.util.List;
 public class CodeRecycleView extends BaseLayout {
 
     public static final int START = 0;
+
     public static final int END = 1;
+
     public static final int BOTH = 2;
+
     public static final int NONE = 3;
 
     public static final int SUCCESS = 0;
+
     public static final int ERROR = 1;
+
     public static final int EMPTY = 2;
+
     private static final int DEFAULT = -1;
+
     private static final int WhitchPositionAutoShowLoadMoreFootView = 2;    //2代表倒数第几个
 
     private int refreshState = DEFAULT;
+
     private XRefreshView xRefreshView;
+
     private RecyclerView recycleView;
+
     private HeaderAndFooterWrapper headerAndFooterWrapper;
+
     RecyclerView.LayoutManager layoutManager;
+
     RecyclerView.Adapter adapter;
+
     public static final int pageSize = 10;
+
     private int pageIndex = 1;
+
     private CodeRecyclerViewFooter footView;
+
     private XRefreshView.XRefreshViewListener xRefreshViewListener;
+
     private int refreMode = BOTH;
 
     public CodeRecycleView(Context context) {
@@ -285,7 +302,9 @@ public class CodeRecycleView extends BaseLayout {
     }
 
     private void needLoadMore() {
-        if (refreMode == START || refreMode == NONE || refreshState == END) return;
+        if (refreMode == START || refreMode == NONE || refreshState == END) {
+            return;
+        }
 //        if (footView == null) {
 //            footView = new CodeRecyclerViewFooter(getmContext());
 //        }
@@ -296,7 +315,9 @@ public class CodeRecycleView extends BaseLayout {
 //            headerAndFooterWrapper.addFootView(footView);
 //            headerAndFooterWrapper.notifyDataSetChanged();
 //        }
-        if (adapter.getItemCount() == 0 || adapter.getItemCount() % pageSize != 0) return;
+        if (adapter.getItemCount() == 0 || adapter.getItemCount() % pageSize != 0) {
+            return;
+        }
         if (footView != null) {
 //            footView.setVisibility(adapter != null && adapter.getItemCount() != 0 ? VISIBLE : GONE);
             footView.setViewData(adapter != null && adapter.getItemCount() % pageSize == 0 ? false : true);
@@ -321,7 +342,7 @@ public class CodeRecycleView extends BaseLayout {
         }
         refreshState = DEFAULT;
         if (footView != null) {
-            footView.setViewData(adapter.getItemCount() % pageSize != 0 ? true : false);
+            footView.setViewData(adapter == null || adapter.getItemCount() % pageSize != 0 ? true : false);
         }
         switch (state) {
             case SUCCESS:
@@ -373,7 +394,7 @@ public class CodeRecycleView extends BaseLayout {
             }
 
             public void onScrollStateChanged(RecyclerView recyclerView,
-                                             int newState) {
+                    int newState) {
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     if (isScrollBottom()) {
                         needLoadMore();
@@ -387,7 +408,9 @@ public class CodeRecycleView extends BaseLayout {
     private boolean isScrollBottom() {
         //recyclerView.canScrollVertically(1) //是否滑动到最底部
         //recyclerView.canScrollVertically(-1)  //是否滑动到最顶部
-        if (adapter == null) return true;
+        if (adapter == null) {
+            return true;
+        }
         int realyCount = adapter.getItemCount();
         if (layoutManager instanceof LinearLayoutManager) {
             return realyCount - WhitchPositionAutoShowLoadMoreFootView <= ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();

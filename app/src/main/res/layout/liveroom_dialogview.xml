@@ -47,19 +47,19 @@
             >
 
             <TextView
-                android:id="@+id/sure"
+                android:id="@+id/cancel"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/yellow_btn_circle_short_bg"
                 android:gravity="center"
-                android:text="确定"
+                android:text="取消"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text12"
                 />
 
             <TextView
-                android:id="@+id/cancel"
+                android:id="@+id/sure"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"

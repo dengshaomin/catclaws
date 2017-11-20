@@ -34,11 +34,17 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 public class TCPClient {
 
     private static TCPClient worldClockClient;
+
     static final String HOST = System.getProperty("host", "115.236.11.98");
+
     static final int PORT = Integer.parseInt(System.getProperty("port", "1020"));
+
     public static final String INIT = "init";
+
     public Channel channel;
+
     public EventLoopGroup eventLoopGroup;
+
     public Bootstrap bootstrap;
 
     public static TCPClient getInstance() {
@@ -66,7 +72,9 @@ public class TCPClient {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        if (channel == null) return;
+        if (channel == null) {
+            return;
+        }
         send(WaWaJiProtoType.auth, WaWaJiProtoType.auth);
     }
 
@@ -79,55 +87,60 @@ public class TCPClient {
         }
     }
 
-    public void send(String ip, String action) {
-        if (TextUtils.isEmpty(ip) || TextUtils.isEmpty(action)) {
-            return;
-        }
-        if (eventLoopGroup == null) {
-            connectToServerNetty();
-        }
-        try {
-            switch (action) {
+    public void send(final String ip, final String action) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                if (TextUtils.isEmpty(ip) || TextUtils.isEmpty(action)) {
+                    return;
+                }
+                if (eventLoopGroup == null) {
+                    connectToServerNetty();
+                }
+                try {
+                    switch (action) {
 //                case WaWaJiProtoType.auth:
 //                    channel.writeAndFlush(WaWaJiProtoUtil.authBuild(ip));
 //                    break;
-                case WaWaJiProtoType.up:
-                    channel.writeAndFlush(WaWaJiProtoUtil.upBuild(ip));
-                    break;
-                case WaWaJiProtoType.down:
-                    channel.writeAndFlush(WaWaJiProtoUtil.downBuild(ip));
-                    break;
-                case WaWaJiProtoType.left:
-                    ToastUtils.showToast(MyApplication.applicationContext, "22222222222222");
-                    channel.writeAndFlush(WaWaJiProtoUtil.leftBuild(ip));
-                    break;
-                case WaWaJiProtoType.right:
-                    channel.writeAndFlush(WaWaJiProtoUtil.rightBuild(ip));
-                    break;
-                case WaWaJiProtoType.pick:
-                    channel.writeAndFlush(WaWaJiProtoUtil.pickBuild(ip));
-                    break;
-                case WaWaJiProtoType.auth:
-                    channel.writeAndFlush(WaWaJiProtoUtil.authBuild(UserManager.getInstance().getToken()));
-                    break;
-                case WaWaJiProtoType.room:
-                    channel.writeAndFlush(WaWaJiProtoUtil.roomBuild(ip));
-                    break;
-                case WaWaJiProtoType.wait:
-                    channel.writeAndFlush(WaWaJiProtoUtil.waitBuild());
-                    break;
-                case WaWaJiProtoType.again:
-                    channel.writeAndFlush(WaWaJiProtoUtil.againBuild(ip));
-                    break;
-                case WaWaJiProtoType.start:
-                    channel.writeAndFlush(WaWaJiProtoUtil.startBuild(ip));
-                    break;
-                case WaWaJiProtoType.chat:
-                    channel.writeAndFlush(WaWaJiProtoUtil.chatBuild(ip));
-                    break;
-            }
-        } finally {
+                        case WaWaJiProtoType.up:
+                            channel.writeAndFlush(WaWaJiProtoUtil.upBuild(ip));
+                            break;
+                        case WaWaJiProtoType.down:
+                            channel.writeAndFlush(WaWaJiProtoUtil.downBuild(ip));
+                            break;
+                        case WaWaJiProtoType.left:
+                            channel.writeAndFlush(WaWaJiProtoUtil.leftBuild(ip));
+                            break;
+                        case WaWaJiProtoType.right:
+                            channel.writeAndFlush(WaWaJiProtoUtil.rightBuild(ip));
+                            break;
+                        case WaWaJiProtoType.pick:
+                            channel.writeAndFlush(WaWaJiProtoUtil.pickBuild(ip));
+                            break;
+                        case WaWaJiProtoType.auth:
+                            channel.writeAndFlush(WaWaJiProtoUtil.authBuild(UserManager.getInstance().getToken()));
+                            break;
+                        case WaWaJiProtoType.room:
+                            channel.writeAndFlush(WaWaJiProtoUtil.roomBuild(ip));
+                            break;
+                        case WaWaJiProtoType.wait:
+                            channel.writeAndFlush(WaWaJiProtoUtil.waitBuild());
+                            break;
+                        case WaWaJiProtoType.again:
+                            channel.writeAndFlush(WaWaJiProtoUtil.againBuild(ip));
+                            break;
+                        case WaWaJiProtoType.start:
+                            channel.writeAndFlush(WaWaJiProtoUtil.startBuild(ip));
+                            break;
+                        case WaWaJiProtoType.chat:
+                            channel.writeAndFlush(WaWaJiProtoUtil.chatBuild(ip));
+                            break;
+                    }
+                } finally {
 //            eventLoopGroup.shutdownGracefully();
-        }
+                }
+            }
+        }).start();
     }
 }

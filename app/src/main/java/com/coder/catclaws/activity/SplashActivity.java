@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -31,6 +32,7 @@ import com.coder.catclaws.models.ThirdLoginModel;
 import com.coder.catclaws.models.UserInfoModel;
 import com.coder.catclaws.utils.Net;
 import com.coder.catclaws.utils.ViewSize;
+import com.github.lazylibrary.util.FileUtils;
 import com.github.lazylibrary.util.MiscUtils;
 import com.github.lazylibrary.util.ToastUtils;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
@@ -42,6 +44,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -60,7 +63,6 @@ public class SplashActivity extends PermissionActivity {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
         setContentView(R.layout.activity_splash);
-
     }
 
     @Override
@@ -69,14 +71,18 @@ public class SplashActivity extends PermissionActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                UserInfoModel userInfoModel = UserManager.getInstance().getUserinfo();
-                if (userInfoModel != null && userInfoModel.getData() != null) {
-                    selfLogin();
+                if (MyApplication.DEBUG) {
+                    PageJump.goMainActivity(SplashActivity.this);
                 } else {
-                    PageJump.goLoginActivity(SplashActivity.this);
-                    finish();
+                    UserInfoModel userInfoModel = UserManager.getInstance().getUserinfo();
+                    if (userInfoModel != null && userInfoModel.getData() != null) {
+//                    selfLogin();
+                        PageJump.goMainActivity(SplashActivity.this);
+                    } else {
+                        PageJump.goLoginActivity(SplashActivity.this);
+                        finish();
+                    }
                 }
-
             }
         }, 500);
     }
@@ -114,7 +120,7 @@ public class SplashActivity extends PermissionActivity {
                     UserManager.getInstance().setUserinfo(userInfoModel);
                     PageJump.goMainActivity(SplashActivity.this);
                 } else {
-                    PageJump.goMainActivity(SplashActivity.this);
+                    PageJump.goLoginActivity(SplashActivity.this);
                     finish();
                 }
             }

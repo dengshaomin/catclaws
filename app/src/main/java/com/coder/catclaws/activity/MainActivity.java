@@ -3,6 +3,7 @@ package com.coder.catclaws.activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
@@ -128,6 +129,7 @@ public class MainActivity extends BaseActivity {
                             }
                             ImageLoader.getInstance().loadImage(image, contentBean.getPhoto());
                             desc.setText(contentBean.getIntroduce());
+                            statu.setText(contentBean.isCanUse() ? "空闲":"游戏中");
                             statu.setCompoundDrawablesWithIntrinsicBounds(
                                     contentBean.isCanUse() ? R.drawable.icon_room_free : R.drawable.icon_room_busy,
                                     0, 0, 0);
