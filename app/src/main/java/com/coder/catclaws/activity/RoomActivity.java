@@ -28,6 +28,7 @@ import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.WindowManager.LayoutParams;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -81,8 +82,6 @@ import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
 import com.tmall.ultraviewpager.Screen;
-
-import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -200,6 +199,16 @@ public class RoomActivity extends BaseActivity {
     @BindView(R.id.icon_other_2_lay)
     SquareLayout mIconOther2Lay;
 
+
+//    @BindView(R.id.pageOne)
+//    Page mPageOne;
+
+//    @BindView(R.id.detail_image)
+//    SimpleDraweeView mDetailImage;
+
+//    @BindView(R.id.pageConteiner)
+//    PageContainer mPageConteiner;
+
     private MediaProjectionManager projectionManager;
 
     private MediaProjection mediaProjection;
@@ -276,6 +285,7 @@ public class RoomActivity extends BaseActivity {
     private MusicConnection mMusicConnection;
 
     private MusicService mMusicService;
+
 
 
     private class MusicConnection implements ServiceConnection {
@@ -420,6 +430,7 @@ public class RoomActivity extends BaseActivity {
                 TCPClient.getInstance().send(contentBean.getIp(), WaWaJiProtoType.down);
             }
         });
+//        ImageLoader.getInstance().loadImage(mDetailImage,UserManager.getInstance().getIcon());
     }
 
     @Override
