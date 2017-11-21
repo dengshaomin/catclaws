@@ -3,6 +3,7 @@ package com.coder.catclaws.activity;
 import java.util.List;
 
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,6 +13,9 @@ import com.coder.catclaws.commons.ImageLoader;
 import com.coder.catclaws.commons.PageJump;
 import com.coder.catclaws.commons.PreferenceUtils;
 import com.coder.catclaws.commons.UserManager;
+import com.coder.catclaws.widgets.CoinNotEnoughDialogView;
+import com.coder.catclaws.widgets.FullDialog;
+import com.coder.catclaws.widgets.LoginOutDialogView;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import butterknife.BindView;
@@ -96,7 +100,14 @@ public class MineInfoActivity extends BaseActivity {
         name.setText(UserManager.getInstance().getName());
         num.setText(UserManager.getInstance().getMb() + "");
         ImageLoader.getInstance().loadImage(icon, UserManager.getInstance().getIcon());
+
+        boolean flag = PreferenceUtils.getInstance().getBoolean(PreferenceUtils.SETTING_BG_MUSIC, true);
+        mSettingBgMusic.setBackgroundResource(flag ? R.drawable.setting_open_bg : R.drawable.setting_close_bg);
+
+        boolean flag1 = PreferenceUtils.getInstance().getBoolean(PreferenceUtils.SETTING_YINXIAO_MUSIC, true);
+        mSettingYinxiao.setBackgroundResource(flag1 ? R.drawable.setting_open_bg : R.drawable.setting_close_bg);
     }
+
 
     @Override
     public void initBundleData() {
@@ -147,14 +158,22 @@ public class MineInfoActivity extends BaseActivity {
             case R.id.contact:
                 break;
             case R.id.login_out:
-                UserManager.getInstance().loginOut();
-                PageJump.goLoginActivity(MineInfoActivity.this);
+                LoginOutDialogView loginOutDialogView = new LoginOutDialogView(MineInfoActivity.this);
+                final FullDialog fullDialog = FullDialog.create(MineInfoActivity.this).addContentView(loginOutDialogView);
+                loginOutDialogView.getSure().setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        fullDialog.dismiss();
+                        UserManager.getInstance().loginOut();
+                        PageJump.goLoginActivity(MineInfoActivity.this);
+                    }
+                });
+                fullDialog.show();
                 break;
             case R.id.setting_bg_music:
                 boolean flag = PreferenceUtils.getInstance().getBoolean(PreferenceUtils.SETTING_BG_MUSIC, true);
                 mSettingBgMusic.setBackgroundResource(flag ? R.drawable.setting_close_bg : R.drawable.setting_open_bg);
                 PreferenceUtils.getInstance().setBoolean(PreferenceUtils.SETTING_BG_MUSIC, !flag);
-
                 break;
             case R.id.setting_yinxiao:
                 boolean flag1 = PreferenceUtils.getInstance().getBoolean(PreferenceUtils.SETTING_YINXIAO_MUSIC, true);

@@ -23,6 +23,7 @@ import com.coder.catclaws.commons.GlobalMsg;
 import com.coder.catclaws.commons.ImageLoader;
 import com.coder.catclaws.commons.NetIndentify;
 import com.coder.catclaws.commons.PageJump;
+import com.coder.catclaws.commons.UserManager;
 import com.coder.catclaws.models.ALiOrderModel;
 import com.coder.catclaws.models.RechargeModel;
 import com.coder.catclaws.models.WeChartOrderModel;
@@ -166,7 +167,8 @@ public class RechargeActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == WeChartPayActivity.RESULT_CODE) {
-            EventBus.getDefault().post(new GlobalMsg(true, AppIndentify.UPDATE_USERINFO, null));
+//            EventBus.getDefault().post(new GlobalMsg(true, AppIndentify.UPDATE_USERINFO, null));
+            UserManager.getInstance().changeMb(rechargeModel.getData().get(selectIndex).getGive());
         }
     }
 
@@ -230,7 +232,8 @@ public class RechargeActivity extends BaseActivity {
                     String resultStatus = payResult.getResultStatus();
                     // 判断resultStatus 为9000则代表支付成功
                     if (TextUtils.equals(resultStatus, "9000")) {
-                        EventBus.getDefault().post(new GlobalMsg(true, AppIndentify.UPDATE_USERINFO, null));
+//                        EventBus.getDefault().post(new GlobalMsg(true, AppIndentify.UPDATE_USERINFO, null));
+                        UserManager.getInstance().changeMb(rechargeModel.getData().get(selectIndex).getGive());
                         Toast.makeText(RechargeActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(RechargeActivity.this, "支付失败", Toast.LENGTH_SHORT).show();

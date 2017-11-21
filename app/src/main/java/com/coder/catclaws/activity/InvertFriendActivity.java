@@ -24,6 +24,7 @@ import com.coder.catclaws.utils.StaticUtils;
 import com.coder.catclaws.widgets.FullDialog;
 import com.coder.catclaws.widgets.ShareDialogView;
 import com.github.lazylibrary.util.MiscUtils;
+import com.github.lazylibrary.util.ToastUtils;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
@@ -130,9 +131,9 @@ public class InvertFriendActivity extends BaseActivity {
     public void eventComming(GlobalMsg globalMsg) {
         closeProgressDialog();
         if (globalMsg.isSuccess()) {
-
+            ToastUtils.showToast(InvertFriendActivity.this, "兑换成功");
         } else {
-
+            ToastUtils.showToast(InvertFriendActivity.this, "邀请码无效");
         }
     }
 
@@ -151,6 +152,10 @@ public class InvertFriendActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.exchange:
+                if (TextUtils.isEmpty(invertCode.getText().toString())) {
+                    ToastUtils.showToast(InvertFriendActivity.this, "请输入邀请码");
+                    return;
+                }
                 showProgressDialog();
                 if (!TextUtils.isEmpty(invertCode.getText().toString())) {
                     Net.request(NetIndentify.INVITED, new HashMap<String, String>() {{

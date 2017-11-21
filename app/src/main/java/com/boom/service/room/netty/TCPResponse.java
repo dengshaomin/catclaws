@@ -83,7 +83,6 @@ public class TCPResponse extends SimpleChannelInboundHandler<WaWaJiProto.Action>
                     break;
                 case "changePlayer":
                     UserInfoModel.DataBean.UserBean userBean = JSON.parseObject(times.getData(), UserInfoModel.DataBean.UserBean.class);
-                    ;
                     EventBus.getDefault().post(new GlobalMsg(true, NetIndentify.CHANGE_PLAYER,
                             userBean));
                     break;

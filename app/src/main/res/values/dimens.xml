@@ -1,4 +1,5 @@
 <resources>
+    <dimen name="gap" >100dp</dimen >
     <dimen name="paddingLR">15dp</dimen>
     <dimen name="titleText">24sp</dimen>
     <dimen name="hometitleText">30sp</dimen>

@@ -10,7 +10,9 @@ import com.coder.catclaws.MyApplication;
 import com.coder.catclaws.models.ThirdLoginModel;
 import com.coder.catclaws.models.UserInfoModel;
 import com.coder.catclaws.models.UserInfoModel.DataBean;
+import com.coder.catclaws.models.UserInfoModel.DataBean.WalletBean;
 
+import org.greenrobot.eventbus.EventBus;
 import org.w3c.dom.Text;
 
 /**
@@ -101,6 +103,20 @@ public class UserManager {
             return 0;
         }
         return userInfoModel.getData().getWallet().getMb();
+    }
+
+    public void changeMb(int change) {
+        if (userInfoModel == null) {
+            userInfoModel = new UserInfoModel();
+        }
+        if (userInfoModel.getData() == null) {
+            userInfoModel.setData(new DataBean());
+        }
+        if (userInfoModel.getData().getWallet() == null) {
+            userInfoModel.getData().setWallet(new WalletBean());
+        }
+        userInfoModel.getData().getWallet().setMb(userInfoModel.getData().getWallet().getMb() + change);
+        EventBus.getDefault().post(new GlobalMsg(true, AppIndentify.UPDATE_USERINFO, null));
     }
 
     public String getInvertCode() {

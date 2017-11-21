@@ -51,4 +51,6 @@ public class NetIndentify {
     public static final String ADDADRESS = "authorized/addOrUpdateAddress";
 
     public static final String CHANGE_PLAYER = "changePlayer";
+
+    public static final String SUBMIT_QUESTION = "authorized/submitUserQuestion";
 }

@@ -7,18 +7,22 @@ import android.util.AttributeSet;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.coder.catclaws.R;
 import com.coder.catclaws.commons.GlobalMsg;
+import com.coder.catclaws.commons.IDialogCountDown;
 import com.coder.catclaws.commons.ImageLoader;
 import com.coder.catclaws.models.HomeModel;
+import com.coder.catclaws.models.HomeModel.DataBean.RoomsBean.ContentBean;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.tmall.ultraviewpager.Screen;
 
 import butterknife.BindView;
+import cn.iwgang.countdownview.CountdownView;
+import cn.iwgang.countdownview.CountdownView.OnCountdownEndListener;
+import cn.iwgang.countdownview.CountdownView.OnCountdownIntervalListener;
 
 /**
  * Created by dengshaomin on 2017/11/16.
@@ -43,7 +47,22 @@ public class PickSuccessDialogView extends BaseLayout {
 
     @BindView(R.id.success_close)
     ImageView mSuccessClose;
-    private HomeModel.DataBean.RoomsBean.ContentBean contentBean;
+
+    @BindView(R.id.count_down_timer)
+    CountdownView mCountDownTimer;
+
+    private IDialogCountDown mIDialogCountDown;
+
+    public IDialogCountDown getIDialogCountDown() {
+        return mIDialogCountDown;
+    }
+
+    public void setIDialogCountDown(IDialogCountDown IDialogCountDown) {
+        mIDialogCountDown = IDialogCountDown;
+    }
+
+    private ContentBean contentBean;
+
     public TextView getShare() {
         return mShare;
     }
@@ -99,6 +118,22 @@ public class PickSuccessDialogView extends BaseLayout {
         layoutParams.width = (int) (Screen.getWidth(getmContext()) * 0.8);
         layoutParams.height = (int) (328f / 248f * layoutParams.width);
         mPickSuccessRootView.setLayoutParams(layoutParams);
+
+        mCountDownTimer.start(10000);
+        mCountDownTimer.setOnCountdownEndListener(new OnCountdownEndListener() {
+            @Override
+            public void onEnd(CountdownView cv) {
+                if (getIDialogCountDown() != null) {
+                    mIDialogCountDown.finish();
+                }
+            }
+        });
+        mCountDownTimer.setOnCountdownIntervalListener(1000, new OnCountdownIntervalListener() {
+            @Override
+            public void onInterval(CountdownView cv, long remainTime) {
+                mPlayAgain.setText("再来一局（" + remainTime / 1000 + "）");
+            }
+        });
     }
 
     @Override
@@ -123,9 +158,9 @@ public class PickSuccessDialogView extends BaseLayout {
 
     @Override
     public void setViewData(Object data) {
-        contentBean = (HomeModel.DataBean.RoomsBean.ContentBean) data;
-        if(contentBean != null){
-            ImageLoader.getInstance().loadImage(mImage,contentBean.getPhoto());
+        contentBean = (ContentBean) data;
+        if (contentBean != null) {
+            ImageLoader.getInstance().loadImage(mImage, contentBean.getPhoto());
         }
     }
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
@@ -12,9 +13,11 @@ import android.widget.TextView;
 
 import com.coder.catclaws.R;
 import com.coder.catclaws.commons.GlobalMsg;
+import com.coder.catclaws.commons.IHelpDialog;
 import com.tmall.ultraviewpager.Screen;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * Created by dengshaomin on 2017/11/16.
@@ -41,24 +44,14 @@ public class HelpDialogView extends BaseLayout {
     @BindView(R.id.dialog_root_view)
     RelativeLayout mDialogRootView;
 
-    public ImageView getSuccessClose() {
-        return mSuccessClose;
+    private IHelpDialog mIHelpDialog;
+
+    public IHelpDialog getIHelpDialog() {
+        return mIHelpDialog;
     }
 
-    public TextView getQuestion1() {
-        return mQuestion1;
-    }
-
-    public TextView getQuestion2() {
-        return mQuestion2;
-    }
-
-    public TextView getQuestion3() {
-        return mQuestion3;
-    }
-
-    public TextView getQuestion4() {
-        return mQuestion4;
+    public void setIHelpDialog(IHelpDialog IHelpDialog) {
+        mIHelpDialog = IHelpDialog;
     }
 
     public RelativeLayout getDialogRootView() {
@@ -113,5 +106,31 @@ public class HelpDialogView extends BaseLayout {
     @Override
     public void setViewData(Object data) {
 
+    }
+
+    @OnClick({R.id.question1, R.id.question2, R.id.question3, R.id.question4})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.question1:
+                if(mIHelpDialog != null){
+                    mIHelpDialog.click(mQuestion1.getText().toString());
+                }
+                break;
+            case R.id.question2:
+                if(mIHelpDialog != null){
+                    mIHelpDialog.click(mQuestion2.getText().toString());
+                }
+                break;
+            case R.id.question3:
+                if(mIHelpDialog != null){
+                    mIHelpDialog.click(mQuestion3.getText().toString());
+                }
+                break;
+            case R.id.question4:
+                if(mIHelpDialog != null){
+                    mIHelpDialog.click(mQuestion4.getText().toString());
+                }
+                break;
+        }
     }
 }

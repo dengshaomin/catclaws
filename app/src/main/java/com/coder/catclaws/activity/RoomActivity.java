@@ -11,6 +11,7 @@ package com.coder.catclaws.activity;/*
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -48,8 +49,11 @@ import com.coder.catclaws.MusicService;
 import com.coder.catclaws.MusicService.MusicBinder;
 import com.coder.catclaws.R;
 import com.coder.catclaws.RecordService;
+import com.coder.catclaws.commons.AppIndentify;
 import com.coder.catclaws.commons.GlobalMsg;
 import com.coder.catclaws.commons.IControlView;
+import com.coder.catclaws.commons.IDialogCountDown;
+import com.coder.catclaws.commons.IHelpDialog;
 import com.coder.catclaws.commons.ImageLoader;
 import com.coder.catclaws.commons.NetIndentify;
 import com.coder.catclaws.commons.PageJump;
@@ -58,17 +62,27 @@ import com.coder.catclaws.models.HomeModel.DataBean.RoomsBean.ContentBean;
 import com.coder.catclaws.models.RoomModel;
 import com.coder.catclaws.models.RoomModel.WaWaJiEntity;
 import com.coder.catclaws.models.UserInfoModel.DataBean.UserBean;
+import com.coder.catclaws.utils.Net;
+import com.coder.catclaws.utils.ShareUtils;
 import com.coder.catclaws.widgets.CoinNotEnoughDialogView;
 import com.coder.catclaws.widgets.ControlView;
 import com.coder.catclaws.widgets.FullDialog;
 import com.coder.catclaws.widgets.HelpDialogView;
 import com.coder.catclaws.widgets.LiveRoomDialogView;
 import com.coder.catclaws.widgets.PickSuccessDialogView;
+import com.coder.catclaws.widgets.PlayFailDialogView;
+import com.coder.catclaws.widgets.ShareDialogView;
 import com.coder.catclaws.widgets.SquareLayout;
+import com.coder.catclaws.widgets.SubmitQuestionSuccessDialogView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.github.lazylibrary.util.DensityUtil;
 import com.github.lazylibrary.util.ToastUtils;
+import com.tencent.tauth.IUiListener;
+import com.tencent.tauth.Tencent;
+import com.tencent.tauth.UiError;
 import com.tmall.ultraviewpager.Screen;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -196,6 +210,7 @@ public class RoomActivity extends BaseActivity {
 
     private ContentBean contentBean;
 
+    private IUiListener iUiListener;
 
     private static final int PORTRAIT = 1;        //竖屏
 
@@ -211,6 +226,10 @@ public class RoomActivity extends BaseActivity {
     private RoomModel roomModel;
 
     private UserBean currentUser;
+
+    private boolean isCurrentUserPlay = false;
+
+    private String questionAuthCode = "";
 
     @Override
     public boolean needTitle() {
@@ -414,7 +433,7 @@ public class RoomActivity extends BaseActivity {
             public void run() {
                 initAliVedio();
             }
-        }, 800);
+        }, 500);
 
     }
 
@@ -432,6 +451,8 @@ public class RoomActivity extends BaseActivity {
             add(NetIndentify.PLAYSUCCESS);
             add(NetIndentify.CHANGE_PLAYER);
             add(NetIndentify.ROOM_FREE);
+            add(NetIndentify.SUBMIT_QUESTION);
+            add(AppIndentify.UPDATE_USERINFO);
         }};
     }
 
@@ -446,15 +467,18 @@ public class RoomActivity extends BaseActivity {
                 setRoomData();
             }
         } else if (NetIndentify.PLAY.equals(globalMsg.getMsgId())) {
+            UserManager.getInstance().changeMb(contentBean.getPrice());
+            questionAuthCode = globalMsg.getMsg() + "";
+            isCurrentUserPlay = true;
             mControlLayout.setVisibility(View.VISIBLE);
             mStartLayout.setVisibility(View.INVISIBLE);
             mCountDownTimer.start(countDownTimes);
             mCountDownTimer.setOnCountdownEndListener(new OnCountdownEndListener() {
                 @Override
                 public void onEnd(CountdownView cv) {
-
-                    mCountDown.setText(0 + "");
-                    startPick();
+//
+//                    mCountDown.setText(0 + "");
+//                    startPick();
                 }
             });
             mCountDownTimer.setOnCountdownIntervalListener(1000, new OnCountdownIntervalListener() {
@@ -465,7 +489,7 @@ public class RoomActivity extends BaseActivity {
             });
 
         } else if (NetIndentify.PLAYFAIL.equals(globalMsg.getMsgId())) {
-            ToastUtils.showToast(this, "太可惜了~");
+            showFailDialog();
             mControlLayout.setVisibility(View.GONE);
             mStartLayout.setVisibility(View.VISIBLE);
         } else if (NetIndentify.PLAYSUCCESS.equals(globalMsg.getMsgId())) {
@@ -473,8 +497,36 @@ public class RoomActivity extends BaseActivity {
         } else if (NetIndentify.CHANGE_PLAYER.equals(globalMsg.getMsgId())) {
             setPlayer((UserBean) globalMsg.getMsg());
         } else if (NetIndentify.ROOM_FREE.equals(globalMsg.getMsgId())) {
+            isCurrentUserPlay = false;
             setPlayer((UserBean) globalMsg.getMsg());
+        } else if (AppIndentify.UPDATE_USERINFO.equals(globalMsg.getMsgId())) {
+            mMineNums.setText("我的猫币:" + UserManager.getInstance().getMb());
+        } else if (NetIndentify.SUBMIT_QUESTION.equals(globalMsg.getMsgId())) {
+            if (globalMsg.isSuccess()) {
+                FullDialog.create(this).addContentView(new SubmitQuestionSuccessDialogView(this)).show();
+            } else {
+                ToastUtils.showToast(RoomActivity.this, "提交失败，请重新提交！");
+            }
         }
+    }
+
+    private void showFailDialog() {
+        PlayFailDialogView playFailDialogView = new PlayFailDialogView(this);
+        final FullDialog fullDialog = FullDialog.create(RoomActivity.this).addContentView(playFailDialogView);
+        playFailDialogView.getSure().setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fullDialog.dismiss();
+                TCPClient.getInstance().send(contentBean.getIp(), WaWaJiProtoType.again);
+            }
+        });
+        playFailDialogView.setIDialogCountDown(new IDialogCountDown() {
+            @Override
+            public void finish() {
+                fullDialog.dismiss();
+            }
+        });
+        fullDialog.show();
     }
 
     private void showScuccessDialog() {
@@ -484,19 +536,27 @@ public class RoomActivity extends BaseActivity {
         pickSuccessDialogView.getShare().setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                fullDialog.dismiss();
+                shareAction();
             }
         });
         pickSuccessDialogView.getLook().setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                fullDialog.dismiss();
+                PageJump.goMineDollActivity(RoomActivity.this);
             }
         });
         pickSuccessDialogView.getPlayAgain().setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 TCPClient.getInstance().send(contentBean.getIp(), WaWaJiProtoType.again);
+                fullDialog.dismiss();
+            }
+        });
+        pickSuccessDialogView.setIDialogCountDown(new IDialogCountDown() {
+            @Override
+            public void finish() {
                 fullDialog.dismiss();
             }
         });
@@ -671,7 +731,7 @@ public class RoomActivity extends BaseActivity {
     }
 
     private void outAction() {
-        if (currentUser == null || !currentUser.getOpenId().equals(UserManager.getInstance().getThirdLoginModel().getOpenid())) {
+        if (!isCurrentUserPlay) {
             finish();
             return;
         }
@@ -688,30 +748,16 @@ public class RoomActivity extends BaseActivity {
     }
 
     private void helpAction() {
-        HelpDialogView helpDialogView = new HelpDialogView(this);
+        final HelpDialogView helpDialogView = new HelpDialogView(this);
         final FullDialog fullDialog = FullDialog.create(this).addContentView(helpDialogView);
-        helpDialogView.getQuestion1().setOnClickListener(new OnClickListener() {
+        helpDialogView.setIHelpDialog(new IHelpDialog() {
             @Override
-            public void onClick(View v) {
+            public void click(final String question) {
                 fullDialog.dismiss();
-            }
-        });
-        helpDialogView.getQuestion2().setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fullDialog.dismiss();
-            }
-        });
-        helpDialogView.getQuestion3().setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fullDialog.dismiss();
-            }
-        });
-        helpDialogView.getQuestion4().setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fullDialog.dismiss();
+                Net.request(NetIndentify.SUBMIT_QUESTION, new HashMap<String, String>() {{
+                    put("authCode", questionAuthCode);
+                    put("data", question);
+                }});
             }
         });
         fullDialog.show();
@@ -767,4 +813,69 @@ public class RoomActivity extends BaseActivity {
 //        super.onBackPressed();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Tencent.onActivityResultData(requestCode, resultCode, data, iUiListener);
+    }
+
+    private void shareAction() {
+        ShareDialogView shareDialogView = new ShareDialogView(this);
+        final FullDialog fullDialog = FullDialog.create(this).addContentView(shareDialogView);
+        shareDialogView.getShareQq().setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fullDialog.dismiss();
+                if (iUiListener == null) {
+                    iUiListener = new IUiListener() {
+                        @Override
+                        public void onComplete(Object o) {
+                        }
+
+                        @Override
+                        public void onError(UiError uiError) {
+
+                        }
+
+                        @Override
+                        public void onCancel() {
+
+                        }
+                    };
+                }
+                ShareUtils.shareToQQ(RoomActivity.this, "11111", "222222", new IUiListener() {
+                    @Override
+                    public void onComplete(Object o) {
+
+                    }
+
+                    @Override
+                    public void onError(UiError uiError) {
+
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+            }
+        });
+        shareDialogView.getShareWx().setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fullDialog.dismiss();
+                ShareUtils.shareToWx(false, "11111", "222222");
+
+            }
+        });
+        shareDialogView.getShareZone().setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fullDialog.dismiss();
+                ShareUtils.shareToWx(true, "11111", "222222");
+            }
+        });
+        fullDialog.show();
+
+    }
 }

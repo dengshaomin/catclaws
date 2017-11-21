@@ -15,6 +15,7 @@ import com.coder.catclaws.models.HomeModel;
 import com.coder.catclaws.models.MessageModel;
 import com.coder.catclaws.models.MineDollModel;
 import com.coder.catclaws.models.RechargeModel;
+import com.coder.catclaws.models.SubmitQuestionModel;
 import com.coder.catclaws.models.UserInfoModel;
 import com.coder.catclaws.models.WeChartOrderModel;
 import com.coder.catclaws.retrofit.GCNetCallBack;
@@ -79,6 +80,9 @@ public class Net {
                     case NetIndentify.ADDADRESS:
                         EventBus.getDefault().post(new GlobalMsg(true, indentify, JSON.parseObject(response,
                                 AddressModel.class)));
+                    case NetIndentify.SUBMIT_QUESTION:
+                        EventBus.getDefault().post(new GlobalMsg(true, indentify, JSON.parseObject(response,
+                                SubmitQuestionModel.class)));
                         break;
                 }
             }

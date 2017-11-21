@@ -64,7 +64,7 @@ public class CoinNotEnoughDialogView extends BaseLayout {
     public void initView() {
         ViewGroup.LayoutParams layoutParams = mShareRootView.getLayoutParams();
         layoutParams.width = (int) (Screen.getWidth(getmContext()) * 0.8);
-        layoutParams.height = (int) (200f / 248f * layoutParams.width);
+//        layoutParams.height = (int) (200f / 248f * layoutParams.width);
         mShareRootView.setLayoutParams(layoutParams);
     }
 
