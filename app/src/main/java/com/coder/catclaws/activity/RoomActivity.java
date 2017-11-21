@@ -10,11 +10,6 @@ package com.coder.catclaws.activity;/*
  */
 
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
@@ -28,7 +23,6 @@ import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.view.WindowManager.LayoutParams;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -72,6 +66,7 @@ import com.coder.catclaws.widgets.HelpDialogView;
 import com.coder.catclaws.widgets.LiveRoomDialogView;
 import com.coder.catclaws.widgets.PickSuccessDialogView;
 import com.coder.catclaws.widgets.PlayFailDialogView;
+import com.coder.catclaws.widgets.RoomSecondPageView;
 import com.coder.catclaws.widgets.ShareDialogView;
 import com.coder.catclaws.widgets.SquareLayout;
 import com.coder.catclaws.widgets.SubmitQuestionSuccessDialogView;
@@ -82,6 +77,11 @@ import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
 import com.tmall.ultraviewpager.Screen;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -198,6 +198,8 @@ public class RoomActivity extends BaseActivity {
 
     @BindView(R.id.icon_other_2_lay)
     SquareLayout mIconOther2Lay;
+    @BindView(R.id.roomSecondPageView)
+    RoomSecondPageView roomSecondPageView;
 
 
 //    @BindView(R.id.pageOne)
@@ -238,6 +240,7 @@ public class RoomActivity extends BaseActivity {
 
     private boolean isCurrentUserPlay = false;
 
+    private boolean startBtnStatu = true; //空闲
     private String questionAuthCode = "";
 
     @Override
@@ -285,7 +288,6 @@ public class RoomActivity extends BaseActivity {
     private MusicConnection mMusicConnection;
 
     private MusicService mMusicService;
-
 
 
     private class MusicConnection implements ServiceConnection {
@@ -438,6 +440,12 @@ public class RoomActivity extends BaseActivity {
         contentBean = (ContentBean) getBunleData();
         if (contentBean != null) {
             TCPClient.getInstance().send(contentBean.getIp(), WaWaJiProtoType.room);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    roomSecondPageView.setViewData(contentBean);
+                }
+            }, 2000);
         }
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -474,15 +482,16 @@ public class RoomActivity extends BaseActivity {
                 roomModel = (RoomModel) globalMsg.getMsg();
                 if (roomModel != null) {
                     currentUser = roomModel.getPlayer();
+                    setStartBtnStatu(roomModel.getPlayer() == null ? true : false);
                 }
                 setRoomData();
             }
         } else if (NetIndentify.PLAY.equals(globalMsg.getMsgId())) {
             UserManager.getInstance().changeMb(contentBean.getPrice());
-            questionAuthCode = globalMsg.getMsg() + "";
-            isCurrentUserPlay = true;
             mControlLayout.setVisibility(View.VISIBLE);
             mStartLayout.setVisibility(View.INVISIBLE);
+            questionAuthCode = globalMsg.getMsg() + "";
+            isCurrentUserPlay = true;
             mCountDownTimer.start(countDownTimes);
             mCountDownTimer.setOnCountdownEndListener(new OnCountdownEndListener() {
                 @Override
@@ -490,6 +499,7 @@ public class RoomActivity extends BaseActivity {
 //
 //                    mCountDown.setText(0 + "");
 //                    startPick();
+                    setStartBtnStatu(false);
                 }
             });
             mCountDownTimer.setOnCountdownIntervalListener(1000, new OnCountdownIntervalListener() {
@@ -501,15 +511,18 @@ public class RoomActivity extends BaseActivity {
 
         } else if (NetIndentify.PLAYFAIL.equals(globalMsg.getMsgId())) {
             showFailDialog();
-            mControlLayout.setVisibility(View.GONE);
-            mStartLayout.setVisibility(View.VISIBLE);
         } else if (NetIndentify.PLAYSUCCESS.equals(globalMsg.getMsgId())) {
             showScuccessDialog();
         } else if (NetIndentify.CHANGE_PLAYER.equals(globalMsg.getMsgId())) {
             setPlayer((UserBean) globalMsg.getMsg());
+            setStartBtnStatu(false);
         } else if (NetIndentify.ROOM_FREE.equals(globalMsg.getMsgId())) {
             isCurrentUserPlay = false;
-            setPlayer((UserBean) globalMsg.getMsg());
+            setStartBtnStatu(true);
+            mControlLayout.setVisibility(View.INVISIBLE);
+            mStartLayout.setVisibility(View.VISIBLE);
+            isNowPicking = false;
+            setPlayer(null);
         } else if (AppIndentify.UPDATE_USERINFO.equals(globalMsg.getMsgId())) {
             mMineNums.setText("我的猫币:" + UserManager.getInstance().getMb());
         } else if (NetIndentify.SUBMIT_QUESTION.equals(globalMsg.getMsgId())) {
@@ -519,6 +532,13 @@ public class RoomActivity extends BaseActivity {
                 ToastUtils.showToast(RoomActivity.this, "提交失败，请重新提交！");
             }
         }
+    }
+
+    private void setStartBtnStatu(boolean statu) {
+        startBtnStatu = statu;
+        mControlLayout.setVisibility(View.INVISIBLE);
+        mStartLayout.setVisibility(View.VISIBLE);
+        mStart.setBackgroundResource(statu ? R.drawable.room_start_btn_bg : R.drawable.room_start_btn_disable_bg);
     }
 
     private void showFailDialog() {
@@ -596,6 +616,7 @@ public class RoomActivity extends BaseActivity {
 
     private void setRoomData() {
         setPlayer(roomModel == null ? null : roomModel.getPlayer());
+        setStartBtnStatu(roomModel == null || roomModel.getPlayer() == null);
         if (roomModel.getWatcher() != null && roomModel.getWatcher().size() > 0) {
 
             if (roomModel.getWatcher().size() > 0) {
@@ -778,6 +799,8 @@ public class RoomActivity extends BaseActivity {
         if (isNowPicking) {
             return;
         }
+        mCountDownTimer.start(1000);
+        setStartBtnStatu(false);
         mMusicService.startPickSound();
         TCPClient.getInstance().send(contentBean.getIp(), WaWaJiProtoType.pick);
     }

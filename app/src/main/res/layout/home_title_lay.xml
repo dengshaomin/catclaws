@@ -33,7 +33,6 @@
                 fresco:fadeDuration="300"
                 fresco:placeholderImageScaleType="fitXY"
                 fresco:roundAsCircle="true"
-                fresco:viewAspectRatio="2.0"
                 />
 
         </RelativeLayout>

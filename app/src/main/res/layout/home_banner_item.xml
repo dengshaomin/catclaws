@@ -13,7 +13,6 @@
         fresco:actualImageScaleType="fitXY"
         fresco:fadeDuration="300"
         fresco:placeholderImageScaleType="fitXY"
-        fresco:viewAspectRatio="2.0"
         />
 
 </LinearLayout>

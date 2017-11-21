@@ -102,7 +102,7 @@ public class DetailActivity extends BaseActivity {
             mName.setText(mContentEntity.getGood().getName());
             mDate.setText(Tools.getTimeStr(mContentEntity.getGetTime()));
             mStatu.setText(Tools.getDollState(mContentEntity));
-            mValue.setText(mContentEntity.getGood().getMb());
+            mValue.setText(mContentEntity.getGood().getMb() + "");
         }
     }
 

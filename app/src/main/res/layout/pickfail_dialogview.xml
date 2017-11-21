@@ -37,13 +37,13 @@
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/image"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_centerInParent="true"
-                android:padding="5dp"
+                android:layout_margin="5dp"
+                fresco:roundAsCircle="true"
                 fresco:actualImageScaleType="fitXY"
                 fresco:fadeDuration="300"
                 fresco:placeholderImageScaleType="fitXY"
-                fresco:viewAspectRatio="2.0"
                 />
         </com.coder.catclaws.widgets.SquareLayout>
 

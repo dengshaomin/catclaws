@@ -1,5 +1,6 @@
 package com.coder.catclaws.models;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -153,7 +154,7 @@ public class MineDollModel {
             return content;
         }
 
-        public static class ContentEntity extends MineSerializable{
+        public static class ContentEntity extends MineSerializable {
             private int version;
             private boolean disable;
             private int id;
@@ -162,9 +163,35 @@ public class MineDollModel {
             private long getTime;
             private int playRecordId;
             private int state;
-            private Object addressId;
+            private String addressId;
+            private int transportCode;
+            private String address;
             private int result;
-            private Object transportCode;
+
+            public String getAddressId() {
+                return addressId;
+            }
+
+            public void setAddressId(String addressId) {
+                this.addressId = addressId;
+            }
+
+            public int getTransportCode() {
+                return transportCode;
+            }
+
+            public void setTransportCode(int transportCode) {
+                this.transportCode = transportCode;
+            }
+
+            public String getAddress() {
+                return address;
+            }
+
+            public void setAddress(String address) {
+                this.address = address;
+            }
+
             /**
              * version : 0
              * disable : false
@@ -174,7 +201,7 @@ public class MineDollModel {
              */
 
             private GoodEntity good;
-            private Object address;
+
 
             public void setVersion(int version) {
                 this.version = version;
@@ -208,25 +235,16 @@ public class MineDollModel {
                 this.state = state;
             }
 
-            public void setAddressId(Object addressId) {
-                this.addressId = addressId;
-            }
 
             public void setResult(int result) {
                 this.result = result;
             }
 
-            public void setTransportCode(Object transportCode) {
-                this.transportCode = transportCode;
-            }
 
             public void setGood(GoodEntity good) {
                 this.good = good;
             }
 
-            public void setAddress(Object address) {
-                this.address = address;
-            }
 
             public int getVersion() {
                 return version;
@@ -260,33 +278,33 @@ public class MineDollModel {
                 return state;
             }
 
-            public Object getAddressId() {
-                return addressId;
-            }
 
             public int getResult() {
                 return result;
             }
 
-            public Object getTransportCode() {
-                return transportCode;
-            }
 
             public GoodEntity getGood() {
                 return good;
             }
 
-            public Object getAddress() {
-                return address;
-            }
 
-            public static class GoodEntity {
+            public static class GoodEntity extends MineSerializable{
                 private int version;
                 private boolean disable;
                 private int id;
                 private String name;
                 private String photo;
                 private int mb;
+                private String nameImg;
+
+                public String getNameImg() {
+                    return nameImg;
+                }
+
+                public void setNameImg(String nameImg) {
+                    this.nameImg = nameImg;
+                }
 
                 public int getMb() {
                     return mb;

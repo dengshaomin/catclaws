@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import android.graphics.Bitmap;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.andview.refreshview.XRefreshView;
@@ -25,7 +27,11 @@ import com.coder.catclaws.widgets.codexrefreshview.CodeRecycleView;
 import com.coder.catclaws.widgets.codexrefreshview.CommonAdapter;
 import com.coder.catclaws.widgets.codexrefreshview.MultiItemTypeAdapter;
 import com.coder.catclaws.widgets.codexrefreshview.ViewHolder;
+import com.facebook.common.references.CloseableReference;
+import com.facebook.datasource.DataSource;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.datasource.BaseBitmapDataSubscriber;
+import com.facebook.imagepipeline.image.CloseableImage;
 
 import butterknife.BindView;
 import me.weyye.hipermission.PermissonItem;
@@ -134,12 +140,12 @@ public class MineDollActivity extends BaseActivity {
                             .layout.mine_doll_item,
                             mineDollModel.getData().getContent()) {
                         @Override
-                        protected void convert(ViewHolder holder, MineDollModel.DataEntity.ContentEntity contentBean, int position) {
+                        protected void convert(ViewHolder holder, final MineDollModel.DataEntity.ContentEntity contentBean, int position) {
                             View rootView = holder.itemView;
                             SimpleDraweeView image = rootView.findViewById(R.id.image);
                             TextView statu = rootView.findViewById(R.id.statu);
                             TextView date = rootView.findViewById(R.id.date);
-                            SimpleDraweeView name = rootView.findViewById(R.id.name);
+                            final SimpleDraweeView name = rootView.findViewById(R.id.name);
                             if (contentBean == null) {
                                 return;
                             }
@@ -148,7 +154,23 @@ public class MineDollActivity extends BaseActivity {
                             if (contentBean.getGood() != null) {
                                 MineDollModel.DataEntity.ContentEntity.GoodEntity goodEntity = contentBean.getGood();
                                 ImageLoader.getInstance().loadImage(image, goodEntity.getPhoto());
-//            name.settext
+                                ImageLoader.getInstance().loadImage(MineDollActivity.this, contentBean.getGood().getNameImg(),
+                                        new
+                                                BaseBitmapDataSubscriber() {
+                                                    @Override
+                                                    protected void onNewResultImpl(Bitmap bitmap) {
+                                                        ViewGroup.LayoutParams layoutParams = name.getLayoutParams();
+                                                        layoutParams.width = bitmap.getWidth();
+                                                        layoutParams.height = bitmap.getHeight();
+                                                        name.setLayoutParams(layoutParams);
+                                                        ImageLoader.getInstance().loadImage(name, contentBean.getGood()
+                                                                .getNameImg());
+                                                    }
+
+                                                    @Override
+                                                    protected void onFailureImpl(DataSource<CloseableReference<CloseableImage>> dataSource) {
+                                                    }
+                                                });
                             }
                         }
                     };
