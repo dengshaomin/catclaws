@@ -4,13 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -25,18 +22,13 @@ import com.coder.catclaws.commons.UserManager;
 import com.coder.catclaws.models.HomeModel;
 import com.coder.catclaws.utils.Net;
 import com.coder.catclaws.utils.StaticUtils;
-import com.coder.catclaws.utils.ViewSize;
 import com.coder.catclaws.widgets.HomeItemDecoration;
 import com.coder.catclaws.widgets.HomeViewPager;
 import com.coder.catclaws.widgets.codexrefreshview.CodeRecycleView;
 import com.coder.catclaws.widgets.codexrefreshview.CommonAdapter;
 import com.coder.catclaws.widgets.codexrefreshview.MultiItemTypeAdapter;
 import com.coder.catclaws.widgets.codexrefreshview.ViewHolder;
-import com.facebook.common.references.CloseableReference;
-import com.facebook.datasource.DataSource;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.facebook.imagepipeline.datasource.BaseBitmapDataSubscriber;
-import com.facebook.imagepipeline.image.CloseableImage;
 import com.github.lazylibrary.util.ToastUtils;
 
 import butterknife.BindView;
@@ -119,33 +111,20 @@ public class MainActivity extends BaseActivity {
                 }
                 homeViewPager.setViewData(homeModel.getData().getBanners());
                 if (commonAdapter == null) {
-                    commonAdapter = new CommonAdapter<HomeModel.DataBean.RoomsBean.ContentBean>(MainActivity.this, R.layout.goods_item,
+                    commonAdapter = new CommonAdapter<HomeModel.DataBean.RoomsBean.ContentBean>(MainActivity.this, R
+                            .layout.goods_item,
                             homeModel.getData().getRooms().getContent()) {
                         @Override
-                        protected void convert(ViewHolder holder, final HomeModel.DataBean.RoomsBean.ContentBean contentBean, int position) {
+                        protected void convert(ViewHolder holder, HomeModel.DataBean.RoomsBean.ContentBean contentBean, int position) {
                             View rootView = holder.itemView;
 //                            ViewSize.fixedSize(rootView, (Screen.getWidth(MainActivity.this) - DensityUtil.dip2px
 //                                    (MainActivity.this, 4) - DensityUtil.dip2px
 //                                    (MainActivity.this, 20)) / 2, 632f / 468f);
-                            final SimpleDraweeView image = rootView.findViewById(R.id.image);
+                            SimpleDraweeView image = rootView.findViewById(R.id.image);
                             TextView desc = rootView.findViewById(R.id.desc);
                             TextView statu = rootView.findViewById(R.id.statu);
                             TextView num = rootView.findViewById(R.id.num);
-                            final SimpleDraweeView name = rootView.findViewById(R.id.name);
-                            ImageLoader.getInstance().loadImage(MainActivity.this, contentBean.getNameImg(), new BaseBitmapDataSubscriber() {
-                                @Override
-                                protected void onNewResultImpl(Bitmap bitmap) {
-                                    ViewGroup.LayoutParams layoutParams = name.getLayoutParams();
-                                    layoutParams.width = bitmap.getWidth();
-                                    layoutParams.height = bitmap.getHeight();
-                                    name.setLayoutParams(layoutParams);
-                                    ImageLoader.getInstance().loadImage(name, contentBean.getNameImg());
-                                }
-
-                                @Override
-                                protected void onFailureImpl(DataSource<CloseableReference<CloseableImage>> dataSource) {
-                                }
-                            });
+                            SimpleDraweeView name = rootView.findViewById(R.id.name);
                             if (contentBean == null) {
                                 return;
                             }

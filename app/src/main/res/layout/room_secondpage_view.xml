@@ -1,35 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:fresco="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:orientation="vertical">
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
 
 
     <com.coder.catclaws.widgets.RoomSecondPageTitle
+        android:id="@+id/roomSecondPageTitle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        />
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        >
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/doll_detail_img"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_centerInParent="true"
-            android:layout_margin="2dp"
-            fresco:actualImageScaleType="fitXY"
+            fresco:actualImageScaleType="centerInside"
             fresco:fadeDuration="300"
-            fresco:placeholderImageScaleType="fitXY"
             />
 
-        <com.coder.catclaws.widgets.codexrefreshview.CodeRecycleView
+        <android.support.v7.widget.RecyclerView
             android:id="@+id/codeRecycleView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:nestedScrollingEnabled="false"
             android:visibility="gone"
             />
+
     </RelativeLayout>
 </LinearLayout>

@@ -1,9 +1,9 @@
-<com.coder.catclaws.widgets.draguplookmore.PageContainer xmlns:android="http://schemas.android.com/apk/res/android"
-                                                         xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                         xmlns:fresco="http://schemas.android.com/tools"
-                                                         android:id="@+id/pageConteiner"
-                                                         android:layout_width="match_parent"
-                                                         android:layout_height="match_parent"
+<com.coder.catclaws.widgets.draguplookmore.PageContainer android:id="@+id/pageConteiner"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
 
     >
 
@@ -13,7 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
-        android:scrollbars="none">
+        android:scrollbars="none"
+        >
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -156,10 +157,10 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:layout_margin="2dp"
+                                    fresco:roundAsCircle="true"
                                     fresco:actualImageScaleType="fitXY"
                                     fresco:fadeDuration="300"
                                     fresco:placeholderImageScaleType="fitXY"
-                                    fresco:roundAsCircle="true"
                                     />
                             </com.coder.catclaws.widgets.SquareLayout>
 
@@ -593,14 +594,17 @@
     </com.coder.catclaws.widgets.draguplookmore.Page>
 
     <com.coder.catclaws.widgets.draguplookmore.Page
+        android:id="@+id/pageTwo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none"
-        app:layout_behavior="@string/pageBehavior">
+        app:layout_behavior="@string/pageBehavior"
+        >
 
         <com.coder.catclaws.widgets.RoomSecondPageView
             android:id="@+id/roomSecondPageView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            />
     </com.coder.catclaws.widgets.draguplookmore.Page>
 </com.coder.catclaws.widgets.draguplookmore.PageContainer>

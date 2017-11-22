@@ -43,4 +43,8 @@ public abstract class CommonAdapter<T> extends MultiItemTypeAdapter<T> {
     protected abstract void convert(ViewHolder holder, T t, int position);
 
 
+    @Override
+    public int getItemViewType(int position) {
+        return 0;
+    }
 }

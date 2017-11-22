@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="72dp"
+    android:orientation="vertical"
+    >
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="#f0f0f0"
+        />
+
+    <View style="@style/line" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:paddingLeft="16dp"
+        >
+
+        <com.coder.catclaws.widgets.SquareLayout
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/goods_circle_bg"
+            >
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:layout_margin="4dp"
+                fresco:actualImageScaleType="fitXY"
+                fresco:fadeDuration="300"
+                fresco:placeholderImageScaleType="fitXY"
+                fresco:roundAsCircle="true"
+                fresco:viewAspectRatio="1.0"
+                />
+        </com.coder.catclaws.widgets.SquareLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="16dp"
+            android:orientation="vertical"
+            >
+
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="******"
+                android:textColor="#6c6c6c"
+                android:textSize="@dimen/text14"
+                />
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="******"
+                android:textColor="#b0b0b0"
+                android:textSize="@dimen/text12"
+                />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <View style="@style/line" />
+</LinearLayout>

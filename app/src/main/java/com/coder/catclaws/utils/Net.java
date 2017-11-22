@@ -11,6 +11,7 @@ import com.coder.catclaws.commons.NetIndentify;
 import com.coder.catclaws.models.ALiOrderModel;
 import com.coder.catclaws.models.AddressModel;
 import com.coder.catclaws.models.BaseModel;
+import com.coder.catclaws.models.DollPickLogModel;
 import com.coder.catclaws.models.HomeModel;
 import com.coder.catclaws.models.MessageModel;
 import com.coder.catclaws.models.MineDollModel;
@@ -83,6 +84,10 @@ public class Net {
                     case NetIndentify.SUBMIT_QUESTION:
                         EventBus.getDefault().post(new GlobalMsg(true, indentify, JSON.parseObject(response,
                                 SubmitQuestionModel.class)));
+                        break;
+                    case NetIndentify.DOLL_PICL_LOG:
+                        EventBus.getDefault().post(new GlobalMsg(true, indentify, JSON.parseObject(response,
+                                DollPickLogModel.class)));
                         break;
                 }
             }

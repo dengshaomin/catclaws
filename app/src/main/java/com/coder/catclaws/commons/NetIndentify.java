@@ -53,4 +53,6 @@ public class NetIndentify {
     public static final String CHANGE_PLAYER = "changePlayer";
 
     public static final String SUBMIT_QUESTION = "authorized/submitUserQuestion";
+    public static final String DOLL_PICL_LOG = "authorized/successPlayRecord";
+
 }

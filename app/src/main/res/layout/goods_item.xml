@@ -1,76 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:fresco="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="72dp"
-              android:orientation="vertical"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/home_gooditem_bg"
+    android:orientation="vertical"
     >
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="4dp"
-        android:background="#4e4a6e"/>
-
-    <View style="@style/line"/>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
 
         <com.coder.catclaws.widgets.SquareLayout
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_gravity="center_vertical"
-            android:background="@drawable/goods_circle_bg">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/goods_circle_bg"
+            >
+
 
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/image"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:layout_margin="4dp"
+                android:padding="5dp"
                 fresco:actualImageScaleType="fitXY"
                 fresco:fadeDuration="300"
                 fresco:placeholderImageScaleType="fitXY"
-                fresco:roundAsCircle="true"
-                fresco:viewAspectRatio="1.0"
+                fresco:viewAspectRatio="2.0"
+                />
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="15dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                fresco:actualImageScaleType="fitXY"
+                fresco:fadeDuration="300"
                 />
         </com.coder.catclaws.widgets.SquareLayout>
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/desc"
+            android:layout_width="match_parent"
+            android:layout_height="18dp"
+            android:layout_marginLeft="18dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/home_goodsitem_desc_bg"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:singleLine="true"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text14"
+            />
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="10dp"
             android:layout_marginLeft="16dp"
-            android:orientation="vertical"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="10dp"
             >
 
-
             <TextView
-                android:id="@+id/name"
-                android:layout_width="match_parent"
+                android:id="@+id/statu"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:drawableLeft="@drawable/icon_room_free"
+                android:drawablePadding="5dp"
                 android:ellipsize="end"
+                android:gravity="center"
                 android:singleLine="true"
-                android:text="******"
-                android:textColor="#6c6c6c"
-                android:textSize="@dimen/text14"
+                android:text="空闲"
+                android:textColor="#d9d9ef"
+                android:textSize="9sp"
                 />
 
-            <TextView
-                android:id="@+id/date"
-                android:layout_width="match_parent"
+            <RelativeLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:singleLine="true"
-                android:text="******"
-                android:textColor="#b0b0b0"
-                android:textSize="@dimen/text12"
-                />
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:orientation="horizontal"
+                >
 
-        </LinearLayout>
+
+                <TextView
+                    android:id="@+id/num"
+                    android:layout_width="52dp"
+                    android:layout_height="16dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="-26dp"
+                    android:background="@drawable/num_bg"
+                    android:ellipsize="end"
+                    android:gravity="right|center_vertical"
+                    android:paddingRight="5dp"
+                    android:singleLine="true"
+                    android:text="10"
+                    android:textColor="#d9d9ef"
+                    android:textSize="9sp"
+                    />
+
+                <ImageView
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_toLeftOf="@+id/num"
+                    android:background="@drawable/icon_coin"
+                    />
+            </RelativeLayout>
+        </RelativeLayout>
     </LinearLayout>
-
-    <View style="@style/line"/>
 </LinearLayout>

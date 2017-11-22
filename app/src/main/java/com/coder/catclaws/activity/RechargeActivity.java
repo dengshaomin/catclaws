@@ -48,22 +48,32 @@ public class RechargeActivity extends BaseActivity {
 
     @BindView(R.id.zhifubaodot)
     ImageView zhifubaodot;
+
     @BindView(R.id.zhifubaolay)
     RelativeLayout zhifubaolay;
+
     @BindView(R.id.wechartdot)
     ImageView wechartdot;
+
     @BindView(R.id.wechartlay)
     RelativeLayout wechartlay;
+
     @BindView(R.id.pay)
     TextView pay;
+
     @BindView(R.id.recycleView)
     RecyclerView recycleView;
+
     private RechargeModel rechargeModel;
+
     private RechargeAdapter rechargeAdapter;
+
     private int selectIndex = 0;
+
     private int payMode;
 
     private WeChartOrderModel weChartOrderModel;
+
     private ALiOrderModel aLiOrderModel;
 
     @Override
@@ -104,10 +114,9 @@ public class RechargeActivity extends BaseActivity {
     @Override
     public void initView() {
         recycleView.setLayoutManager(new GridLayoutManager(this, 3));
-//        recycleView.setNestedScrollingEnabled(false);
+        recycleView.setNestedScrollingEnabled(false);
         recycleView.addItemDecoration(new RechargeItemDecoration());
-        rechargeAdapter = new RechargeAdapter();
-        recycleView.setAdapter(new RechargeAdapter());
+//        recycleView.getLayoutManager().setAutoMeasureEnabled(true);
         zhifubaodot.setSelected(true);
     }
 
@@ -136,7 +145,12 @@ public class RechargeActivity extends BaseActivity {
         if (NetIndentify.RECHARGE.equals(globalMsg.getMsgId())) {
             if (globalMsg.isSuccess()) {
                 rechargeModel = (RechargeModel) globalMsg.getMsg();
-                rechargeAdapter.notifyDataSetChanged();
+                if(rechargeAdapter == null){
+                    rechargeAdapter = new RechargeAdapter();
+                    recycleView.setAdapter(new RechargeAdapter());
+                }else {
+                    rechargeAdapter.notifyDataSetChanged();
+                }
             } else {
 
             }
@@ -203,8 +217,9 @@ public class RechargeActivity extends BaseActivity {
     }
 
     private void pay() {
-        if (rechargeModel == null || rechargeModel.getData() == null || rechargeModel.getData().size() == 0)
+        if (rechargeModel == null || rechargeModel.getData() == null || rechargeModel.getData().size() == 0) {
             return;
+        }
         final RechargeModel.DataEntity dataEntity = rechargeModel.getData().get(selectIndex);
         if (payMode == 1) {
             Net.request(NetIndentify.WX_PAY, new HashMap<String, String>() {{
@@ -218,7 +233,9 @@ public class RechargeActivity extends BaseActivity {
     }
 
     private static final int SDK_PAY_FLAG = 1;
+
     private static final int SDK_AUTH_FLAG = 2;
+
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         @Override

@@ -11,9 +11,13 @@ import android.view.ViewConfiguration;
  */
 
 public class Page extends NestedScrollView {
+
     private boolean scrollAble = true;
+
     private float y;
+
     private float oldy = 0;
+
     private OnScrollListener onScrollListener;
 
     public Page(Context context) {
@@ -82,6 +86,7 @@ public class Page extends NestedScrollView {
 
 
     public interface OnScrollListener {
+
         void onScroll(float scrollY, float y);
     }
 

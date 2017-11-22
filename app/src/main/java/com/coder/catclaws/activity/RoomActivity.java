@@ -10,6 +10,11 @@ package com.coder.catclaws.activity;/*
  */
 
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
@@ -70,6 +75,7 @@ import com.coder.catclaws.widgets.RoomSecondPageView;
 import com.coder.catclaws.widgets.ShareDialogView;
 import com.coder.catclaws.widgets.SquareLayout;
 import com.coder.catclaws.widgets.SubmitQuestionSuccessDialogView;
+import com.coder.catclaws.widgets.draguplookmore.Page;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.github.lazylibrary.util.DensityUtil;
 import com.github.lazylibrary.util.ToastUtils;
@@ -77,11 +83,6 @@ import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
 import com.tmall.ultraviewpager.Screen;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -198,9 +199,12 @@ public class RoomActivity extends BaseActivity {
 
     @BindView(R.id.icon_other_2_lay)
     SquareLayout mIconOther2Lay;
+
     @BindView(R.id.roomSecondPageView)
     RoomSecondPageView roomSecondPageView;
 
+    @BindView(R.id.pageTwo)
+    Page mPageTwo;
 
 //    @BindView(R.id.pageOne)
 //    Page mPageOne;
@@ -241,6 +245,7 @@ public class RoomActivity extends BaseActivity {
     private boolean isCurrentUserPlay = false;
 
     private boolean startBtnStatu = true; //空闲
+
     private String questionAuthCode = "";
 
     @Override
@@ -406,6 +411,7 @@ public class RoomActivity extends BaseActivity {
     public void initView() {
         getWindow().addFlags(LayoutParams.FLAG_KEEP_SCREEN_ON);
         mMineNums.setText("我的猫币:" + UserManager.getInstance().getMb());
+//        mPageTwo.setScrollAble(false);
         initMusicService();
         mControlView.setiControlView(new IControlView() {
             @Override
@@ -440,12 +446,6 @@ public class RoomActivity extends BaseActivity {
         contentBean = (ContentBean) getBunleData();
         if (contentBean != null) {
             TCPClient.getInstance().send(contentBean.getIp(), WaWaJiProtoType.room);
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    roomSecondPageView.setViewData(contentBean);
-                }
-            }, 2000);
         }
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -482,7 +482,9 @@ public class RoomActivity extends BaseActivity {
                 roomModel = (RoomModel) globalMsg.getMsg();
                 if (roomModel != null) {
                     currentUser = roomModel.getPlayer();
+//                    roomModel.getWaWaJi().getg
                     setStartBtnStatu(roomModel.getPlayer() == null ? true : false);
+                    roomSecondPageView.setViewData(roomModel.getWaWaJi());
                 }
                 setRoomData();
             }
@@ -509,29 +511,42 @@ public class RoomActivity extends BaseActivity {
                 }
             });
 
-        } else if (NetIndentify.PLAYFAIL.equals(globalMsg.getMsgId())) {
+        } else if (NetIndentify.PLAYFAIL.equals(globalMsg.getMsgId()))
+
+        {
             showFailDialog();
-        } else if (NetIndentify.PLAYSUCCESS.equals(globalMsg.getMsgId())) {
+        } else if (NetIndentify.PLAYSUCCESS.equals(globalMsg.getMsgId()))
+
+        {
             showScuccessDialog();
-        } else if (NetIndentify.CHANGE_PLAYER.equals(globalMsg.getMsgId())) {
+        } else if (NetIndentify.CHANGE_PLAYER.equals(globalMsg.getMsgId()))
+
+        {
             setPlayer((UserBean) globalMsg.getMsg());
             setStartBtnStatu(false);
-        } else if (NetIndentify.ROOM_FREE.equals(globalMsg.getMsgId())) {
+        } else if (NetIndentify.ROOM_FREE.equals(globalMsg.getMsgId()))
+
+        {
             isCurrentUserPlay = false;
             setStartBtnStatu(true);
             mControlLayout.setVisibility(View.INVISIBLE);
             mStartLayout.setVisibility(View.VISIBLE);
             isNowPicking = false;
             setPlayer(null);
-        } else if (AppIndentify.UPDATE_USERINFO.equals(globalMsg.getMsgId())) {
+        } else if (AppIndentify.UPDATE_USERINFO.equals(globalMsg.getMsgId()))
+
+        {
             mMineNums.setText("我的猫币:" + UserManager.getInstance().getMb());
-        } else if (NetIndentify.SUBMIT_QUESTION.equals(globalMsg.getMsgId())) {
+        } else if (NetIndentify.SUBMIT_QUESTION.equals(globalMsg.getMsgId()))
+
+        {
             if (globalMsg.isSuccess()) {
                 FullDialog.create(this).addContentView(new SubmitQuestionSuccessDialogView(this)).show();
             } else {
                 ToastUtils.showToast(RoomActivity.this, "提交失败，请重新提交！");
             }
         }
+
     }
 
     private void setStartBtnStatu(boolean statu) {

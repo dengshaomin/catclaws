@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 
 import com.andview.refreshview.R;
@@ -185,6 +186,7 @@ public class CodeRecycleView extends BaseLayout {
         recycleView.setAdapter(headerAndFooterWrapper);
     }
 
+
     public void addItemDecoration(RecyclerView.ItemDecoration decor) {
         recycleView.addItemDecoration(decor);
     }
@@ -358,6 +360,7 @@ public class CodeRecycleView extends BaseLayout {
     public void initView() {
         xRefreshView = (XRefreshView) getRootView().findViewById(R.id.xRefreshView);
         recycleView = (RecyclerView) getRootView().findViewById(R.id.recycleView);
+        recycleView.setNestedScrollingEnabled(false);
         xRefreshView.setPinnedTime(1000);
         xRefreshView.setMoveForHorizontal(true);
         xRefreshView.enableReleaseToLoadMore(true);
