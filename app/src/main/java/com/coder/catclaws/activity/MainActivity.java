@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -28,7 +30,11 @@ import com.coder.catclaws.widgets.codexrefreshview.CodeRecycleView;
 import com.coder.catclaws.widgets.codexrefreshview.CommonAdapter;
 import com.coder.catclaws.widgets.codexrefreshview.MultiItemTypeAdapter;
 import com.coder.catclaws.widgets.codexrefreshview.ViewHolder;
+import com.facebook.common.references.CloseableReference;
+import com.facebook.datasource.DataSource;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.datasource.BaseBitmapDataSubscriber;
+import com.facebook.imagepipeline.image.CloseableImage;
 import com.github.lazylibrary.util.ToastUtils;
 
 import butterknife.BindView;
@@ -115,7 +121,7 @@ public class MainActivity extends BaseActivity {
                             .layout.goods_item,
                             homeModel.getData().getRooms().getContent()) {
                         @Override
-                        protected void convert(ViewHolder holder, HomeModel.DataBean.RoomsBean.ContentBean contentBean, int position) {
+                        protected void convert(ViewHolder holder, final HomeModel.DataBean.RoomsBean.ContentBean contentBean, int position) {
                             View rootView = holder.itemView;
 //                            ViewSize.fixedSize(rootView, (Screen.getWidth(MainActivity.this) - DensityUtil.dip2px
 //                                    (MainActivity.this, 4) - DensityUtil.dip2px
@@ -124,17 +130,32 @@ public class MainActivity extends BaseActivity {
                             TextView desc = rootView.findViewById(R.id.desc);
                             TextView statu = rootView.findViewById(R.id.statu);
                             TextView num = rootView.findViewById(R.id.num);
-                            SimpleDraweeView name = rootView.findViewById(R.id.name);
+                            final SimpleDraweeView name = rootView.findViewById(R.id.name);
                             if (contentBean == null) {
                                 return;
                             }
+                            ImageLoader.getInstance().loadImage(MainActivity.this, contentBean.getNameImg(),
+                                    new BaseBitmapDataSubscriber() {
+                                        @Override
+                                        protected void onNewResultImpl(Bitmap bitmap) {
+                                            ViewGroup.LayoutParams layoutParams = name.getLayoutParams();
+                                            layoutParams.width = bitmap.getWidth();
+                                            layoutParams.height = bitmap.getHeight();
+                                            name.setLayoutParams(layoutParams);
+                                            ImageLoader.getInstance().loadImage(name, contentBean.getNameImg()
+                                            );
+                                        }
+
+                                        @Override
+                                        protected void onFailureImpl(DataSource<CloseableReference<CloseableImage>> dataSource) {
+                                        }
+                                    });
                             ImageLoader.getInstance().loadImage(image, contentBean.getPhoto());
                             desc.setText(contentBean.getIntroduce());
                             statu.setText(contentBean.isCanUse() ? "空闲" : "游戏中");
                             statu.setCompoundDrawablesWithIntrinsicBounds(
                                     contentBean.isCanUse() ? R.drawable.icon_room_free : R.drawable.icon_room_busy,
                                     0, 0, 0);
-                            ImageLoader.getInstance().loadImage(name, contentBean.getNameImg());
                             num.setText(contentBean.getPrice() + "");
                         }
                     };
