@@ -139,7 +139,6 @@ public class AddressActivity extends BaseActivity {
                 mAreaInfo.setText(mContentBean.getProvince() + " " + mContentBean.getCity() + " " + mContentBean.getArea());
                 mName.setText(mContentBean.getName());
                 mPhone.setText(mContentBean.getPhone());
-
             } else {
                 ToastUtils.showToast(this, "获取地址失败~");
             }
@@ -210,6 +209,7 @@ public class AddressActivity extends BaseActivity {
                     put("provice", mContentBean.getProvince());
                     put("phone", mContentBean.getPhone());
                     put("addre", mContentBean.getAddre());
+                    put("id", mContentBean.getId() + "");
                 }});
                 break;
         }

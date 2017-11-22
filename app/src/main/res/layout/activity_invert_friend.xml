@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:paddingTop="12dp"
-    tools:context="com.coder.catclaws.activity.InvertFriendActivity"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:paddingLeft="16dp"
+              android:paddingRight="16dp"
+              android:paddingTop="12dp"
+              tools:context="com.coder.catclaws.activity.InvertFriendActivity"
     >
 
     <LinearLayout
@@ -79,7 +79,8 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/home_goodsitem_desc_bg"
             android:gravity="center"
-            android:padding="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:textColor="#f1f1f1"
             android:textSize="@dimen/text10"
             />

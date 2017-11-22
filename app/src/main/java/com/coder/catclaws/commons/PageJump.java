@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.coder.catclaws.activity.AddressActivity;
+import com.coder.catclaws.activity.ContactActivity;
 import com.coder.catclaws.activity.DeliverGoodsActivity;
 import com.coder.catclaws.activity.DetailActivity;
 import com.coder.catclaws.activity.InvertFriendActivity;
@@ -25,6 +26,9 @@ import com.coder.catclaws.models.MineDollModel.DataEntity.ContentEntity;
 
 public class PageJump {
 
+    public static void goContactActivity(Context context) {
+        context.startActivity(new Intent(context, ContactActivity.class));
+    }
     public static void goMineDollActivity(Context context) {
         context.startActivity(new Intent(context, MineDollActivity.class));
     }

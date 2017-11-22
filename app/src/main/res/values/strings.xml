@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SmartPlayerSDKDemo</string>
+    <string name="app_name">猫爪子</string>
     <string name="title_activity_deliver_goods">DeliverGoodsActivity</string>
     <string name="pageBehavior" translatable="false">com.coder.catclaws.widgets.draguplookmore.PageBehavior</string>
 </resources>

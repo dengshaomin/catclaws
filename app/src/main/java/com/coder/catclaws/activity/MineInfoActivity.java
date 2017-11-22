@@ -156,6 +156,7 @@ public class MineInfoActivity extends BaseActivity {
                 PageJump.goAddressActivity(this);
                 break;
             case R.id.contact:
+                PageJump.goContactActivity(this);
                 break;
             case R.id.login_out:
                 LoginOutDialogView loginOutDialogView = new LoginOutDialogView(MineInfoActivity.this);

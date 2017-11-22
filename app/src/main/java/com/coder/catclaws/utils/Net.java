@@ -89,6 +89,9 @@ public class Net {
                         EventBus.getDefault().post(new GlobalMsg(true, indentify, JSON.parseObject(response,
                                 DollPickLogModel.class)));
                         break;
+                    case NetIndentify.INVITED:
+                        EventBus.getDefault().post(new GlobalMsg(true, indentify, null));
+                        break;
                 }
             }
 

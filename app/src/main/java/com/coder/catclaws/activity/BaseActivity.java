@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.ImageSpan;
 import android.view.KeyEvent;
@@ -313,7 +314,7 @@ public abstract class BaseActivity extends PermissionActivity implements IBaseLa
                     titleRightClick();
                 }
             });
-            title_text.setText(setTitleText());
+            title_text.setText(TextUtils.isEmpty(setTitleText()) ? "" : setTitleText());
             if (setTitleLeftImage() > 0) {
                 left_image.setBackgroundResource(setTitleLeftImage());
             }

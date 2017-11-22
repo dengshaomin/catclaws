@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="48dp"
-            android:text="确定离开房间？"
+            android:text="确定退出登录？"
             android:textColor="#6a4a18"
             android:textSize="@dimen/text16"
             android:textStyle="bold"
@@ -67,7 +67,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/stroke_btn_bg"
                 android:gravity="center"
-                android:text="离开"
+                android:text="确定"
                 android:textColor="#ee9627"
                 android:textSize="@dimen/text12"
                 />
