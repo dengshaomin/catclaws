@@ -131,7 +131,7 @@ public class DetailActivity extends BaseActivity {
 
     @Override
     public void initBundleData() {
-        int a = 4;
+        int a = 1;
         if (a == 1) {
             mDepositLay.setVisibility(View.VISIBLE);
             mSendLay.setVisibility(View.GONE);
