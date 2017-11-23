@@ -88,7 +88,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/blue_btn_short_bg"
                 android:gravity="center"
-                android:text="分享"
+                android:text="去瞧瞧"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text12"
                 />

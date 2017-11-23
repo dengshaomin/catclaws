@@ -57,4 +57,6 @@ public class NetIndentify {
     public static final String SUBMIT_QUESTION = "authorized/submitUserQuestion";
     public static final String DOLL_PICL_LOG = "authorized/successPlayRecord";
 
+    public static final String HAS_AUTHED = "HAS_AUTHED";
+
 }

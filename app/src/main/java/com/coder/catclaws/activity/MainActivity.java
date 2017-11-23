@@ -22,6 +22,7 @@ import com.coder.catclaws.commons.NetIndentify;
 import com.coder.catclaws.commons.PageJump;
 import com.coder.catclaws.commons.UserManager;
 import com.coder.catclaws.models.HomeModel;
+import com.coder.catclaws.models.RoomModel;
 import com.coder.catclaws.utils.Net;
 import com.coder.catclaws.utils.StaticUtils;
 import com.coder.catclaws.widgets.HomeItemDecoration;
@@ -121,20 +122,21 @@ public class MainActivity extends BaseActivity {
                             .layout.goods_item,
                             homeModel.getData().getRooms().getContent()) {
                         @Override
-                        protected void convert(ViewHolder holder, final HomeModel.DataBean.RoomsBean.ContentBean contentBean, int position) {
+                        protected void convert(ViewHolder holder, HomeModel.DataBean.RoomsBean.ContentBean contentBean, int position) {
                             View rootView = holder.itemView;
 //                            ViewSize.fixedSize(rootView, (Screen.getWidth(MainActivity.this) - DensityUtil.dip2px
 //                                    (MainActivity.this, 4) - DensityUtil.dip2px
 //                                    (MainActivity.this, 20)) / 2, 632f / 468f);
-                            SimpleDraweeView image = rootView.findViewById(R.id.image);
-                            TextView desc = rootView.findViewById(R.id.desc);
-                            TextView statu = rootView.findViewById(R.id.statu);
-                            TextView num = rootView.findViewById(R.id.num);
-                            final SimpleDraweeView name = rootView.findViewById(R.id.name);
-                            if (contentBean == null) {
+                            final HomeModel.DataBean.RoomsBean.ContentBean finalContentBean = homeModel.getData().getRooms().getContent().get(position);
+                            SimpleDraweeView image = holder.getView(R.id.image);
+                            TextView desc = holder.getView(R.id.desc);
+                            TextView statu = holder.getView(R.id.statu);
+                            TextView num = holder.getView(R.id.num);
+                            final SimpleDraweeView name = holder.getView(R.id.name);
+                            if (finalContentBean == null) {
                                 return;
                             }
-                            ImageLoader.getInstance().loadImage(MainActivity.this, contentBean.getNameImg(),
+                            ImageLoader.getInstance().loadImage(MainActivity.this, finalContentBean.getNameImg(),
                                     new BaseBitmapDataSubscriber() {
                                         @Override
                                         protected void onNewResultImpl(Bitmap bitmap) {
@@ -142,7 +144,7 @@ public class MainActivity extends BaseActivity {
                                             layoutParams.width = bitmap.getWidth();
                                             layoutParams.height = bitmap.getHeight();
                                             name.setLayoutParams(layoutParams);
-                                            ImageLoader.getInstance().loadImage(name, contentBean.getNameImg()
+                                            ImageLoader.getInstance().loadImage(name, finalContentBean.getNameImg()
                                             );
                                         }
 
@@ -150,13 +152,12 @@ public class MainActivity extends BaseActivity {
                                         protected void onFailureImpl(DataSource<CloseableReference<CloseableImage>> dataSource) {
                                         }
                                     });
-                            ImageLoader.getInstance().loadImage(image, contentBean.getPhoto());
-                            desc.setText(contentBean.getIntroduce());
-                            statu.setText(contentBean.isCanUse() ? "空闲" : "游戏中");
-                            statu.setCompoundDrawablesWithIntrinsicBounds(
-                                    contentBean.isCanUse() ? R.drawable.icon_room_free : R.drawable.icon_room_busy,
+                            ImageLoader.getInstance().loadImage(image, finalContentBean.getPhoto());
+                            desc.setText(finalContentBean.getIntroduce());
+                            statu.setText(finalContentBean.isCanUse() ? "空闲" : "游戏中");
+                            statu.setCompoundDrawablesWithIntrinsicBounds(finalContentBean.isCanUse() ? R.drawable.icon_room_free : R.drawable.icon_room_busy,
                                     0, 0, 0);
-                            num.setText(contentBean.getPrice() + "");
+                            num.setText(finalContentBean.getPrice() + "");
                         }
                     };
                     codeRecycleView.setAdapter(commonAdapter);
@@ -235,8 +236,8 @@ public class MainActivity extends BaseActivity {
                 PageJump.goMineInfoActivity(MainActivity.this);
                 break;
             case R.id.home_right_image:
-//                PageJump.goMineDollActivity(MainActivity.this);
-                PageJump.goDetailActivity(this, null);
+                PageJump.goMineDollActivity(MainActivity.this);
+//                PageJump.goDetailActivity(this, null);
                 break;
         }
     }

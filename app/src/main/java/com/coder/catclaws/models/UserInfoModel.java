@@ -112,13 +112,13 @@ public class UserInfoModel {
 
             private int id;
 
-            private Object phone;
+            private String phone;
 
             private long createTime;
 
             private String openId;
 
-            private Object qqId;
+            private String qqId;
 
             private String name;
 
@@ -152,11 +152,11 @@ public class UserInfoModel {
                 this.id = id;
             }
 
-            public Object getPhone() {
+            public String getPhone() {
                 return phone;
             }
 
-            public void setPhone(Object phone) {
+            public void setPhone(String phone) {
                 this.phone = phone;
             }
 
@@ -176,11 +176,11 @@ public class UserInfoModel {
                 this.openId = openId;
             }
 
-            public Object getQqId() {
+            public String getQqId() {
                 return qqId;
             }
 
-            public void setQqId(Object qqId) {
+            public void setQqId(String qqId) {
                 this.qqId = qqId;
             }
 

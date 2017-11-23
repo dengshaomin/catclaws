@@ -189,6 +189,26 @@ public class MineDollModel {
 
             private int transportCode;
 
+            private long exchangeTime;
+
+            public long getExchangeTime() {
+                return exchangeTime;
+            }
+
+            public void setExchangeTime(long exchangeTime) {
+                this.exchangeTime = exchangeTime;
+            }
+
+            private String transportCompany;
+
+            public String getTransportCompany() {
+                return transportCompany;
+            }
+
+            public void setTransportCompany(String transportCompany) {
+                this.transportCompany = transportCompany;
+            }
+
             private boolean selected;
 
             public boolean isSelected() {

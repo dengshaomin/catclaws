@@ -269,6 +269,7 @@ public abstract class BaseActivity extends PermissionActivity implements IBaseLa
     }
 
     public void addDanmaku(String msg) {
+        if (mContext == null || mContext.mDanmakuFactory == null) return;
         BaseDanmaku danmaku = mContext.mDanmakuFactory.createDanmaku(BaseDanmaku.TYPE_SCROLL_RL);
         if (danmaku == null || base_danmu_view == null) {
             return;

@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.coder.catclaws.R;
@@ -60,7 +62,7 @@ public class DeliverGoodsActivity extends BaseActivity {
     TextView mValue;
 
     @BindView(R.id.recharge)
-    TextView mRecharge;
+    LinearLayout mRecharge;
 
     @BindView(R.id.commit)
     TextView mCommit;
@@ -75,7 +77,7 @@ public class DeliverGoodsActivity extends BaseActivity {
 
     public static final int signalFreight = 30;
 
-    private int totalDeliverDollCount;
+    private List<ContentEntity> selectDolls;
 
     @Override
     public boolean needTitle() {
@@ -183,7 +185,16 @@ public class DeliverGoodsActivity extends BaseActivity {
         } else if (NetIndentify.DELIVER_DOLL.equals(globalMsg.getMsgId())) {
             closeProgressDialog();
             if (globalMsg.isSuccess()) {
-                FullDialog.create(DeliverGoodsActivity.this).addContentView(new DelivedSuccessDialogView(DeliverGoodsActivity.this)).show();
+                FullDialog fullDialog = FullDialog.create(DeliverGoodsActivity.this).addContentView(new
+                        DelivedSuccessDialogView
+                        (DeliverGoodsActivity.this));
+                fullDialog.show();
+                fullDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        finish();
+                    }
+                });
             } else {
                 ToastUtils.showToast(this, "申请提交失败，请重新提交！");
             }
@@ -219,14 +230,21 @@ public class DeliverGoodsActivity extends BaseActivity {
                 ToastUtils.showToast(this, "请填写收货地址！");
                 return;
             }
-            if (totalDeliverDollCount < 2 && UserManager.getInstance().getMb() < signalFreight) {
+            if (selectDolls == null) return;
+            if (selectDolls.size() < 2 && UserManager.getInstance().getMb() < signalFreight) {
                 ToastUtils.showToast(this, "猫币不足！");
                 return;
             }
             showProgressDialog();
+
             Net.request(NetIndentify.DELIVER_DOLL, new HashMap<String, String>() {{
-                put("giftId", mContentEntity.getGoodId() + "");
-                put("addressed", mContentEntity.getAddressId() + "");
+                String ids = "";
+                for (ContentEntity contentEntity : selectDolls) {
+                    ids += contentEntity.getId() + ",";
+                }
+                ids = ids.substring(0, ids.length() - 1);
+                put("giftId", ids + "");
+                put("addressId", mContentEntity.getAddress().getId() + "");
             }});
         }
     }
@@ -254,14 +272,15 @@ public class DeliverGoodsActivity extends BaseActivity {
         if (mMineDollModel == null || mMineDollModel.getData() == null || mMineDollModel.getData().getContent() == null) {
             mValue.setText(signalFreight + "猫币");
         } else {
-            totalDeliverDollCount = 0;
+            selectDolls = new ArrayList<>();
             for (ContentEntity contentEntity : mMineDollModel.getData().getContent()) {
                 if (contentEntity.isSelected()) {
-                    totalDeliverDollCount++;
+                    selectDolls.add(contentEntity);
                 }
             }
-            mValue.setText(totalDeliverDollCount > 1 ? "免快递费" : signalFreight + "猫币");
-            mRecharge.setVisibility(totalDeliverDollCount <= 1 && UserManager.getInstance().getMb() < signalFreight ? View.VISIBLE : View.INVISIBLE);
+            mValue.setText(selectDolls.size() > 1 ? "免快递费" : signalFreight + "猫币");
+            mRecharge.setVisibility(selectDolls.size() <= 1 && UserManager.getInstance().getMb() < signalFreight ? View
+                    .VISIBLE : View.INVISIBLE);
         }
     }
 
@@ -285,7 +304,7 @@ public class DeliverGoodsActivity extends BaseActivity {
                 public void onClick(View v) {
                     if (position != selectIndex) {
                         contentEntity.setSelected(!deliverdoll_item_rootview.isSelected());
-                        deliverdoll_item_rootview.setSelected(!deliverdoll_item_rootview.isSelected());
+//                        deliverdoll_item_rootview.setSelected(!deliverdoll_item_rootview.isSelected());
                         setFreight();
                         notifyDataSetChanged();
                         mContentEntity = contentEntity;
@@ -293,7 +312,7 @@ public class DeliverGoodsActivity extends BaseActivity {
                     }
                 }
             });
-            deliverdoll_item_rootview.setSelected(position == selectIndex);
+            deliverdoll_item_rootview.setSelected(contentEntity.isSelected());
             if (contentEntity == null || contentEntity.getGood() == null) {
                 return;
             }

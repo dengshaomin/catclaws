@@ -40,6 +40,16 @@ public class RoomModel {
 
     private WaWaJiEntity waWaJi;
     private boolean canPlay;
+    private GoodBean good;
+
+    public GoodBean getGood() {
+        return good;
+    }
+
+    public void setGood(GoodBean good) {
+        this.good = good;
+    }
+
     /**
      * version : 0
      * disable : false
@@ -354,6 +364,149 @@ public class RoomModel {
 
         public Object getInviteCode() {
             return inviteCode;
+        }
+    }
+
+    public static class GoodBean {
+
+        /**
+         * version : 0
+         * disable : false
+         * id : 1
+         * name : 小熊
+         * photo : //img.alicdn.com/bao/uploaded/TB1G0CYXJbJ8KJjy1zjSuuqapXa.jpg_100x100q90.jpg_.webp
+         * mb : 100
+         * nameImg : http://static.iboom.tv/static/img/name.png
+         * goodPhotos : [{"version":0,"disable":false,"id":1,"goodId":1,"photo":"http://u.thsi.cn/fileupload/data/Input/2015/054bed34973ccac0375f47da113efe72.jpg"},{"version":0,"disable":false,"id":2,"goodId":1,"photo":"http://u.thsi.cn/fileupload/data/Input/2015/054bed34973ccac0375f47da113efe72.jpg"},{"version":0,"disable":false,"id":3,"goodId":1,"photo":"http://u.thsi.cn/fileupload/data/Input/2015/054bed34973ccac0375f47da113efe72.jpg"},{"version":0,"disable":false,"id":4,"goodId":1,"photo":"http://u.thsi.cn/fileupload/data/Input/2015/054bed34973ccac0375f47da113efe72.jpg"},{"version":0,"disable":false,"id":5,"goodId":1,"photo":"http://u.thsi.cn/fileupload/data/Input/2015/054bed34973ccac0375f47da113efe72.jpg"}]
+         */
+
+        private int version;
+        private boolean disable;
+        private int id;
+        private String name;
+        private String photo;
+        private int mb;
+        private String nameImg;
+        /**
+         * version : 0
+         * disable : false
+         * id : 1
+         * goodId : 1
+         * photo : http://u.thsi.cn/fileupload/data/Input/2015/054bed34973ccac0375f47da113efe72.jpg
+         */
+
+        private List<GoodPhotosEntity> goodPhotos;
+
+        public void setVersion(int version) {
+            this.version = version;
+        }
+
+        public void setDisable(boolean disable) {
+            this.disable = disable;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public void setPhoto(String photo) {
+            this.photo = photo;
+        }
+
+        public void setMb(int mb) {
+            this.mb = mb;
+        }
+
+        public void setNameImg(String nameImg) {
+            this.nameImg = nameImg;
+        }
+
+        public void setGoodPhotos(List<GoodPhotosEntity> goodPhotos) {
+            this.goodPhotos = goodPhotos;
+        }
+
+        public int getVersion() {
+            return version;
+        }
+
+        public boolean isDisable() {
+            return disable;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getPhoto() {
+            return photo;
+        }
+
+        public int getMb() {
+            return mb;
+        }
+
+        public String getNameImg() {
+            return nameImg;
+        }
+
+        public List<GoodPhotosEntity> getGoodPhotos() {
+            return goodPhotos;
+        }
+
+        public static class GoodPhotosEntity {
+            private int version;
+            private boolean disable;
+            private int id;
+            private int goodId;
+            private String photo;
+
+            public void setVersion(int version) {
+                this.version = version;
+            }
+
+            public void setDisable(boolean disable) {
+                this.disable = disable;
+            }
+
+            public void setId(int id) {
+                this.id = id;
+            }
+
+            public void setGoodId(int goodId) {
+                this.goodId = goodId;
+            }
+
+            public void setPhoto(String photo) {
+                this.photo = photo;
+            }
+
+            public int getVersion() {
+                return version;
+            }
+
+            public boolean isDisable() {
+                return disable;
+            }
+
+            public int getId() {
+                return id;
+            }
+
+            public int getGoodId() {
+                return goodId;
+            }
+
+            public String getPhoto() {
+                return photo;
+            }
         }
     }
 }

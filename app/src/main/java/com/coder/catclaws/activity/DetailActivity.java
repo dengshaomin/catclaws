@@ -18,6 +18,7 @@ import com.coder.catclaws.commons.PageJump;
 import com.coder.catclaws.commons.Tools;
 import com.coder.catclaws.models.MineDollModel.DataEntity.ContentEntity;
 import com.coder.catclaws.utils.Net;
+import com.coder.catclaws.utils.StateUtil;
 import com.coder.catclaws.widgets.ExchangeSureDialogView;
 import com.coder.catclaws.widgets.FullDialog;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -131,32 +132,7 @@ public class DetailActivity extends BaseActivity {
 
     @Override
     public void initBundleData() {
-        int a = 1;
-        if (a == 1) {
-            mDepositLay.setVisibility(View.VISIBLE);
-            mSendLay.setVisibility(View.GONE);
-            mHasexchangeLay.setVisibility(View.GONE);
-            mFinishLay.setVisibility(View.GONE);
-            mActionLay.setVisibility(View.VISIBLE);
-        } else if (a == 2) {
-            mDepositLay.setVisibility(View.GONE);
-            mSendLay.setVisibility(View.VISIBLE);
-            mHasexchangeLay.setVisibility(View.GONE);
-            mFinishLay.setVisibility(View.GONE);
-            mActionLay.setVisibility(View.GONE);
-        } else if (a == 3) {
-            mDepositLay.setVisibility(View.GONE);
-            mSendLay.setVisibility(View.GONE);
-            mHasexchangeLay.setVisibility(View.VISIBLE);
-            mFinishLay.setVisibility(View.GONE);
-            mActionLay.setVisibility(View.GONE);
-        } else if (a == 4) {
-            mDepositLay.setVisibility(View.GONE);
-            mSendLay.setVisibility(View.VISIBLE);
-            mHasexchangeLay.setVisibility(View.GONE);
-            mFinishLay.setVisibility(View.VISIBLE);
-            mActionLay.setVisibility(View.GONE);
-        }
+
         mContentEntity = (ContentEntity) getBunleData();
         if (mContentEntity != null && mContentEntity.getGood() != null) {
             ImageLoader.getInstance().loadImage(mIcon, mContentEntity.getGood().getPhoto());
@@ -170,9 +146,36 @@ public class DetailActivity extends BaseActivity {
                 mAdress.setText(mContentEntity.getAddress().getAddre());
                 mExchangeValue.setText(mContentEntity.getGood().getMb());
             }
-//            mExchangeDate.setText(mContentEntity.getGood().get);
-//            mExpressName.setText(mContentEntity.getTransportCode());
+            mExchangeDate.setText(Tools.getTimeStr(mContentEntity.getExchangeTime()));
+            mExpressName.setText(mContentEntity.getTransportCompany());
             mExpressCode.setText(mContentEntity.getTransportCode() + "");
+        }
+        if (mContentEntity != null) {
+            if (StateUtil.Deposit.equals(Tools.getDollState(mContentEntity))) {
+                mDepositLay.setVisibility(View.VISIBLE);
+                mSendLay.setVisibility(View.GONE);
+                mHasexchangeLay.setVisibility(View.GONE);
+                mFinishLay.setVisibility(View.GONE);
+                mActionLay.setVisibility(View.VISIBLE);
+            } else if (StateUtil.WaitSending.equals(Tools.getDollState(mContentEntity))) {
+                mDepositLay.setVisibility(View.GONE);
+                mSendLay.setVisibility(View.VISIBLE);
+                mHasexchangeLay.setVisibility(View.GONE);
+                mFinishLay.setVisibility(View.GONE);
+                mActionLay.setVisibility(View.GONE);
+            } else if (StateUtil.HasReceive.equals(Tools.getDollState(mContentEntity))) {
+                mDepositLay.setVisibility(View.GONE);
+                mSendLay.setVisibility(View.GONE);
+                mHasexchangeLay.setVisibility(View.VISIBLE);
+                mFinishLay.setVisibility(View.GONE);
+                mActionLay.setVisibility(View.GONE);
+            } else if (StateUtil.Finish.equals(Tools.getDollState(mContentEntity))) {
+                mDepositLay.setVisibility(View.GONE);
+                mSendLay.setVisibility(View.VISIBLE);
+                mHasexchangeLay.setVisibility(View.GONE);
+                mFinishLay.setVisibility(View.VISIBLE);
+                mActionLay.setVisibility(View.GONE);
+            }
         }
     }
 

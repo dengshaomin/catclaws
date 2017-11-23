@@ -44,6 +44,7 @@ import com.alivc.player.MediaPlayer.MediaPlayerPreparedListener;
 import com.alivc.player.MediaPlayer.MediaPlayerSeekCompleteListener;
 import com.alivc.player.MediaPlayer.MediaPlayerStoppedListener;
 import com.boom.service.room.netty.TCPClient;
+import com.boom.service.room.netty.TCPResponse;
 import com.boom.service.room.netty.WaWaJiProtoType;
 import com.coder.catclaws.MusicService;
 import com.coder.catclaws.MusicService.MusicBinder;
@@ -76,6 +77,7 @@ import com.coder.catclaws.widgets.ShareDialogView;
 import com.coder.catclaws.widgets.SquareLayout;
 import com.coder.catclaws.widgets.SubmitQuestionSuccessDialogView;
 import com.coder.catclaws.widgets.draguplookmore.Page;
+import com.coder.catclaws.widgets.draguplookmore.PageContainer;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.github.lazylibrary.util.DensityUtil;
 import com.github.lazylibrary.util.ToastUtils;
@@ -206,8 +208,8 @@ public class RoomActivity extends BaseActivity {
     @BindView(R.id.pageTwo)
     Page mPageTwo;
 
-//    @BindView(R.id.pageOne)
-//    Page mPageOne;
+    @BindView(R.id.pageOne)
+    Page mPageOne;
 
 //    @BindView(R.id.detail_image)
 //    SimpleDraweeView mDetailImage;
@@ -445,7 +447,7 @@ public class RoomActivity extends BaseActivity {
     public void initBundleData() {
         contentBean = (ContentBean) getBunleData();
         if (contentBean != null) {
-            TCPClient.getInstance().send(contentBean.getIp(), WaWaJiProtoType.room);
+            TCPClient.getInstance().send(contentBean.getIp(), WaWaJiProtoType.auth);
         }
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -472,6 +474,8 @@ public class RoomActivity extends BaseActivity {
             add(NetIndentify.ROOM_FREE);
             add(NetIndentify.SUBMIT_QUESTION);
             add(AppIndentify.UPDATE_USERINFO);
+            add(NetIndentify.HAS_AUTHED);
+
         }};
     }
 
@@ -484,12 +488,12 @@ public class RoomActivity extends BaseActivity {
                     currentUser = roomModel.getPlayer();
 //                    roomModel.getWaWaJi().getg
                     setStartBtnStatu(roomModel.getPlayer() == null ? true : false);
-                    roomSecondPageView.setViewData(roomModel.getWaWaJi());
+                    roomSecondPageView.setViewData(roomModel);
                 }
                 setRoomData();
             }
         } else if (NetIndentify.PLAY.equals(globalMsg.getMsgId())) {
-            UserManager.getInstance().changeMb(contentBean.getPrice());
+            UserManager.getInstance().changeMb(-contentBean.getPrice());
             mControlLayout.setVisibility(View.VISIBLE);
             mStartLayout.setVisibility(View.INVISIBLE);
             questionAuthCode = globalMsg.getMsg() + "";
@@ -510,7 +514,6 @@ public class RoomActivity extends BaseActivity {
                     mCountDown.setText(remainTime / 1000 + "");
                 }
             });
-
         } else if (NetIndentify.PLAYFAIL.equals(globalMsg.getMsgId()))
 
         {
@@ -537,14 +540,14 @@ public class RoomActivity extends BaseActivity {
 
         {
             mMineNums.setText("我的猫币:" + UserManager.getInstance().getMb());
-        } else if (NetIndentify.SUBMIT_QUESTION.equals(globalMsg.getMsgId()))
-
-        {
+        } else if (NetIndentify.SUBMIT_QUESTION.equals(globalMsg.getMsgId())) {
             if (globalMsg.isSuccess()) {
                 FullDialog.create(this).addContentView(new SubmitQuestionSuccessDialogView(this)).show();
             } else {
                 ToastUtils.showToast(RoomActivity.this, "提交失败，请重新提交！");
             }
+        } else if (NetIndentify.HAS_AUTHED.equals(globalMsg.getMsgId())) {
+            TCPClient.getInstance().send(contentBean.getIp(), WaWaJiProtoType.room);
         }
 
     }

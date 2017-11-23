@@ -81,6 +81,10 @@ public class TCPResponse extends SimpleChannelInboundHandler<WaWaJiProto.Action>
                 case "toLogin":
 //                    TCPClient.getInstance().send(WaWaJiProtoType.auth, WaWaJiProtoType.auth);
                     break;
+                case "authed":
+                    EventBus.getDefault().post(new GlobalMsg(true, NetIndentify.HAS_AUTHED,
+                            times.getData()));
+                    break;
                 case "changePlayer":
                     UserInfoModel.DataBean.UserBean userBean = JSON.parseObject(times.getData(), UserInfoModel.DataBean.UserBean.class);
                     EventBus.getDefault().post(new GlobalMsg(true, NetIndentify.CHANGE_PLAYER,

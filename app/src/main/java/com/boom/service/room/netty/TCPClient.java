@@ -75,7 +75,6 @@ public class TCPClient {
         if (channel == null) {
             return;
         }
-        send(WaWaJiProtoType.auth, WaWaJiProtoType.auth);
     }
 
     public void disConnect() {

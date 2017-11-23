@@ -1,9 +1,5 @@
 package com.coder.catclaws.widgets;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.andview.refreshview.XRefreshView;
 import com.coder.catclaws.R;
 import com.coder.catclaws.commons.GlobalMsg;
 import com.coder.catclaws.commons.IRoomSecondHead;
@@ -22,18 +17,15 @@ import com.coder.catclaws.commons.NetIndentify;
 import com.coder.catclaws.commons.Tools;
 import com.coder.catclaws.models.DollPickLogModel;
 import com.coder.catclaws.models.DollPickLogModel.DataBean;
-import com.coder.catclaws.models.MineDollModel.DataEntity;
-import com.coder.catclaws.models.MineDollModel.DataEntity.ContentEntity.GoodEntity;
+import com.coder.catclaws.models.RoomModel;
 import com.coder.catclaws.models.RoomModel.WaWaJiEntity;
+import com.coder.catclaws.models.UserInfoModel;
 import com.coder.catclaws.utils.Net;
-import com.coder.catclaws.utils.ViewSize;
-import com.coder.catclaws.widgets.codexrefreshview.CodeRecycleView;
-import com.coder.catclaws.widgets.codexrefreshview.CommonAdapter;
-import com.coder.catclaws.widgets.codexrefreshview.MultiItemTypeAdapter;
-import com.coder.catclaws.widgets.codexrefreshview.ViewHolder;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.github.lazylibrary.util.DensityUtil;
-import com.tmall.ultraviewpager.Screen;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -44,20 +36,22 @@ import butterknife.BindView;
 public class RoomSecondPageView extends BaseLayout {
 
 
-    @BindView(R.id.doll_detail_img)
-    SimpleDraweeView dollDetailImg;
-
     @BindView(R.id.codeRecycleView)
     RecyclerView codeRecycleView;
 
     @BindView(R.id.roomSecondPageTitle)
     RoomSecondPageTitle mRoomSecondPageTitle;
+    @BindView(R.id.imageRecycleView)
+    RecyclerView imageRecycleView;
 
     private WaWaJiEntity mWaWaJiEntity;
 
+    private RoomModel roomModel;
     private DollPickLogModel mDollPickLogModel;
 
     private LogAdapter mLogAdapter;
+
+    private Imagedapter imagedapter;
 
     public RoomSecondPageView(Context context) {
         super(context);
@@ -81,9 +75,9 @@ public class RoomSecondPageView extends BaseLayout {
         mRoomSecondPageTitle.setiRoomSecondHead(new IRoomSecondHead() {
             @Override
             public void selecdChange(int index) {
-                dollDetailImg.setVisibility(index == 0 ? VISIBLE : GONE);
+                imageRecycleView.setVisibility(index == 0 ? VISIBLE : GONE);
                 codeRecycleView.setVisibility(index == 1 ? VISIBLE : GONE);
-                if (index == 1 && mDollPickLogModel == null) {
+                if (index == 1 && mDollPickLogModel == null && mWaWaJiEntity != null) {
                     Net.request(NetIndentify.DOLL_PICL_LOG, new HashMap<String, String>() {{
                         put("wawajiId", mWaWaJiEntity.getId() + "");
                     }});
@@ -131,9 +125,17 @@ public class RoomSecondPageView extends BaseLayout {
 
     @Override
     public void setViewData(Object data) {
-        mWaWaJiEntity = (WaWaJiEntity) data;
-        if (mWaWaJiEntity != null) {
-            ImageLoader.getInstance().loadImage(dollDetailImg, mWaWaJiEntity.getPhoto());
+        roomModel = (RoomModel) data;
+        if (roomModel != null && roomModel.getWaWaJi() != null) {
+            mWaWaJiEntity = roomModel.getWaWaJi();
+        }
+        if (roomModel != null && roomModel.getGood() != null && roomModel.getGood().getGoodPhotos() != null) {
+            if (imagedapter == null) {
+                imagedapter = new Imagedapter();
+                imageRecycleView.setAdapter(imagedapter);
+            } else {
+                imagedapter.notifyDataSetChanged();
+            }
         }
     }
 
@@ -147,7 +149,7 @@ public class RoomSecondPageView extends BaseLayout {
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-            DataBean contentBean = mDollPickLogModel.getData().get(position);
+            UserInfoModel.DataBean.UserBean contentBean = mDollPickLogModel.getData().get(position).getUser();
             View rootView = holder.itemView;
 //                            ViewSize.fixedSize(rootView, (Screen.getWidth(MainActivity.this) - DensityUtil.dip2px
 //                                    (MainActivity.this, 4) - DensityUtil.dip2px
@@ -155,17 +157,46 @@ public class RoomSecondPageView extends BaseLayout {
             SimpleDraweeView image = rootView.findViewById(R.id.image);
             TextView name = rootView.findViewById(R.id.name);
             TextView date = rootView.findViewById(R.id.date);
-            if (contentBean == null || contentBean.getGood() == null) {
+            if (contentBean == null) {
                 return;
             }
-            ImageLoader.getInstance().loadImage(image, contentBean.getGood().getPhoto());
-            name.setText(contentBean.getGood().getName());
-            date.setText(Tools.getTimeStr(contentBean.getPlayTime()));
+            ImageLoader.getInstance().loadImage(image, contentBean.getHeadImg());
+            name.setText(contentBean.getName());
+            date.setText(Tools.getTimeStr(mDollPickLogModel.getData().get(position).getPlayTime()));
         }
 
         @Override
         public int getItemCount() {
             return mDollPickLogModel == null || mDollPickLogModel.getData() == null ? 0 : mDollPickLogModel.getData().size();
+        }
+    }
+
+    class Imagedapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+        @Override
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(getContext()).inflate(R.layout.room_imagelist_item, parent, false);
+            return new MineViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+            RoomModel.GoodBean.GoodPhotosEntity contentBean = roomModel.getGood().getGoodPhotos().get(position);
+            View rootView = holder.itemView;
+//                            ViewSize.fixedSize(rootView, (Screen.getWidth(MainActivity.this) - DensityUtil.dip2px
+//                                    (MainActivity.this, 4) - DensityUtil.dip2px
+//                                    (MainActivity.this, 20)) / 2, 632f / 468f);
+            SimpleDraweeView image = rootView.findViewById(R.id.image);
+            if (contentBean == null) {
+                return;
+            }
+            ImageLoader.getInstance().loadImage(image, contentBean.getPhoto());
+        }
+
+        @Override
+        public int getItemCount() {
+            return roomModel == null || roomModel.getGood() == null || roomModel.getGood().getGoodPhotos() == null ?
+                    0 : roomModel.getGood().getGoodPhotos().size();
         }
     }
 

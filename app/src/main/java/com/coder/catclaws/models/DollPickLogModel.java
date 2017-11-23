@@ -76,6 +76,16 @@ public class DollPickLogModel {
             return good;
         }
 
+        private UserInfoModel.DataBean.UserBean user;
+
+        public UserInfoModel.DataBean.UserBean getUser() {
+            return user;
+        }
+
+        public void setUser(UserInfoModel.DataBean.UserBean user) {
+            this.user = user;
+        }
+
         public void setGood(GoodEntity good) {
             this.good = good;
         }
