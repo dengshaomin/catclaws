@@ -14,6 +14,7 @@ import com.coder.catclaws.R;
 import com.coder.catclaws.commons.GlobalMsg;
 import com.coder.catclaws.commons.ImageLoader;
 import com.coder.catclaws.commons.NetIndentify;
+import com.coder.catclaws.commons.PageJump;
 import com.coder.catclaws.commons.Tools;
 import com.coder.catclaws.commons.UserManager;
 import com.coder.catclaws.models.MineDollModel.DataEntity.ContentEntity;
@@ -115,7 +116,7 @@ public class DetailActivity extends BaseActivity {
     public List<String> regeistEvent() {
         return new ArrayList<String>() {{
             add(NetIndentify.EXCHANGE_DOLL);
-            add(NetIndentify.DELIVER_DOLL);
+//            add(NetIndentify.DELIVER_DOLL);
         }};
     }
 
@@ -129,11 +130,11 @@ public class DetailActivity extends BaseActivity {
                 ToastUtils.showToast(DetailActivity.this, globalMsg.getMsg() + "");
             }
         } else if (NetIndentify.DELIVER_DOLL.equals(globalMsg.getMsgId())) {
-            if (globalMsg.isSuccess()) {
-
-            } else {
-                ToastUtils.showToast(DetailActivity.this, globalMsg.getMsg() + "");
-            }
+//            if (globalMsg.isSuccess()) {
+//
+//            } else {
+//                ToastUtils.showToast(DetailActivity.this, globalMsg.getMsg() + "");
+//            }
         }
     }
 
@@ -158,7 +159,7 @@ public class DetailActivity extends BaseActivity {
                 public void onClick(View v) {
                     fullDialog.dismiss();
                     showProgressDialog();
-                    Net.request(NetIndentify.LOGIN, new HashMap<String, String>() {{
+                    Net.request(NetIndentify.EXCHANGE_DOLL, new HashMap<String, String>() {{
                         put("gifted", mContentEntity.getGoodId() + "");
                     }});
                 }
@@ -175,11 +176,12 @@ public class DetailActivity extends BaseActivity {
                 break;
             case R.id.deliver_good:
                 if (mContentEntity != null) {
-                    showProgressDialog();
-                    Net.request(NetIndentify.DELIVER_DOLL, new HashMap<String, String>() {{
-                        put("gifted", mContentEntity.getGoodId() + "");
-                        put("addressed", mContentEntity.getAddressId() + "");
-                    }});
+//                    showProgressDialog();
+//                    Net.request(NetIndentify.DELIVER_DOLL, new HashMap<String, String>() {{
+//                        put("gifted", mContentEntity.getGoodId() + "");
+//                        put("addressed", mContentEntity.getAddressId() + "");
+//                    }});
+                    PageJump.goDeliverGoodsActivity(DetailActivity.this,mContentEntity);
                 }
                 break;
         }

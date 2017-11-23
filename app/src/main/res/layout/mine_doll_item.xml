@@ -30,18 +30,18 @@
                 android:layout_height="match_parent"
                 android:layout_centerInParent="true"
                 android:layout_margin="5dp"
-                fresco:roundAsCircle="true"
                 fresco:actualImageScaleType="fitXY"
                 fresco:fadeDuration="300"
-                fresco:placeholderImageScaleType="fitXY"
+                fresco:roundAsCircle="true"
+                fresco:viewAspectRatio="1.0"
                 />
-
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
+
                 fresco:actualImageScaleType="fitCenter"
                 fresco:fadeDuration="300"
                 fresco:placeholderImageScaleType="fitXY"

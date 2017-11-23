@@ -149,7 +149,7 @@ public class AddressModel {
             this.content = content;
         }
 
-        public static class ContentBean {
+        public static class ContentBean extends MineSerializable{
 
             /**
              * version : 0

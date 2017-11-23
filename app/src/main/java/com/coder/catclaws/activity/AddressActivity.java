@@ -14,14 +14,18 @@ import com.alibaba.fastjson.JSON;
 import com.coder.catclaws.R;
 import com.coder.catclaws.commons.AddressPickTask;
 import com.coder.catclaws.commons.AddressPickTask.Callback;
+import com.coder.catclaws.commons.AppIndentify;
 import com.coder.catclaws.commons.GlobalMsg;
 import com.coder.catclaws.commons.NetIndentify;
 import com.coder.catclaws.commons.UserManager;
 import com.coder.catclaws.models.AddressModel;
 import com.coder.catclaws.models.AddressModel.DataBean.ContentBean;
+import com.coder.catclaws.models.ChangeAddressModel;
 import com.coder.catclaws.utils.Net;
 import com.coder.catclaws.widgets.codexrefreshview.CodeRecycleView;
 import com.github.lazylibrary.util.ToastUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -124,6 +128,10 @@ public class AddressActivity extends BaseActivity {
         if (NetIndentify.ADDADRESS.equals(globalMsg.getMsgId())) {
             if (globalMsg.isSuccess()) {
                 ToastUtils.showToast(this, "保存成功~");
+                ChangeAddressModel changeAddressModel = (ChangeAddressModel) globalMsg.getMsg();
+                if (changeAddressModel != null) {
+                    EventBus.getDefault().post(new GlobalMsg(true, AppIndentify.UPDATE_ADDRESS, changeAddressModel.getData()));
+                }
                 finish();
             } else {
                 ToastUtils.showToast(this, "保存失败,请重新提交~");
@@ -139,6 +147,7 @@ public class AddressActivity extends BaseActivity {
                 mAreaInfo.setText(mContentBean.getProvince() + " " + mContentBean.getCity() + " " + mContentBean.getArea());
                 mName.setText(mContentBean.getName());
                 mPhone.setText(mContentBean.getPhone());
+                mAddressDetail.setText(mContentBean.getAddre());
             } else {
                 ToastUtils.showToast(this, "获取地址失败~");
             }
@@ -206,7 +215,7 @@ public class AddressActivity extends BaseActivity {
                     put("city", mContentBean.getCity());
                     put("area", mContentBean.getArea());
                     put("name", mContentBean.getName());
-                    put("provice", mContentBean.getProvince());
+                    put("province", mContentBean.getProvince());
                     put("phone", mContentBean.getPhone());
                     put("addre", mContentBean.getAddre());
                     put("id", mContentBean.getId() + "");

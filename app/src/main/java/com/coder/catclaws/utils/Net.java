@@ -11,6 +11,7 @@ import com.coder.catclaws.commons.NetIndentify;
 import com.coder.catclaws.models.ALiOrderModel;
 import com.coder.catclaws.models.AddressModel;
 import com.coder.catclaws.models.BaseModel;
+import com.coder.catclaws.models.ChangeAddressModel;
 import com.coder.catclaws.models.DollPickLogModel;
 import com.coder.catclaws.models.HomeModel;
 import com.coder.catclaws.models.MessageModel;
@@ -56,9 +57,11 @@ public class Net {
                                 UserInfoModel.class)));
                         break;
                     case NetIndentify.MINEDOLL:
+                    case NetIndentify.ALL_DEPOSIT_DOLL:
                         EventBus.getDefault().post(new GlobalMsg(true, indentify, JSON.parseObject(response,
                                 MineDollModel.class)));
                         break;
+
                     case NetIndentify.RECHARGE:
                         EventBus.getDefault().post(new GlobalMsg(true, indentify, JSON.parseObject(response,
                                 RechargeModel.class)));
@@ -80,7 +83,7 @@ public class Net {
                         break;
                     case NetIndentify.ADDADRESS:
                         EventBus.getDefault().post(new GlobalMsg(true, indentify, JSON.parseObject(response,
-                                AddressModel.class)));
+                                ChangeAddressModel.class)));
                     case NetIndentify.SUBMIT_QUESTION:
                         EventBus.getDefault().post(new GlobalMsg(true, indentify, JSON.parseObject(response,
                                 SubmitQuestionModel.class)));

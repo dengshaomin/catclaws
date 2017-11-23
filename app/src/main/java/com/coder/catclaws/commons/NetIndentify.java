@@ -46,6 +46,8 @@ public class NetIndentify {
 
     public static final String DELIVER_DOLL = "authorized/transportMyToy";
 
+    public static final String ALL_DEPOSIT_DOLL = "authorized/myCheckToy";
+
     public static final String MINEMESSAGE = "authorized/myMessage";
 
     public static final String ADDADRESS = "authorized/addOrUpdateAddress";

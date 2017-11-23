@@ -3,6 +3,8 @@ package com.coder.catclaws.models;
 import java.io.Serializable;
 import java.util.List;
 
+import com.coder.catclaws.models.AddressModel.DataBean.ContentBean;
+
 /**
  * Created by Administrator on 2017/11/11.
  */
@@ -16,7 +18,9 @@ public class MineDollModel {
      */
 
     private String msg;
+
     private int code;
+
     /**
      * content : [{"version":0,"disable":false,"id":15,"userId":1,"goodId":1,"getTime":1510306148000,"playRecordId":51,"state":1,"addressId":null,"result":null,"transportCode":null,"good":{"version":0,"disable":false,"id":1,"name":"小熊","photo":"//img.alicdn.com/bao/uploaded/TB1G0CYXJbJ8KJjy1zjSuuqapXa.jpg_100x100q90.jpg_.webp"},"address":null},{"version":0,"disable":false,"id":14,"userId":1,"goodId":1,"getTime":1510306075000,"playRecordId":50,"state":1,"addressId":null,"result":null,"transportCode":null,"good":{"version":0,"disable":false,"id":1,"name":"小熊","photo":"//img.alicdn.com/bao/uploaded/TB1G0CYXJbJ8KJjy1zjSuuqapXa.jpg_100x100q90.jpg_.webp"},"address":null},{"version":0,"disable":false,"id":13,"userId":1,"goodId":1,"getTime":1510298106000,"playRecordId":46,"state":1,"addressId":null,"result":null,"transportCode":null,"good":{"version":0,"disable":false,"id":1,"name":"小熊","photo":"//img.alicdn.com/bao/uploaded/TB1G0CYXJbJ8KJjy1zjSuuqapXa.jpg_100x100q90.jpg_.webp"},"address":null}]
      * totalElements : 13
@@ -56,14 +60,23 @@ public class MineDollModel {
     }
 
     public static class DataEntity {
+
         private int totalElements;
+
         private int totalPages;
+
         private boolean last;
+
         private int number;
+
         private int size;
+
         private Object sort;
+
         private boolean first;
+
         private int numberOfElements;
+
         /**
          * version : 0
          * disable : false
@@ -155,17 +168,29 @@ public class MineDollModel {
         }
 
         public static class ContentEntity extends MineSerializable {
+
             private int version;
+
             private boolean disable;
+
             private int id;
+
             private int userId;
+
             private int goodId;
+
             private long getTime;
+
             private int playRecordId;
+
             private int state;
+
             private String addressId;
+
             private int transportCode;
-            private String address;
+
+            private AddressModel.DataBean.ContentBean address;
+
             private int result;
 
             public String getAddressId() {
@@ -184,11 +209,11 @@ public class MineDollModel {
                 this.transportCode = transportCode;
             }
 
-            public String getAddress() {
+            public ContentBean getAddress() {
                 return address;
             }
 
-            public void setAddress(String address) {
+            public void setAddress(ContentBean address) {
                 this.address = address;
             }
 
@@ -289,13 +314,20 @@ public class MineDollModel {
             }
 
 
-            public static class GoodEntity extends MineSerializable{
+            public static class GoodEntity extends MineSerializable {
+
                 private int version;
+
                 private boolean disable;
+
                 private int id;
+
                 private String name;
+
                 private String photo;
+
                 private int mb;
+
                 private String nameImg;
 
                 public String getNameImg() {

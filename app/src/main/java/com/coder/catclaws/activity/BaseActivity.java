@@ -81,6 +81,7 @@ public abstract class BaseActivity extends PermissionActivity implements IBaseLa
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
         setContentView(R.layout.activity_base);
         initTitle();
         initDanMu();
@@ -327,13 +328,11 @@ public abstract class BaseActivity extends PermissionActivity implements IBaseLa
     @Override
     protected void onStart() {
         super.onStart();
-        EventBus.getDefault().register(this);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -341,6 +340,7 @@ public abstract class BaseActivity extends PermissionActivity implements IBaseLa
         unbinder.unbind();
         CleanLeakUtils.fixInputMethodManagerLeak(this);
         CleanLeakUtils.fixHuaWeiMemoryLeak(this);
+        EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
 

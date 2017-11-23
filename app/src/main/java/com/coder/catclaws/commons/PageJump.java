@@ -29,6 +29,7 @@ public class PageJump {
     public static void goContactActivity(Context context) {
         context.startActivity(new Intent(context, ContactActivity.class));
     }
+
     public static void goMineDollActivity(Context context) {
         context.startActivity(new Intent(context, MineDollActivity.class));
     }
@@ -52,14 +53,19 @@ public class PageJump {
     public static void goInvertFriendActivity(Context context) {
         context.startActivity(new Intent(context, InvertFriendActivity.class));
     }
+
     public static void goAddressActivity(Context context) {
         context.startActivity(new Intent(context, AddressActivity.class));
     }
+
     public static void goMessageActivity(Context context) {
         context.startActivity(new Intent(context, MessageActivity.class));
     }
-    public static void goDeliverGoodsActivity(Context context) {
-        context.startActivity(new Intent(context, DeliverGoodsActivity.class));
+
+    public static void goDeliverGoodsActivity(Context context, ContentEntity contentEntity) {
+        Intent intent = new Intent(context, DeliverGoodsActivity.class);
+        intent.putExtra(DeliverGoodsActivity.class.getName(), contentEntity);
+        context.startActivity(intent);
     }
 
     public static void goDetailActivity(Context context, ContentEntity contentEntity) {
