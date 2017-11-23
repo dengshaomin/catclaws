@@ -7,22 +7,20 @@ import java.util.List;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.coder.catclaws.MyApplication;
 import com.coder.catclaws.R;
 import com.coder.catclaws.commons.GlobalMsg;
 import com.coder.catclaws.commons.ImageLoader;
 import com.coder.catclaws.commons.NetIndentify;
 import com.coder.catclaws.commons.PageJump;
 import com.coder.catclaws.commons.Tools;
-import com.coder.catclaws.commons.UserManager;
 import com.coder.catclaws.models.MineDollModel.DataEntity.ContentEntity;
 import com.coder.catclaws.utils.Net;
 import com.coder.catclaws.widgets.ExchangeSureDialogView;
 import com.coder.catclaws.widgets.FullDialog;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.github.lazylibrary.util.MiscUtils;
 import com.github.lazylibrary.util.ToastUtils;
 
 import butterknife.BindView;
@@ -52,6 +50,42 @@ public class DetailActivity extends BaseActivity {
 
     @BindView(R.id.deliver_good)
     TextView mDeliverGood;
+
+    @BindView(R.id.deposit_lay)
+    LinearLayout mDepositLay;
+
+    @BindView(R.id.person)
+    TextView mPerson;
+
+    @BindView(R.id.tel_phone)
+    TextView mTelPhone;
+
+    @BindView(R.id.adress)
+    TextView mAdress;
+
+    @BindView(R.id.send_lay)
+    LinearLayout mSendLay;
+
+    @BindView(R.id.exchange_date)
+    TextView mExchangeDate;
+
+    @BindView(R.id.exchange_value)
+    TextView mExchangeValue;
+
+    @BindView(R.id.finish_lay)
+    LinearLayout mFinishLay;
+
+    @BindView(R.id.action_lay)
+    LinearLayout mActionLay;
+
+    @BindView(R.id.hasexchange_lay)
+    LinearLayout mHasexchangeLay;
+
+    @BindView(R.id.express_name)
+    TextView mExpressName;
+
+    @BindView(R.id.express_code)
+    TextView mExpressCode;
 
     private ContentEntity mContentEntity;
 
@@ -97,6 +131,32 @@ public class DetailActivity extends BaseActivity {
 
     @Override
     public void initBundleData() {
+        int a = 4;
+        if (a == 1) {
+            mDepositLay.setVisibility(View.VISIBLE);
+            mSendLay.setVisibility(View.GONE);
+            mHasexchangeLay.setVisibility(View.GONE);
+            mFinishLay.setVisibility(View.GONE);
+            mActionLay.setVisibility(View.VISIBLE);
+        } else if (a == 2) {
+            mDepositLay.setVisibility(View.GONE);
+            mSendLay.setVisibility(View.VISIBLE);
+            mHasexchangeLay.setVisibility(View.GONE);
+            mFinishLay.setVisibility(View.GONE);
+            mActionLay.setVisibility(View.GONE);
+        } else if (a == 3) {
+            mDepositLay.setVisibility(View.GONE);
+            mSendLay.setVisibility(View.GONE);
+            mHasexchangeLay.setVisibility(View.VISIBLE);
+            mFinishLay.setVisibility(View.GONE);
+            mActionLay.setVisibility(View.GONE);
+        } else if (a == 4) {
+            mDepositLay.setVisibility(View.GONE);
+            mSendLay.setVisibility(View.VISIBLE);
+            mHasexchangeLay.setVisibility(View.GONE);
+            mFinishLay.setVisibility(View.VISIBLE);
+            mActionLay.setVisibility(View.GONE);
+        }
         mContentEntity = (ContentEntity) getBunleData();
         if (mContentEntity != null && mContentEntity.getGood() != null) {
             ImageLoader.getInstance().loadImage(mIcon, mContentEntity.getGood().getPhoto());
@@ -104,6 +164,15 @@ public class DetailActivity extends BaseActivity {
             mDate.setText(Tools.getTimeStr(mContentEntity.getGetTime()));
             mStatu.setText(Tools.getDollState(mContentEntity));
             mValue.setText(mContentEntity.getGood().getMb() + "");
+            if (mContentEntity.getAddress() != null) {
+                mPerson.setText(mContentEntity.getAddress().getName());
+                mTelPhone.setText(mContentEntity.getAddress().getPhone());
+                mAdress.setText(mContentEntity.getAddress().getAddre());
+                mExchangeValue.setText(mContentEntity.getGood().getMb());
+            }
+//            mExchangeDate.setText(mContentEntity.getGood().get);
+//            mExpressName.setText(mContentEntity.getTransportCode());
+            mExpressCode.setText(mContentEntity.getTransportCode() + "");
         }
     }
 
@@ -181,9 +250,10 @@ public class DetailActivity extends BaseActivity {
 //                        put("gifted", mContentEntity.getGoodId() + "");
 //                        put("addressed", mContentEntity.getAddressId() + "");
 //                    }});
-                    PageJump.goDeliverGoodsActivity(DetailActivity.this,mContentEntity);
+                    PageJump.goDeliverGoodsActivity(DetailActivity.this, mContentEntity);
                 }
                 break;
         }
     }
+
 }

@@ -235,7 +235,8 @@ public class MainActivity extends BaseActivity {
                 PageJump.goMineInfoActivity(MainActivity.this);
                 break;
             case R.id.home_right_image:
-                PageJump.goMineDollActivity(MainActivity.this);
+//                PageJump.goMineDollActivity(MainActivity.this);
+                PageJump.goDetailActivity(this, null);
                 break;
         }
     }

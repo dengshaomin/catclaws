@@ -18,6 +18,7 @@ import com.coder.catclaws.commons.GlobalMsg;
 import com.coder.catclaws.commons.ImageLoader;
 import com.coder.catclaws.commons.NetIndentify;
 import com.coder.catclaws.commons.PageJump;
+import com.coder.catclaws.commons.UserManager;
 import com.coder.catclaws.models.AddressModel.DataBean.ContentBean;
 import com.coder.catclaws.models.MineDollModel;
 import com.coder.catclaws.models.MineDollModel.DataEntity.ContentEntity;
@@ -71,6 +72,10 @@ public class DeliverGoodsActivity extends BaseActivity {
     private int selectIndex = 0;
 
     private DeliverGoodAdapter mDeliverGoodAdapter;
+
+    public static final int signalFreight = 30;
+
+    private int totalDeliverDollCount;
 
     @Override
     public boolean needTitle() {
@@ -162,6 +167,7 @@ public class DeliverGoodsActivity extends BaseActivity {
                     ContentEntity contentEntity = mMineDollModel.getData().getContent().get(i);
                     if (mContentEntity.getGoodId() == contentEntity.getGoodId()) {
                         selectIndex = i;
+                        contentEntity.setSelected(true);
                         break;
                     }
                 }
@@ -209,6 +215,14 @@ public class DeliverGoodsActivity extends BaseActivity {
 
     private void commitAction() {
         if (mContentEntity != null) {
+            if (mContentEntity.getAddress() == null) {
+                ToastUtils.showToast(this, "请填写收货地址！");
+                return;
+            }
+            if (totalDeliverDollCount < 2 && UserManager.getInstance().getMb() < signalFreight) {
+                ToastUtils.showToast(this, "猫币不足！");
+                return;
+            }
             showProgressDialog();
             Net.request(NetIndentify.DELIVER_DOLL, new HashMap<String, String>() {{
                 put("giftId", mContentEntity.getGoodId() + "");
@@ -236,6 +250,21 @@ public class DeliverGoodsActivity extends BaseActivity {
         }
     }
 
+    private void setFreight() {
+        if (mMineDollModel == null || mMineDollModel.getData() == null || mMineDollModel.getData().getContent() == null) {
+            mValue.setText(signalFreight + "猫币");
+        } else {
+            totalDeliverDollCount = 0;
+            for (ContentEntity contentEntity : mMineDollModel.getData().getContent()) {
+                if (contentEntity.isSelected()) {
+                    totalDeliverDollCount++;
+                }
+            }
+            mValue.setText(totalDeliverDollCount > 1 ? "免快递费" : signalFreight + "猫币");
+            mRecharge.setVisibility(totalDeliverDollCount <= 1 && UserManager.getInstance().getMb() < signalFreight ? View.VISIBLE : View.INVISIBLE);
+        }
+    }
+
     public class DeliverGoodAdapter extends RecyclerView.Adapter<CommonViewHolder> {
 
 
@@ -250,14 +279,18 @@ public class DeliverGoodsActivity extends BaseActivity {
             final ContentEntity contentEntity = mMineDollModel.getData().getContent().get(position);
             SimpleDraweeView image = holder.itemView.findViewById(R.id.image);
             final SimpleDraweeView name = holder.itemView.findViewById(R.id.name);
-            View deliverdoll_item_rootview = holder.itemView.findViewById(R.id.deliverdoll_item_rootview);
+            final View deliverdoll_item_rootview = holder.itemView.findViewById(R.id.deliverdoll_item_rootview);
             deliverdoll_item_rootview.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    selectIndex = position;
-                    notifyDataSetChanged();
-                    mContentEntity = contentEntity;
-                    setAddress();
+                    if (position != selectIndex) {
+                        contentEntity.setSelected(!deliverdoll_item_rootview.isSelected());
+                        deliverdoll_item_rootview.setSelected(!deliverdoll_item_rootview.isSelected());
+                        setFreight();
+                        notifyDataSetChanged();
+                        mContentEntity = contentEntity;
+                        setAddress();
+                    }
                 }
             });
             deliverdoll_item_rootview.setSelected(position == selectIndex);
