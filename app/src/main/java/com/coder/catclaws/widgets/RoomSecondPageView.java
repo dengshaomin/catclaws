@@ -7,6 +7,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.coder.catclaws.R;
@@ -16,12 +17,12 @@ import com.coder.catclaws.commons.ImageLoader;
 import com.coder.catclaws.commons.NetIndentify;
 import com.coder.catclaws.commons.Tools;
 import com.coder.catclaws.models.DollPickLogModel;
-import com.coder.catclaws.models.DollPickLogModel.DataBean;
 import com.coder.catclaws.models.RoomModel;
 import com.coder.catclaws.models.RoomModel.WaWaJiEntity;
 import com.coder.catclaws.models.UserInfoModel;
 import com.coder.catclaws.utils.Net;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.tmall.ultraviewpager.transformer.DensityUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,8 +42,10 @@ public class RoomSecondPageView extends BaseLayout {
 
     @BindView(R.id.roomSecondPageTitle)
     RoomSecondPageTitle mRoomSecondPageTitle;
-    @BindView(R.id.imageRecycleView)
-    RecyclerView imageRecycleView;
+    //    @BindView(R.id.imageRecycleView)
+//    RecyclerView imageRecycleView;
+    @BindView(R.id.photosContainer)
+    LinearLayout photosContainer;
 
     private WaWaJiEntity mWaWaJiEntity;
 
@@ -75,7 +78,7 @@ public class RoomSecondPageView extends BaseLayout {
         mRoomSecondPageTitle.setiRoomSecondHead(new IRoomSecondHead() {
             @Override
             public void selecdChange(int index) {
-                imageRecycleView.setVisibility(index == 0 ? VISIBLE : GONE);
+                photosContainer.setVisibility(index == 0 ? VISIBLE : GONE);
                 codeRecycleView.setVisibility(index == 1 ? VISIBLE : GONE);
                 if (index == 1 && mDollPickLogModel == null && mWaWaJiEntity != null) {
                     Net.request(NetIndentify.DOLL_PICL_LOG, new HashMap<String, String>() {{
@@ -130,11 +133,19 @@ public class RoomSecondPageView extends BaseLayout {
             mWaWaJiEntity = roomModel.getWaWaJi();
         }
         if (roomModel != null && roomModel.getGood() != null && roomModel.getGood().getGoodPhotos() != null) {
-            if (imagedapter == null) {
-                imagedapter = new Imagedapter();
-                imageRecycleView.setAdapter(imagedapter);
-            } else {
-                imagedapter.notifyDataSetChanged();
+//            if (imagedapter == null) {
+//                imagedapter = new Imagedapter();
+//                imageRecycleView.setAdapter(imagedapter);
+//            } else {
+//                imagedapter.notifyDataSetChanged();
+//            }
+            photosContainer.removeAllViews();
+            for (RoomModel.GoodBean.GoodPhotosEntity goodPhotosEntity : roomModel.getGood().getGoodPhotos()) {
+                View view = LayoutInflater.from(getmContext()).inflate(R.layout.room_imagelist_item, null);
+                SimpleDraweeView image = view.findViewById(R.id.image);
+                ImageLoader.getInstance().loadImage(image, goodPhotosEntity.getPhoto());
+                photosContainer.addView(view,new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                        DensityUtil.dip2px(getmContext(),300)));
             }
         }
     }

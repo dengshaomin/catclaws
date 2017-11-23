@@ -18,13 +18,18 @@
         android:layout_height="match_parent"
         >
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/imageRecycleView"
+        <!--<android.support.v7.widget.RecyclerView-->
+        <!--android:id="@+id/imageRecycleView"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:nestedScrollingEnabled="false"-->
+        <!--android:visibility="visible"-->
+        <!--/>-->
+        <LinearLayout
+            android:id="@+id/photosContainer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:nestedScrollingEnabled="false"
-            android:visibility="visible"
-            />
+            android:layout_height="wrap_content"
+            android:orientation="vertical"></LinearLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/codeRecycleView"
