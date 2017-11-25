@@ -43,6 +43,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 fresco:actualImageScaleType="fitXY"
+                android:visibility="gone"
                 fresco:fadeDuration="300"
                 />
         </com.coder.catclaws.widgets.SquareLayout>

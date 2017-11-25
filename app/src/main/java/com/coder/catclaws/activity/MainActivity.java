@@ -132,26 +132,26 @@ public class MainActivity extends BaseActivity {
                             TextView desc = holder.getView(R.id.desc);
                             TextView statu = holder.getView(R.id.statu);
                             TextView num = holder.getView(R.id.num);
-                            final SimpleDraweeView name = holder.getView(R.id.name);
+//                            final SimpleDraweeView name = holder.getView(R.id.name);
                             if (finalContentBean == null) {
                                 return;
                             }
-                            ImageLoader.getInstance().loadImage(MainActivity.this, finalContentBean.getNameImg(),
-                                    new BaseBitmapDataSubscriber() {
-                                        @Override
-                                        protected void onNewResultImpl(Bitmap bitmap) {
-                                            ViewGroup.LayoutParams layoutParams = name.getLayoutParams();
-                                            layoutParams.width = bitmap.getWidth();
-                                            layoutParams.height = bitmap.getHeight();
-                                            name.setLayoutParams(layoutParams);
-                                            ImageLoader.getInstance().loadImage(name, finalContentBean.getNameImg()
-                                            );
-                                        }
-
-                                        @Override
-                                        protected void onFailureImpl(DataSource<CloseableReference<CloseableImage>> dataSource) {
-                                        }
-                                    });
+//                            ImageLoader.getInstance().loadImage(MainActivity.this, finalContentBean.getNameImg(),
+//                                    new BaseBitmapDataSubscriber() {
+//                                        @Override
+//                                        protected void onNewResultImpl(Bitmap bitmap) {
+//                                            ViewGroup.LayoutParams layoutParams = name.getLayoutParams();
+//                                            layoutParams.width = bitmap.getWidth();
+//                                            layoutParams.height = bitmap.getHeight();
+//                                            name.setLayoutParams(layoutParams);
+//                                            ImageLoader.getInstance().loadImage(name, finalContentBean.getNameImg()
+//                                            );
+//                                        }
+//
+//                                        @Override
+//                                        protected void onFailureImpl(DataSource<CloseableReference<CloseableImage>> dataSource) {
+//                                        }
+//                                    });
                             ImageLoader.getInstance().loadImage(image, finalContentBean.getPhoto());
                             desc.setText(finalContentBean.getIntroduce());
                             statu.setText(finalContentBean.isCanUse() ? "空闲" : "游戏中");

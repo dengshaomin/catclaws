@@ -145,7 +145,7 @@ public class MineDollActivity extends BaseActivity {
                             SimpleDraweeView image = rootView.findViewById(R.id.image);
                             TextView statu = rootView.findViewById(R.id.statu);
                             TextView date = rootView.findViewById(R.id.date);
-                            final SimpleDraweeView name = rootView.findViewById(R.id.name);
+//                            final SimpleDraweeView name = rootView.findViewById(R.id.name);
                             if (contentBean == null) {
                                 return;
                             }
@@ -154,23 +154,23 @@ public class MineDollActivity extends BaseActivity {
                             if (contentBean.getGood() != null) {
                                 MineDollModel.DataEntity.ContentEntity.GoodEntity goodEntity = contentBean.getGood();
                                 ImageLoader.getInstance().loadImage(image, goodEntity.getPhoto());
-                                ImageLoader.getInstance().loadImage(MineDollActivity.this, contentBean.getGood().getNameImg(),
-                                        new
-                                                BaseBitmapDataSubscriber() {
-                                                    @Override
-                                                    protected void onNewResultImpl(Bitmap bitmap) {
-                                                        ViewGroup.LayoutParams layoutParams = name.getLayoutParams();
-                                                        layoutParams.width = bitmap.getWidth();
-                                                        layoutParams.height = bitmap.getHeight();
-                                                        name.setLayoutParams(layoutParams);
-                                                        ImageLoader.getInstance().loadImage(name, contentBean.getGood()
-                                                                .getNameImg());
-                                                    }
-
-                                                    @Override
-                                                    protected void onFailureImpl(DataSource<CloseableReference<CloseableImage>> dataSource) {
-                                                    }
-                                                });
+//                                ImageLoader.getInstance().loadImage(MineDollActivity.this, contentBean.getGood().getNameImg(),
+//                                        new
+//                                                BaseBitmapDataSubscriber() {
+//                                                    @Override
+//                                                    protected void onNewResultImpl(Bitmap bitmap) {
+//                                                        ViewGroup.LayoutParams layoutParams = name.getLayoutParams();
+//                                                        layoutParams.width = bitmap.getWidth();
+//                                                        layoutParams.height = bitmap.getHeight();
+//                                                        name.setLayoutParams(layoutParams);
+//                                                        ImageLoader.getInstance().loadImage(name, contentBean.getGood()
+//                                                                .getNameImg());
+//                                                    }
+//
+//                                                    @Override
+//                                                    protected void onFailureImpl(DataSource<CloseableReference<CloseableImage>> dataSource) {
+//                                                    }
+//                                                });
                             }
                         }
                     };
