@@ -145,10 +145,10 @@ public class RechargeActivity extends BaseActivity {
         if (NetIndentify.RECHARGE.equals(globalMsg.getMsgId())) {
             if (globalMsg.isSuccess()) {
                 rechargeModel = (RechargeModel) globalMsg.getMsg();
-                if(rechargeAdapter == null){
+                if (rechargeAdapter == null) {
                     rechargeAdapter = new RechargeAdapter();
                     recycleView.setAdapter(new RechargeAdapter());
-                }else {
+                } else {
                     rechargeAdapter.notifyDataSetChanged();
                 }
             } else {
@@ -303,6 +303,7 @@ public class RechargeActivity extends BaseActivity {
             ImageLoader.getInstance().loadImage(image, contentBean.getImg());
             value.setText("RMB " + contentBean.getPrice() + "");
             recharge_item_rootview.setSelected(position == selectIndex);
+            value.setSelected(position == selectIndex);
         }
 
         @Override
