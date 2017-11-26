@@ -43,6 +43,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 fresco:actualImageScaleType="fitXY"
+                android:visibility="gone"
                 fresco:fadeDuration="300"
                 />
         </com.coder.catclaws.widgets.SquareLayout>
@@ -96,12 +97,12 @@
 
                 <TextView
                     android:id="@+id/num"
-                    android:layout_width="52dp"
+                    android:layout_width="39dp"
                     android:layout_height="16dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="-26dp"
+                    android:layout_marginLeft="-13dp"
                     android:background="@drawable/num_bg"
                     android:ellipsize="end"
                     android:gravity="right|center_vertical"

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:fresco="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/home_gooditem_bg"
-    android:orientation="vertical"
+              xmlns:fresco="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@drawable/mine_doll_item_bg"
+              android:orientation="vertical"
     >
 
     <LinearLayout
@@ -35,12 +35,14 @@
                 fresco:roundAsCircle="true"
                 fresco:viewAspectRatio="1.0"
                 />
+
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
+                android:visibility="gone"
 
                 fresco:actualImageScaleType="fitCenter"
                 fresco:fadeDuration="300"

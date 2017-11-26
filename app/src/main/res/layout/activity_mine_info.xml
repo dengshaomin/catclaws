@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:fresco="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginBottom="16dp"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
-    android:layout_marginTop="12dp"
-    android:scrollbars="none"
-    tools:context="com.coder.catclaws.activity.MineInfoActivity"
+            xmlns:fresco="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="12dp"
+            android:paddingBottom="16dp"
+            android:scrollbars="none"
+            tools:context="com.coder.catclaws.activity.MineInfoActivity"
     >
 
 
@@ -41,7 +41,7 @@
                     android:layout_width="64dp"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:background="@drawable/icon_home_bg"
+                    android:background="@drawable/head_translate_gold_bg"
                     >
 
                     <com.facebook.drawee.view.SimpleDraweeView
