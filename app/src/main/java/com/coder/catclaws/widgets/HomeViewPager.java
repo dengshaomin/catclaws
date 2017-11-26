@@ -126,7 +126,7 @@ public class HomeViewPager extends BaseLayout {
                     .setiWidth(DensityUtil.dip2px(getmContext(), 20))
                     .setiHeight(DensityUtil.dip2px(getmContext(), 5))
                     .setipadding(DensityUtil.dip2px(getmContext(), 5))
-                    .setiselectWidth(DensityUtil.dip2px(getmContext(), 50)).build();
+                    .setiselectWidth(DensityUtil.dip2px(getmContext(), 32)).build();
         } else {
             homePagerAdapter.updateData(bannersBeans);
         }

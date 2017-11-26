@@ -115,7 +115,7 @@ public class PickSuccessDialogView extends BaseLayout {
     @Override
     public void initView() {
         ViewGroup.LayoutParams layoutParams = mPickSuccessRootView.getLayoutParams();
-        layoutParams.width = (int) (Screen.getWidth(getmContext()) * 0.8);
+        layoutParams.width = (int) (Screen.getWidth(getmContext()) * 0.68);
         layoutParams.height = (int) (328f / 248f * layoutParams.width);
         mPickSuccessRootView.setLayoutParams(layoutParams);
 

@@ -278,6 +278,7 @@ public class CodeRecycleView extends BaseLayout {
                 xRefreshView.setPullLoadEnable(false);
                 break;
         }
+        footView.setNeedBootmTip(false);
     }
 
     public void setAutoLoadMore(boolean autoLoadMore) {

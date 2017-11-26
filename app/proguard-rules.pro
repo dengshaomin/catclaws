@@ -239,3 +239,7 @@ public static final android.os.Parcelable$Creator *;
 -keep class com.alivc.player.**{*;}
 -keep class com.aliyun.vodplayer.**{*;}
 -keep class com.aliyun.vodplayerview.**{*;}
+
+#bugly
+-dontwarn com.tencent.bugly.**
+-keep public class com.tencent.bugly.**{*;}

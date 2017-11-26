@@ -178,7 +178,7 @@ public class MineDollActivity extends BaseActivity {
                     if (mineDollHeader == null) {
                         mineDollHeader = new MineDollHeader(this);
                     }
-                    mineDollHeader.setViewData(mineDollModel.getData().getNumber());
+                    mineDollHeader.setViewData(mineDollModel.getData().getTotalElements());
                     codeRecycleView.addHeaderView(mineDollHeader);
                     codeRecycleView.refreshComplete(CodeRecycleView.SUCCESS);
                     codeRecycleView.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {

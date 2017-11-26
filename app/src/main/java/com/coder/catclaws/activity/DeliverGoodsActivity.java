@@ -21,6 +21,7 @@ import com.coder.catclaws.commons.ImageLoader;
 import com.coder.catclaws.commons.NetIndentify;
 import com.coder.catclaws.commons.PageJump;
 import com.coder.catclaws.commons.UserManager;
+import com.coder.catclaws.models.AddressModel;
 import com.coder.catclaws.models.AddressModel.DataBean.ContentBean;
 import com.coder.catclaws.models.MineDollModel;
 import com.coder.catclaws.models.MineDollModel.DataEntity.ContentEntity;
@@ -156,6 +157,7 @@ public class DeliverGoodsActivity extends BaseActivity {
             add(NetIndentify.ALL_DEPOSIT_DOLL);
             add(AppIndentify.UPDATE_ADDRESS);
             add(NetIndentify.DELIVER_DOLL);
+            add(NetIndentify.ADRESS);
         }};
     }
 
@@ -207,6 +209,20 @@ public class DeliverGoodsActivity extends BaseActivity {
                 setAddress();
             } else {
             }
+        } else if (globalMsg.getMsgId().equals(NetIndentify.ADRESS)) {
+            if (globalMsg.isSuccess()) {
+                if (mContentEntity == null) {
+                    mContentEntity = new ContentEntity();
+                }
+                AddressModel mAddressModel = (AddressModel) globalMsg.getMsg();
+                if (mAddressModel.getData() == null || mAddressModel.getData().getContent() == null
+                        || mAddressModel.getData().getContent().size() == 0) {
+                    return;
+                }
+                mContentEntity.setAddress(mAddressModel.getData().getContent().get(0));
+                setAddress();
+            } else {
+            }
         }
     }
 
@@ -230,7 +246,9 @@ public class DeliverGoodsActivity extends BaseActivity {
                 ToastUtils.showToast(this, "请填写收货地址！");
                 return;
             }
-            if (selectDolls == null) return;
+            if (selectDolls == null) {
+                return;
+            }
             if (selectDolls.size() < 2 && UserManager.getInstance().getMb() < signalFreight) {
                 ToastUtils.showToast(this, "猫币不足！");
                 return;

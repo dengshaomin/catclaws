@@ -11,163 +11,191 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
+        android:layout_marginTop="4dp"
         android:orientation="vertical"
         >
 
-        <View
-            style="@style/line"
-            android:layout_marginTop="4dp"
-            />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="@color/white"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
             >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="收货人"
-                android:textColor="#6c6c6c"
-                android:textSize="@dimen/text12"
-                android:textStyle="bold"
-                />
+            <View style="@style/line" />
 
-            <EditText
-                android:id="@+id/name"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="8dp"
-                android:background="@color/translate"
+                android:layout_height="40dp"
+                android:background="@color/white"
                 android:gravity="center_vertical"
-                android:hint="输入收货人姓名"
-                android:textColor="#999999"
-                android:textColorHint="#999999"
-                android:textSize="@dimen/text10"
-                />
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="收货人"
+                    android:textColor="#6c6c6c"
+                    android:textSize="@dimen/text12"
+                    android:textStyle="bold"
+                    />
+
+                <EditText
+                    android:id="@+id/name"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="8dp"
+                    android:background="@color/translate"
+                    android:gravity="center_vertical"
+                    android:hint="输入收货人姓名"
+                    android:textColor="#999999"
+                    android:textColorHint="#999999"
+                    android:textSize="@dimen/text10"
+                    />
+            </LinearLayout>
+
+            <View style="@style/line" />
         </LinearLayout>
 
-        <View
-            style="@style/line"
-            android:layout_marginTop="4dp"
-            />
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="@color/white"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:orientation="vertical"
             >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="联系电话"
-                android:textColor="#6c6c6c"
-                android:textSize="@dimen/text12"
-                android:textStyle="bold"
-                />
+            <View style="@style/line" />
 
-            <EditText
-                android:id="@+id/phone"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="8dp"
-                android:background="@color/translate"
+                android:layout_height="40dp"
+                android:background="@color/white"
                 android:gravity="center_vertical"
-                android:hint="输入收货人联系电话"
-                android:inputType="number"
-                android:textColor="#999999"
-                android:textColorHint="#999999"
-                android:textSize="@dimen/text10"
-                />
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="联系电话"
+                    android:textColor="#6c6c6c"
+                    android:textSize="@dimen/text12"
+                    android:textStyle="bold"
+                    />
+
+                <EditText
+                    android:id="@+id/phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="8dp"
+                    android:background="@color/translate"
+                    android:gravity="center_vertical"
+                    android:hint="输入收货人联系电话"
+                    android:inputType="number"
+                    android:textColor="#999999"
+                    android:textColorHint="#999999"
+                    android:textSize="@dimen/text10"
+                    />
+            </LinearLayout>
+
+            <View style="@style/line" />
         </LinearLayout>
 
-        <View
-            style="@style/line"
-            android:layout_marginTop="4dp"
-            />
-
-        <RelativeLayout
-            android:id="@+id/area_lay"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="@color/white"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:orientation="vertical"
             >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="所在地区"
-                android:textColor="#6c6c6c"
-                android:textSize="@dimen/text12"
-                android:textStyle="bold"
-                />
+            <View style="@style/line" />
 
-            <TextView
-                android:id="@+id/area_info"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:drawablePadding="8dp"
-                android:drawableRight="@drawable/icon_arrow"
-                android:text="请选择"
-                android:textColor="#999999"
-                android:textSize="@dimen/text10"
-                android:textStyle="bold"
-                />
-        </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/area_lay"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                >
 
-        <View
-            style="@style/line"
-            android:layout_marginTop="4dp"
-            />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="所在地区"
+                    android:textColor="#6c6c6c"
+                    android:textSize="@dimen/text12"
+                    android:textStyle="bold"
+                    />
+
+                <TextView
+                    android:id="@+id/area_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:drawablePadding="8dp"
+                    android:drawableRight="@drawable/icon_arrow"
+                    android:text="请选择"
+                    android:textColor="#999999"
+                    android:textSize="@dimen/text10"
+                    android:textStyle="bold"
+                    />
+            </RelativeLayout>
+
+            <View style="@style/line" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="68dp"
-            android:background="@color/white"
-            android:orientation="horizontal"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingTop="12dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:orientation="vertical"
             >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="top"
-                android:text="详细地址"
-                android:textColor="#6c6c6c"
-                android:textSize="@dimen/text12"
-                android:textStyle="bold"
-                />
+            <View style="@style/line" />
 
-            <EditText
-                android:id="@+id/address_detail"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="8dp"
-                android:background="@color/translate"
-                android:gravity="left|top"
-                android:hint="请输入地址"
-                android:textColor="#999999"
-                android:textColorHint="#999999"
-                android:textSize="@dimen/text10"
-                />
+                android:layout_height="68dp"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="12dp"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="top"
+                    android:text="详细地址"
+                    android:textColor="#6c6c6c"
+                    android:textSize="@dimen/text12"
+                    android:textStyle="bold"
+                    />
+
+                <EditText
+                    android:id="@+id/address_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="8dp"
+                    android:background="@color/translate"
+                    android:gravity="left|top"
+                    android:hint="请输入地址"
+                    android:textColor="#999999"
+                    android:textColorHint="#999999"
+                    android:textSize="@dimen/text10"
+                    />
+            </LinearLayout>
+
+            <View style="@style/line" />
         </LinearLayout>
     </LinearLayout>
 
@@ -178,7 +206,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_margin="16dp"
-        android:background="@drawable/btn_yellow_bg"
+        android:background="@drawable/yellow_address_btn_bg"
         android:gravity="center"
         android:text="保存"
         android:textColor="@color/white"

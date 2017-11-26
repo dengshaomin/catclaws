@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.support.multidex.MultiDex;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.imagepipeline.core.ImagePipelineConfig;
+import com.tencent.bugly.crashreport.CrashReport;
 
 /**
  * Created by dengshaomin on 2017/11/7.
@@ -15,12 +17,13 @@ public class MyApplication extends Application {
 
     public static Context applicationContext;
 
-    public static final boolean DEBUG = true;
+    public static final boolean DEBUG = false;
 
     @Override
     public void onCreate() {
         super.onCreate();
         this.applicationContext = getApplicationContext();
+        CrashReport.initCrashReport(getApplicationContext(), "dc243a1ffb", false);
         startService(new Intent(this, InitService.class));
     }
 
