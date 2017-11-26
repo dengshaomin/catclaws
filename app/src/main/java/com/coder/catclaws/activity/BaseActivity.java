@@ -1,6 +1,5 @@
 package com.coder.catclaws.activity;
 
-import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -14,9 +13,7 @@ import android.text.style.BackgroundColorSpan;
 import android.text.style.ImageSpan;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -26,9 +23,6 @@ import com.coder.catclaws.commons.IBaseLayout;
 import com.coder.catclaws.commons.ITitle;
 import com.coder.catclaws.commons.NetIndentify;
 import com.coder.catclaws.danmu.BiliDanmukuParser;
-import com.coder.catclaws.danmu.MineDanMuView;
-import com.coder.catclaws.utils.CleanLeakUtils;
-import com.coder.catclaws.widgets.BaseLayout;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -43,16 +37,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import master.flame.danmaku.controller.IDanmakuView;
 import master.flame.danmaku.danmaku.loader.ILoader;
 import master.flame.danmaku.danmaku.loader.IllegalDataException;
 import master.flame.danmaku.danmaku.loader.android.DanmakuLoaderFactory;
 import master.flame.danmaku.danmaku.model.BaseDanmaku;
 import master.flame.danmaku.danmaku.model.DanmakuTimer;
-import master.flame.danmaku.danmaku.model.IDanmakus;
 import master.flame.danmaku.danmaku.model.IDisplayer;
 import master.flame.danmaku.danmaku.model.android.BaseCacheStuffer;
 import master.flame.danmaku.danmaku.model.android.DanmakuContext;
@@ -339,8 +330,6 @@ public abstract class BaseActivity extends PermissionActivity implements IBaseLa
     @Override
     protected void onDestroy() {
         unbinder.unbind();
-        CleanLeakUtils.fixInputMethodManagerLeak(this);
-        CleanLeakUtils.fixHuaWeiMemoryLeak(this);
         EventBus.getDefault().unregister(this);
         super.onDestroy();
     }

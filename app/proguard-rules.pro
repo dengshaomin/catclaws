@@ -243,3 +243,6 @@ public static final android.os.Parcelable$Creator *;
 #bugly
 -dontwarn com.tencent.bugly.**
 -keep public class com.tencent.bugly.**{*;}
+
+#腾讯直播
+-keep class com.tencent.** { *; }

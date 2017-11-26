@@ -48,7 +48,7 @@ public class AddressPickTask extends AsyncTask<String, Void, ArrayList<Province>
 
     @Override
     protected void onPreExecute() {
-        if (StaticUtils.provinces == null || StaticUtils.provinces.size() == 0) {
+        if (StaticUtils.getProvinces() == null || StaticUtils.getProvinces().size() == 0) {
             dialog = ProgressDialog.show(activity, null, "正在初始化数据...", true, true);
         }
     }
@@ -73,7 +73,7 @@ public class AddressPickTask extends AsyncTask<String, Void, ArrayList<Province>
                     break;
             }
         }
-        ArrayList<Province> data = StaticUtils.provinces;
+        ArrayList<Province> data = StaticUtils.getProvinces();
         if (data == null || data.size() == 0) {
             try {
                 String json = ConvertUtils.toString(activity.getAssets().open("city.json"));

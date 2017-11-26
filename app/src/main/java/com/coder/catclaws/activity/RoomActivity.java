@@ -10,41 +10,23 @@ package com.coder.catclaws.activity;/*
  */
 
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.media.projection.MediaProjection;
 import android.media.projection.MediaProjectionManager;
 import android.os.Bundle;
-import android.os.Handler;
+import android.os.Environment;
 import android.os.IBinder;
-import android.view.SurfaceHolder;
-import android.view.SurfaceHolder.Callback;
-import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.WindowManager.LayoutParams;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.alivc.player.AliVcMediaPlayer;
-import com.alivc.player.MediaPlayer.MediaPlayerBufferingUpdateListener;
-import com.alivc.player.MediaPlayer.MediaPlayerCompletedListener;
-import com.alivc.player.MediaPlayer.MediaPlayerErrorListener;
-import com.alivc.player.MediaPlayer.MediaPlayerFrameInfoListener;
-import com.alivc.player.MediaPlayer.MediaPlayerPreparedListener;
-import com.alivc.player.MediaPlayer.MediaPlayerSeekCompleteListener;
-import com.alivc.player.MediaPlayer.MediaPlayerStoppedListener;
 import com.boom.service.room.netty.TCPClient;
-import com.boom.service.room.netty.TCPResponse;
 import com.boom.service.room.netty.WaWaJiProtoType;
 import com.coder.catclaws.MusicService;
 import com.coder.catclaws.MusicService.MusicBinder;
@@ -77,14 +59,21 @@ import com.coder.catclaws.widgets.ShareDialogView;
 import com.coder.catclaws.widgets.SquareLayout;
 import com.coder.catclaws.widgets.SubmitQuestionSuccessDialogView;
 import com.coder.catclaws.widgets.draguplookmore.Page;
-import com.coder.catclaws.widgets.draguplookmore.PageContainer;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.github.lazylibrary.util.DensityUtil;
 import com.github.lazylibrary.util.ToastUtils;
+import com.tencent.rtmp.TXLiveConstants;
+import com.tencent.rtmp.TXLivePlayConfig;
+import com.tencent.rtmp.TXLivePlayer;
+import com.tencent.rtmp.ui.TXCloudVideoView;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
 import com.tmall.ultraviewpager.Screen;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -93,8 +82,6 @@ import cn.iwgang.countdownview.CountdownView;
 import cn.iwgang.countdownview.CountdownView.OnCountdownEndListener;
 import cn.iwgang.countdownview.CountdownView.OnCountdownIntervalListener;
 import me.weyye.hipermission.PermissonItem;
-
-import static android.view.SurfaceHolder.SURFACE_TYPE_GPU;
 
 
 public class RoomActivity extends BaseActivity {
@@ -187,8 +174,6 @@ public class RoomActivity extends BaseActivity {
     @BindView(R.id.danmu_lay)
     LinearLayout mDanmuLay;
 
-    @BindView(R.id.surfaceView)
-    SurfaceView mSurfaceView;
 
     @BindView(R.id.player_info)
     LinearLayout mPlayerInfo;
@@ -210,7 +195,9 @@ public class RoomActivity extends BaseActivity {
 
     @BindView(R.id.pageOne)
     Page mPageOne;
-
+    @BindView(R.id.txCloudVideoView)
+    TXCloudVideoView txCloudVideoView;
+    private TXLivePlayer txLivePlayer;
 //    @BindView(R.id.detail_image)
 //    SimpleDraweeView mDetailImage;
 
@@ -223,7 +210,6 @@ public class RoomActivity extends BaseActivity {
 
     private RecordService recordService;
 
-    private AliVcMediaPlayer mPlayer;
 
     private ContentBean contentBean;
 
@@ -249,6 +235,8 @@ public class RoomActivity extends BaseActivity {
     private boolean startBtnStatu = true; //空闲
 
     private String questionAuthCode = "";
+
+    private final int STREAM_MODE = TXLivePlayer.PLAY_TYPE_LIVE_RTMP;
 
     @Override
     public boolean needTitle() {
@@ -295,6 +283,7 @@ public class RoomActivity extends BaseActivity {
     private MusicConnection mMusicConnection;
 
     private MusicService mMusicService;
+    TXLivePlayConfig mPlayConfig;
 
 
     private class MusicConnection implements ServiceConnection {
@@ -317,101 +306,11 @@ public class RoomActivity extends BaseActivity {
         bindService(serviceIntent, mMusicConnection, BIND_AUTO_CREATE);
     }
 
-    private void initAliVedio() {
-        mSurfaceView.getHolder().addCallback(new Callback() {
-            public void surfaceCreated(SurfaceHolder holder) {
-                holder.setType(SURFACE_TYPE_GPU);
-                holder.setKeepScreenOn(true);
-
-                // Important: surfaceView changed from background to front, we need reset surface to mediaplayer.
-                // 对于从后台切换到前台,需要重设surface;部分手机锁屏也会做前后台切换的处理
-                if (mPlayer != null) {
-                    mPlayer.setVideoSurface(mSurfaceView.getHolder().getSurface());
-                }
-
-            }
-
-            public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
-                if (mPlayer != null) {
-                    mPlayer.setSurfaceChanged();
-                }
-            }
-
-            public void surfaceDestroyed(SurfaceHolder holder) {
-            }
-        });
-        initVodPlayer();
-        if (contentBean != null) {
-            mPlayer.prepareAndPlay(contentBean.getFirstCamera());
-        }
-    }
-
-    private void initVodPlayer() {
-        mPlayer = new AliVcMediaPlayer(this, mSurfaceView);
-
-        mPlayer.setPreparedListener(new MediaPlayerPreparedListener() {
-            @Override
-            public void onPrepared() {
-//                Toast.makeText(LiveModeActivity.this.getApplicationContext(), R.string.toast_prepare_success, Toast.LENGTH_SHORT).show();
-
-            }
-        });
-        mPlayer.setFrameInfoListener(new MediaPlayerFrameInfoListener() {
-            @Override
-            public void onFrameInfoListener() {
-                Map<String, String> debugInfo = mPlayer.getAllDebugInfo();
-                long createPts = 0;
-                if (debugInfo.get("create_player") != null) {
-                    String time = debugInfo.get("create_player");
-                    createPts = (long) Double.parseDouble(time);
-                }
-                if (debugInfo.get("open-url") != null) {
-                    String time = debugInfo.get("open-url");
-                    long openPts = (long) Double.parseDouble(time) + createPts;
-                }
-                if (debugInfo.get("find-stream") != null) {
-                    String time = debugInfo.get("find-stream");
-                    long findPts = (long) Double.parseDouble(time) + createPts;
-                }
-                if (debugInfo.get("open-stream") != null) {
-                    String time = debugInfo.get("open-stream");
-                    long openPts = (long) Double.parseDouble(time) + createPts;
-                }
-            }
-        });
-        mPlayer.setErrorListener(new MediaPlayerErrorListener() {
-            @Override
-            public void onError(int i, String msg) {
-//                Toast.makeText(LiveModeActivity.this.getApplicationContext(), getString(R.string.toast_fail_msg) + msg, Toast.LENGTH_SHORT).show();
-            }
-        });
-        mPlayer.setCompletedListener(new MediaPlayerCompletedListener() {
-            @Override
-            public void onCompleted() {
-            }
-        });
-        mPlayer.setSeekCompleteListener(new MediaPlayerSeekCompleteListener() {
-            @Override
-            public void onSeekCompleted() {
-            }
-        });
-        mPlayer.setStoppedListener(new MediaPlayerStoppedListener() {
-            @Override
-            public void onStopped() {
-            }
-        });
-        mPlayer.setBufferingUpdateListener(new MediaPlayerBufferingUpdateListener() {
-            @Override
-            public void onBufferingUpdateListener(int percent) {
-            }
-        });
-        mPlayer.enableNativeLog();
-
-    }
 
     @Override
     public void initView() {
-        getWindow().addFlags(LayoutParams.FLAG_KEEP_SCREEN_ON);
+//        getWindow().addFlags(LayoutParams.FLAG_KEEP_SCREEN_ON);
+        initVedioPlayer();
         mMineNums.setText("我的猫币:" + UserManager.getInstance().getMb());
 //        mPageTwo.setScrollAble(false);
         initMusicService();
@@ -443,18 +342,30 @@ public class RoomActivity extends BaseActivity {
 //        ImageLoader.getInstance().loadImage(mDetailImage,UserManager.getInstance().getIcon());
     }
 
+    private void initVedioPlayer() {
+        txLivePlayer = new TXLivePlayer(this);
+        mPlayConfig = new TXLivePlayConfig();
+        txLivePlayer.setRenderMode(TXLiveConstants.RENDER_MODE_FULL_FILL_SCREEN);
+        mPlayConfig.setAutoAdjustCacheTime(true);
+        mPlayConfig.setMinAutoAdjustCacheTime(1);
+        mPlayConfig.setMaxAutoAdjustCacheTime(5);
+        mPlayConfig.setCacheFolderPath(Environment.getExternalStorageDirectory().getPath() + "/txcache");
+        mPlayConfig.setMaxCacheItems(2);
+        txLivePlayer.setPlayerView(txCloudVideoView);
+        txLivePlayer.enableHardwareDecode(true);
+        txLivePlayer.setAutoPlay(true);
+        txLivePlayer.setConfig(mPlayConfig);
+    }
+
     @Override
     public void initBundleData() {
         contentBean = (ContentBean) getBunleData();
         if (contentBean != null) {
             TCPClient.getInstance().send(contentBean.getIp(), WaWaJiProtoType.auth);
+//            contentBean.setFirstCamera("rtmp://live.hkstv.hk.lxdns.com/live/hks");
+//            contentBean.setSecondCamera("rtmp://live.hkstv.hk.lxdns.com/live/hks");
+            txLivePlayer.startPlay(contentBean.getFirstCamera(), STREAM_MODE); //推荐FLV
         }
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                initAliVedio();
-            }
-        }, 500);
 
     }
 
@@ -747,12 +658,11 @@ public class RoomActivity extends BaseActivity {
             case R.id.danmu_lay:
                 break;
             case R.id.record:
-                if (mPlayer != null && contentBean != null) {
-                    mPlayer.stop();
-                    mPlayer.prepareAndPlay(firstVisualAngle ? contentBean.getSecondCamera() : contentBean.getFirstCamera());
+                if (txLivePlayer != null) {
+                    txLivePlayer.startPlay(firstVisualAngle ? contentBean.getFirstCamera() : contentBean.getSecondCamera(),
+                            STREAM_MODE); //推荐FLV
                     firstVisualAngle = !firstVisualAngle;
                 }
-
                 break;
         }
     }
@@ -827,11 +737,13 @@ public class RoomActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mPlayer != null) {
-            mPlayer.stop();
-            mPlayer.destroy();
-        }
         unbindService(mMusicConnection);
+        if (txLivePlayer != null && txLivePlayer.isPlaying()) {
+            txLivePlayer.stopPlay(true); // true代表清除最后一帧画面
+        }
+        if (txCloudVideoView != null) {
+            txCloudVideoView.onDestroy();
+        }
     }
 
     @Override
@@ -840,10 +752,8 @@ public class RoomActivity extends BaseActivity {
         if (mMusicService != null) {
             mMusicService.onPause();
         }
-        if (mPlayer != null && mPlayer.isPlaying()) {
-            //we pause the player for not playing on the background
-            // 不可见，暂停播放器
-            mPlayer.pause();
+        if (txLivePlayer != null && txLivePlayer.isPlaying()) {
+            txLivePlayer.pause();
         }
     }
 
@@ -853,9 +763,8 @@ public class RoomActivity extends BaseActivity {
         if (mMusicService != null) {
             mMusicService.onResume();
         }
-        if (mPlayer != null) {
-            //we pause the player for not playing on the background
-            mPlayer.play();
+        if (txLivePlayer != null && !txLivePlayer.isPlaying()) {
+            txLivePlayer.resume();
         }
     }
 

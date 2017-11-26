@@ -56,7 +56,9 @@ public class ShareUtils {
         req.transaction = "img/text";
         req.message = msg;
         req.scene = isLine ? SendMessageToWX.Req.WXSceneTimeline : SendMessageToWX.Req.WXSceneSession;
-        StaticUtils.mWxApi.sendReq(req);
+        if(StaticUtils.getmWxApi() != null) {
+            StaticUtils.getmWxApi().sendReq(req);
+        }
     }
 
     //分享QQ的activity要重写onactivityresult,参照loginactivity，不然收不到回调
@@ -69,7 +71,9 @@ public class ShareUtils {
         params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL, shareImageUrl);
         params.putString(QQShare.SHARE_TO_QQ_APP_NAME, MyApplication.applicationContext.getResources().getString(R
                 .string.app_name));
-        StaticUtils.mTencent.shareToQQ(activity, params, iUiListener);
+        if(StaticUtils.getmTencent() != null) {
+            StaticUtils.getmTencent().shareToQQ(activity, params, iUiListener);
+        }
     }
 
 //    public static void shareToQzone(Activity activity, String title, String description, IUiListener iUiListener) {

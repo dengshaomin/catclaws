@@ -15,17 +15,57 @@ import cn.addapp.pickers.entity.Province;
  */
 
 public class StaticUtils {
-    public static IWXAPI mWxApi;
-    public static Tencent mTencent;
+    private static IWXAPI mWxApi;
+    private static Tencent mTencent;
+
+    public static void setmWxApi(IWXAPI mWxApi) {
+        StaticUtils.mWxApi = mWxApi;
+    }
+
+    public static String getQqAppid() {
+        return QQ_APPID;
+    }
+
+    public static void setProvinces(ArrayList<Province> provinces) {
+        StaticUtils.provinces = provinces;
+    }
+
     public static final String WEIXIN_APPID = "wxfef5d9bc369124d5";
     public static final String WEIXIN_SECRET = "b661d6232d8858bc962798202b3e9850";
     public static final String QQ_APPID = "101441608";
-    public static ArrayList<Province> provinces = new java.util.ArrayList<>();
+    private static ArrayList<Province> provinces = new java.util.ArrayList<>();
 
     public static void clear() {
-        provinces.clear();
-        mWxApi.unregisterApp();
-        mTencent.logout(MyApplication.applicationContext);
+        if (provinces != null) {
+            provinces.clear();
+        }
+        if (mWxApi != null) {
+            mWxApi.unregisterApp();
+        }
+        if (mTencent != null) {
+            mTencent.logout(MyApplication.applicationContext);
+        }
         TCPClient.getInstance().disConnect();
     }
+
+    public static IWXAPI getmWxApi() {
+        return mWxApi;
+    }
+
+
+    public static Tencent getmTencent() {
+        return mTencent;
+    }
+
+    public static void setmTencent(Tencent mTencent) {
+        StaticUtils.mTencent = mTencent;
+    }
+
+    public static ArrayList<Province> getProvinces() {
+        if(provinces == null){
+            provinces = new ArrayList<>();
+        }
+        return provinces;
+    }
+
 }

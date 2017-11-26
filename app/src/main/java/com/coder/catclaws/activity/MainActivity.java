@@ -99,10 +99,10 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void getNetData() {
-        Net.request(NetIndentify.ADRESS, new HashMap<String, String>() {{
-            put("page",  "1");
-            put("size", CodeRecycleView.pageSize + "");
-        }});
+//        Net.request(NetIndentify.ADRESS, new HashMap<String, String>() {{
+//            put("page",  "1");
+//            put("size", CodeRecycleView.pageSize + "");
+//        }});
         Net.request(NetIndentify.HOME, null);
     }
 
@@ -110,7 +110,7 @@ public class MainActivity extends BaseActivity {
     public List<String> regeistEvent() {
         return new ArrayList<String>() {{
             add(NetIndentify.HOME);
-            add(NetIndentify.ADRESS);
+//            add(NetIndentify.ADRESS);
         }};
     }
 
@@ -172,6 +172,9 @@ public class MainActivity extends BaseActivity {
                     codeRecycleView.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
                         @Override
                         public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
+                            if (0 < position && position >= homeModel.getData().getRooms().getSize()) {
+                                return;
+                            }
                             PageJump.goRoomActivity(MainActivity.this, homeModel.getData().getRooms().getContent()
                                     .get(position));
                         }

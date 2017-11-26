@@ -12,7 +12,7 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
             // 设置支持的SO库架构
-            abiFilters 'armeabi' //, 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
+            abiFilters 'armeabi', 'armeabi-v7a' //, 'x86', 'x86_64', 'arm64-v8a'
         }
     }
     buildTypes {
@@ -80,9 +80,7 @@ dependencies {
     compile 'com.github.ctiao:ndkbitmap-x86:0.9.16'
     compile 'com.github.addappcn:android-pickers:1.0.1'
 
-    compile(name: 'AlivcPlayer', ext: 'aar')
-    compile(name: 'AliyunVodPlayer', ext: 'aar')
-    compile(name: 'AliyunVodPlayerView', ext: 'aar')
+    compile(name: 'LiteAVSDK_Player_3.7.3403', ext: 'aar')
     compile 'com.tencent.bugly:crashreport:latest.release' //其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号，例如2.1.9
     compile 'com.tencent.bugly:nativecrashreport:latest.release' //其中latest.release指代最新Bugly NDK版本号，也可以指定明确的版本号，例如3.0
 //    compile 'com.android.support:multidex:1.0.1'

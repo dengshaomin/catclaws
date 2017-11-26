@@ -144,7 +144,7 @@ public class LoginActivity extends PermissionActivity {
                 }
             };
         }
-        StaticUtils.mTencent.login(this, "all", iUiListener);
+        StaticUtils.getmTencent().login(this, "all", iUiListener);
 //        } else {
 //        }
     }
@@ -157,14 +157,14 @@ public class LoginActivity extends PermissionActivity {
 
     public void wxLogin() {
         showProgressDialog();
-        if (!StaticUtils.mWxApi.isWXAppInstalled()) {
+        if (!StaticUtils.getmWxApi().isWXAppInstalled()) {
             ToastUtils.showToast(this, "您还未安装微信客户端");
             return;
         }
         final SendAuth.Req req = new SendAuth.Req();
         req.scope = "snsapi_userinfo";
         req.state = "diandi_wx_login";
-        StaticUtils.mWxApi.sendReq(req);
+        StaticUtils.getmWxApi().sendReq(req);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

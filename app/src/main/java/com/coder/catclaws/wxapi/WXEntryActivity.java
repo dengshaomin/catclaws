@@ -44,7 +44,9 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
         super.onCreate(savedInstanceState);
 
         //如果没回调onResp，八成是这句没有写
-        StaticUtils.mWxApi.handleIntent(getIntent(), this);
+        if (StaticUtils.getmWxApi() != null) {
+            StaticUtils.getmWxApi().handleIntent(getIntent(), this);
+        }
     }
 
     @Override
