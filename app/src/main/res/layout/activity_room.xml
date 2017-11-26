@@ -43,7 +43,7 @@
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:layout_weight="1"
-                        android:background="@drawable/room_block_bg"
+                        android:background="@drawable/blue_tb_bg"
                         android:orientation="horizontal"
                         android:visibility="invisible"
                         >
@@ -115,19 +115,21 @@
                         android:layout_height="40dp"
                         android:layout_marginLeft="8dp"
                         android:layout_weight="2"
-                        android:background="@drawable/room_block_bg"
+                        android:background="@drawable/blue_tb_bg"
                         android:orientation="horizontal"
                         >
 
                         <TextView
                             android:id="@+id/room_persons"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="24dp"
                             android:layout_gravity="center_vertical"
                             android:layout_margin="8dp"
-                            android:background="@drawable/num_bg"
+                            android:background="@drawable/corner_2_453f6a"
                             android:ellipsize="end"
                             android:gravity="center"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
                             android:singleLine="true"
                             android:text="1人"
                             android:textColor="#d9d9ef"
@@ -136,81 +138,95 @@
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_gravity="center_vertical"
+                            android:layout_marginBottom="4dp"
+                            android:layout_marginTop="4dp"
                             android:gravity="center_vertical"
                             android:orientation="horizontal"
                             >
 
-                            <com.coder.catclaws.widgets.SquareLayout
-                                android:id="@+id/icon_other_0_lay"
-                                android:layout_width="0dp"
+                            <RelativeLayout
+                                android:layout_width="32dp"
                                 android:layout_height="match_parent"
-                                android:layout_marginBottom="4dp"
-                                android:layout_marginTop="4dp"
                                 android:layout_weight="1"
-                                android:background="@drawable/head_translate_gold_bg"
                                 >
 
-                                <com.facebook.drawee.view.SimpleDraweeView
-                                    android:id="@+id/icon_other_0"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_margin="2dp"
-                                    fresco:roundAsCircle="true"
-                                    fresco:actualImageScaleType="fitXY"
-                                    fresco:fadeDuration="300"
-                                    fresco:placeholderImageScaleType="fitXY"
-                                    />
-                            </com.coder.catclaws.widgets.SquareLayout>
+                                <com.coder.catclaws.widgets.SquareLayout
+                                    android:id="@+id/icon_other_0_lay"
+                                    android:layout_width="32dp"
+                                    android:layout_height="32dp"
+                                    android:layout_centerInParent="true"
+                                    android:background="@drawable/head_translate_gold_bg"
+                                    >
 
-                            <com.coder.catclaws.widgets.SquareLayout
-                                android:id="@+id/icon_other_1_lay"
+                                    <com.facebook.drawee.view.SimpleDraweeView
+                                        android:id="@+id/icon_other_0"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_margin="2dp"
+                                        fresco:actualImageScaleType="fitXY"
+                                        fresco:fadeDuration="300"
+                                        fresco:roundAsCircle="true"
+                                        />
+                                </com.coder.catclaws.widgets.SquareLayout>
+                            </RelativeLayout>
+
+                            <RelativeLayout
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
-                                android:layout_marginBottom="4dp"
-                                android:layout_marginLeft="8dp"
-                                android:layout_marginTop="4dp"
                                 android:layout_weight="1"
-                                android:background="@drawable/head_translate_gold_bg"
                                 >
 
-                                <com.facebook.drawee.view.SimpleDraweeView
-                                    android:id="@+id/icon_other_1"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_alignParentRight="true"
-                                    android:layout_margin="2dp"
-                                    fresco:actualImageScaleType="fitXY"
-                                    fresco:fadeDuration="300"
-                                    fresco:placeholderImageScaleType="fitXY"
-                                    fresco:roundAsCircle="true"
-                                    />
-                            </com.coder.catclaws.widgets.SquareLayout>
+                                <com.coder.catclaws.widgets.SquareLayout
+                                    android:id="@+id/icon_other_1_lay"
+                                    android:layout_width="32dp"
+                                    android:layout_height="32dp"
+                                    android:layout_centerInParent="true"
+                                    android:background="@drawable/head_translate_gold_bg"
+                                    >
 
-                            <com.coder.catclaws.widgets.SquareLayout
-                                android:id="@+id/icon_other_2_lay"
+                                    <com.facebook.drawee.view.SimpleDraweeView
+                                        android:id="@+id/icon_other_1"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_alignParentRight="true"
+                                        android:layout_margin="2dp"
+                                        fresco:actualImageScaleType="fitXY"
+                                        fresco:fadeDuration="300"
+                                        fresco:placeholderImageScaleType="fitXY"
+                                        fresco:roundAsCircle="true"
+                                        />
+                                </com.coder.catclaws.widgets.SquareLayout>
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
-                                android:layout_marginBottom="4dp"
-                                android:layout_marginLeft="8dp"
-                                android:layout_marginTop="4dp"
                                 android:layout_weight="1"
-                                android:background="@drawable/head_translate_gold_bg"
                                 >
 
-                                <com.facebook.drawee.view.SimpleDraweeView
-                                    android:id="@+id/icon_other_2"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_margin="2dp"
-                                    fresco:actualImageScaleType="fitXY"
-                                    fresco:fadeDuration="300"
-                                    fresco:placeholderImageScaleType="fitXY"
-                                    fresco:roundAsCircle="true"
-                                    />
-                            </com.coder.catclaws.widgets.SquareLayout>
+                                <com.coder.catclaws.widgets.SquareLayout
+                                    android:id="@+id/icon_other_2_lay"
+                                    android:layout_width="32dp"
+                                    android:layout_height="32dp"
+                                    android:layout_centerInParent="true"
+                                    android:background="@drawable/head_translate_gold_bg"
+                                    >
 
+                                    <com.facebook.drawee.view.SimpleDraweeView
+                                        android:id="@+id/icon_other_2"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_margin="2dp"
+                                        fresco:actualImageScaleType="fitXY"
+                                        fresco:fadeDuration="300"
+                                        fresco:placeholderImageScaleType="fitXY"
+                                        fresco:roundAsCircle="true"
+                                        />
+                                </com.coder.catclaws.widgets.SquareLayout>
+                            </RelativeLayout>
 
                             <RelativeLayout
                                 android:layout_width="0dp"
@@ -333,7 +349,7 @@
                             android:layout_height="match_parent"
                             android:layout_marginLeft="8dp"
                             android:layout_marginRight="8dp"
-                            android:background="@drawable/room_block_bg"
+                            android:background="@drawable/blue_height_tb_bg"
                             >
 
                             <RelativeLayout
@@ -537,7 +553,7 @@
                     android:layout_marginTop="8dp"
                     android:background="@drawable/danmu_item_bg"
                     android:gravity="center"
-                    android:text="好棒好厉害0"
+                    android:text="666"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text10"
                     />
@@ -549,7 +565,7 @@
                     android:layout_marginTop="8dp"
                     android:background="@drawable/danmu_item_bg"
                     android:gravity="center"
-                    android:text="好棒好厉害1"
+                    android:text="神抓手"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text10"
                     />
@@ -561,7 +577,7 @@
                     android:layout_marginTop="8dp"
                     android:background="@drawable/danmu_item_bg"
                     android:gravity="center"
-                    android:text="好棒好厉害2"
+                    android:text="让一让"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text10"
                     />
@@ -573,7 +589,7 @@
                     android:layout_marginTop="8dp"
                     android:background="@drawable/danmu_item_bg"
                     android:gravity="center"
-                    android:text="好棒好厉害3"
+                    android:text="快点吧"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text10"
                     />
@@ -585,7 +601,7 @@
                     android:layout_marginTop="8dp"
                     android:background="@drawable/danmu_item_bg"
                     android:gravity="center"
-                    android:text="好棒好厉害4"
+                    android:text="有毒"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text10"
                     />

@@ -10,6 +10,7 @@ import com.aliyun.vodplayer.downloader.AliyunDownloadConfig;
 import com.aliyun.vodplayer.downloader.AliyunDownloadManager;
 import com.coder.catclaws.utils.StaticUtils;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.imagepipeline.core.ImagePipelineConfig;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.tencent.tauth.Tencent;
@@ -97,7 +98,14 @@ public class InitService extends IntentService {
 //        ImagePipelineConfig config = ImagePipelineConfig.newBuilder(getApplicationContext())
 //                .setProgressiveJpegConfig(pjpegConfig)
 //                .build();
-        Fresco.initialize(this);
+        try {
+            ImagePipelineConfig config = ImagePipelineConfig.newBuilder(this)
+                    .setDownsampleEnabled(true)
+                    .build();
+            Fresco.initialize(this, config);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

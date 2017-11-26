@@ -66,8 +66,8 @@ public class ExchangeSureDialogView extends BaseLayout {
     @Override
     public void initView() {
         ViewGroup.LayoutParams layoutParams = mDialogRootView.getLayoutParams();
-        layoutParams.width = (int) (Screen.getWidth(getmContext()) * 0.8);
-        layoutParams.height = (int) (200f / 248f * layoutParams.width);
+        layoutParams.width = (int) (Screen.getWidth(getmContext()) * 0.68);
+//        layoutParams.height = (int) (200f / 248f * layoutParams.width);
         mDialogRootView.setLayoutParams(layoutParams);
     }
 

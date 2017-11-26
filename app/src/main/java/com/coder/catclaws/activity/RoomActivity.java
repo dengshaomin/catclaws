@@ -623,7 +623,7 @@ public class RoomActivity extends BaseActivity {
             mName.setText(player.getName());
             mStatu.setText("游戏中");
             ImageLoader.getInstance().loadImage(mIconMine, player.getHeadImg());
-            mStatu.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icon_room_busy, 0, 0, 0);
+//            mStatu.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icon_room_busy, 0, 0, 0);
         } else {
             mIconMine.setBackgroundResource(0);
         }

@@ -16,6 +16,7 @@ import java.util.List;
  */
 
 public class CodeRecyclerViewFooter extends BaseLayout {
+
     private View progress, no_more_tip;
 
     public CodeRecyclerViewFooter(Context context) {
@@ -28,6 +29,17 @@ public class CodeRecyclerViewFooter extends BaseLayout {
 
     public CodeRecyclerViewFooter(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+    }
+
+    private boolean needBootmTip;
+
+    public boolean isNeedBootmTip() {
+        return needBootmTip;
+    }
+
+    public void setNeedBootmTip(boolean needBootmTip) {
+        this.needBootmTip = needBootmTip;
+        no_more_tip.setVisibility(needBootmTip ? VISIBLE : GONE);
     }
 
     @Override
@@ -65,10 +77,14 @@ public class CodeRecyclerViewFooter extends BaseLayout {
     @Override
     public void setViewData(Object data) {
         if (data instanceof Boolean && !(Boolean) data) {
-            no_more_tip.setVisibility(GONE);
+            if (needBootmTip) {
+                no_more_tip.setVisibility(GONE);
+            }
             progress.setVisibility(VISIBLE);
         } else {
-            no_more_tip.setVisibility(VISIBLE);
+            if (needBootmTip) {
+                no_more_tip.setVisibility(VISIBLE);
+            }
             progress.setVisibility(GONE);
         }
     }

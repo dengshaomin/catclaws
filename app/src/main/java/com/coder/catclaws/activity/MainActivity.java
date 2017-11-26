@@ -1,6 +1,7 @@
 package com.coder.catclaws.activity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import android.content.Intent;
@@ -98,6 +99,10 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void getNetData() {
+        Net.request(NetIndentify.ADRESS, new HashMap<String, String>() {{
+            put("page",  "1");
+            put("size", CodeRecycleView.pageSize + "");
+        }});
         Net.request(NetIndentify.HOME, null);
     }
 
@@ -105,6 +110,7 @@ public class MainActivity extends BaseActivity {
     public List<String> regeistEvent() {
         return new ArrayList<String>() {{
             add(NetIndentify.HOME);
+            add(NetIndentify.ADRESS);
         }};
     }
 
