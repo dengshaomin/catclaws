@@ -1,5 +1,6 @@
 package com.coder.catclaws.activity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.coder.catclaws.R;
+import com.coder.catclaws.commons.AppIndentify;
 import com.coder.catclaws.commons.GlobalMsg;
 import com.coder.catclaws.commons.ImageLoader;
 import com.coder.catclaws.commons.PageJump;
@@ -97,10 +99,8 @@ public class MineInfoActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        name.setText(UserManager.getInstance().getName());
-        num.setText(UserManager.getInstance().getMb() + "");
-        ImageLoader.getInstance().loadImage(icon, UserManager.getInstance().getIcon());
 
+        setUserInfo();
         boolean flag = PreferenceUtils.getInstance().getBoolean(PreferenceUtils.SETTING_BG_MUSIC, true);
         mSettingBgMusic.setBackgroundResource(flag ? R.drawable.setting_open_bg : R.drawable.setting_close_bg);
 
@@ -108,6 +108,11 @@ public class MineInfoActivity extends BaseActivity {
         mSettingYinxiao.setBackgroundResource(flag1 ? R.drawable.setting_open_bg : R.drawable.setting_close_bg);
     }
 
+    private void setUserInfo() {
+        name.setText(UserManager.getInstance().getName());
+        num.setText(UserManager.getInstance().getMb() + "");
+        ImageLoader.getInstance().loadImage(icon, UserManager.getInstance().getIcon());
+    }
 
     @Override
     public void initBundleData() {
@@ -121,12 +126,14 @@ public class MineInfoActivity extends BaseActivity {
 
     @Override
     public List<String> regeistEvent() {
-        return null;
+        return new ArrayList<String>() {{
+            add(AppIndentify.UPDATE_USERINFO);
+        }};
     }
 
     @Override
     public void eventComming(GlobalMsg globalMsg) {
-
+        setUserInfo();
     }
 
     @Override

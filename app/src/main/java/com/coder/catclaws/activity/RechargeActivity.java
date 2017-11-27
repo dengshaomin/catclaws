@@ -182,7 +182,8 @@ public class RechargeActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == WeChartPayActivity.RESULT_CODE) {
 //            EventBus.getDefault().post(new GlobalMsg(true, AppIndentify.UPDATE_USERINFO, null));
-            UserManager.getInstance().changeMb(rechargeModel.getData().get(selectIndex).getGive());
+//            UserManager.getInstance().changeMb(rechargeModel.getData().get(selectIndex).getGive());
+            Net.request(NetIndentify.GET_USERINFO, null);
         }
     }
 
@@ -250,7 +251,8 @@ public class RechargeActivity extends BaseActivity {
                     // 判断resultStatus 为9000则代表支付成功
                     if (TextUtils.equals(resultStatus, "9000")) {
 //                        EventBus.getDefault().post(new GlobalMsg(true, AppIndentify.UPDATE_USERINFO, null));
-                        UserManager.getInstance().changeMb(rechargeModel.getData().get(selectIndex).getGive());
+//                        UserManager.getInstance().changeMb(rechargeModel.getData().get(selectIndex).getGive());
+                        Net.request(NetIndentify.GET_USERINFO, null);
                         Toast.makeText(RechargeActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(RechargeActivity.this, "支付失败", Toast.LENGTH_SHORT).show();

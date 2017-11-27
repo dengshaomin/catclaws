@@ -105,19 +105,19 @@ public class UserManager {
         return userInfoModel.getData().getWallet().getMb();
     }
 
-    public void changeMb(int change) {
-        if (userInfoModel == null) {
-            userInfoModel = new UserInfoModel();
-        }
-        if (userInfoModel.getData() == null) {
-            userInfoModel.setData(new DataBean());
-        }
-        if (userInfoModel.getData().getWallet() == null) {
-            userInfoModel.getData().setWallet(new WalletBean());
-        }
-        userInfoModel.getData().getWallet().setMb(userInfoModel.getData().getWallet().getMb() + change);
-        EventBus.getDefault().post(new GlobalMsg(true, AppIndentify.UPDATE_USERINFO, null));
-    }
+//    public void changeMb(int change) {
+//        if (userInfoModel == null) {
+//            userInfoModel = new UserInfoModel();
+//        }
+//        if (userInfoModel.getData() == null) {
+//            userInfoModel.setData(new DataBean());
+//        }
+//        if (userInfoModel.getData().getWallet() == null) {
+//            userInfoModel.getData().setWallet(new WalletBean());
+//        }
+//        userInfoModel.getData().getWallet().setMb(userInfoModel.getData().getWallet().getMb() + change);
+//        EventBus.getDefault().post(new GlobalMsg(true, AppIndentify.UPDATE_USERINFO, null));
+//    }
 
     public String getInvertCode() {
         if (userInfoModel == null || userInfoModel.getData() == null || userInfoModel.getData().getWallet() == null) {
@@ -130,6 +130,7 @@ public class UserManager {
     public void setUserinfo(UserInfoModel userinfo) {
         this.userInfoModel = userinfo;
         PreferenceUtils.getInstance().saveString(PreferenceUtils.USERINFO, JSON.toJSONString(userInfoModel));
+        EventBus.getDefault().post(new GlobalMsg(true, AppIndentify.UPDATE_USERINFO, null));
     }
 
     public ThirdLoginModel getThirdLoginModel() {

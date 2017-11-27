@@ -126,6 +126,19 @@ public class MessageActivity extends BaseActivity {
 
     @Override
     public void eventComming(GlobalMsg globalMsg) {
+        MessageModel tmessageModel = (MessageModel) globalMsg.getMsg();
+        if (tmessageModel == null || tmessageModel.getData() == null || tmessageModel.getData().getContent() ==
+                null) {
+            return;
+        }
+        if (page == 1) {
+            mMessageModel = tmessageModel;
+        } else {
+            if (mMessageModel != null && mMessageModel.getData() != null && mMessageModel.getData().getContent()
+                    != null) {
+                mMessageModel.getData().getContent().addAll(tmessageModel.getData().getContent());
+            }
+        }
         if (globalMsg.isSuccess()) {
             mMessageModel = (MessageModel) globalMsg.getMsg();
             if (mMessageModel != null && mMessageModel.getData().getContent() != null) {
@@ -161,6 +174,7 @@ public class MessageActivity extends BaseActivity {
             mCodeRecycleView.refreshComplete(CodeRecycleView.ERROR);
         }
     }
+
     @Override
     public void setViewData(Object data) {
 

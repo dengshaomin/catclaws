@@ -404,7 +404,8 @@ public class RoomActivity extends BaseActivity {
                 setRoomData();
             }
         } else if (NetIndentify.PLAY.equals(globalMsg.getMsgId())) {
-            UserManager.getInstance().changeMb(-contentBean.getPrice());
+            Net.request(NetIndentify.GET_USERINFO, null);
+//            UserManager.getInstance().changeMb(-contentBean.getPrice());
             mControlLayout.setVisibility(View.VISIBLE);
             mStartLayout.setVisibility(View.INVISIBLE);
             questionAuthCode = globalMsg.getMsg() + "";
@@ -447,9 +448,7 @@ public class RoomActivity extends BaseActivity {
             mStartLayout.setVisibility(View.VISIBLE);
             isNowPicking = false;
             setPlayer(null);
-        } else if (AppIndentify.UPDATE_USERINFO.equals(globalMsg.getMsgId()))
-
-        {
+        } else if (AppIndentify.UPDATE_USERINFO.equals(globalMsg.getMsgId())) {
             mMineNums.setText("我的猫币:" + UserManager.getInstance().getMb());
         } else if (NetIndentify.SUBMIT_QUESTION.equals(globalMsg.getMsgId())) {
             if (globalMsg.isSuccess()) {

@@ -11,18 +11,24 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.coder.catclaws.R;
+import com.coder.catclaws.commons.AppIndentify;
 import com.coder.catclaws.commons.GlobalMsg;
 import com.coder.catclaws.commons.ImageLoader;
 import com.coder.catclaws.commons.NetIndentify;
 import com.coder.catclaws.commons.PageJump;
 import com.coder.catclaws.commons.Tools;
+import com.coder.catclaws.commons.UserManager;
 import com.coder.catclaws.models.MineDollModel.DataEntity.ContentEntity;
+import com.coder.catclaws.models.UserInfoModel;
 import com.coder.catclaws.utils.Net;
 import com.coder.catclaws.utils.StateUtil;
+import com.coder.catclaws.widgets.ExchangeSuccessDialogView;
 import com.coder.catclaws.widgets.ExchangeSureDialogView;
 import com.coder.catclaws.widgets.FullDialog;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.github.lazylibrary.util.ToastUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -144,8 +150,8 @@ public class DetailActivity extends BaseActivity {
                 mPerson.setText(mContentEntity.getAddress().getName());
                 mTelPhone.setText(mContentEntity.getAddress().getPhone());
                 mAdress.setText(mContentEntity.getAddress().getAddre());
-                mExchangeValue.setText(mContentEntity.getGood().getMb());
             }
+            mExchangeValue.setText(mContentEntity.getGood().getMb() + "");
             mExchangeDate.setText(Tools.getTimeStr(mContentEntity.getExchangeTime()));
             mExpressName.setText(mContentEntity.getTransportCompany());
             mExpressCode.setText(mContentEntity.getTransportCode() + "");
@@ -171,9 +177,9 @@ public class DetailActivity extends BaseActivity {
                 mActionLay.setVisibility(View.GONE);
             } else if (StateUtil.Finish.equals(Tools.getDollState(mContentEntity))) {
                 mDepositLay.setVisibility(View.GONE);
-                mSendLay.setVisibility(View.VISIBLE);
-                mHasexchangeLay.setVisibility(View.GONE);
-                mFinishLay.setVisibility(View.VISIBLE);
+                mSendLay.setVisibility(View.GONE);
+                mHasexchangeLay.setVisibility(View.VISIBLE);
+                mFinishLay.setVisibility(View.GONE);
                 mActionLay.setVisibility(View.GONE);
             }
         }
@@ -181,7 +187,6 @@ public class DetailActivity extends BaseActivity {
 
     @Override
     public void getNetData() {
-        Net.request(NetIndentify.HOME, null);
     }
 
     @Override
@@ -197,7 +202,20 @@ public class DetailActivity extends BaseActivity {
         closeProgressDialog();
         if (NetIndentify.EXCHANGE_DOLL.equals(globalMsg.getMsgId())) {
             if (globalMsg.isSuccess()) {
+                ExchangeSuccessDialogView exchangeSuccessDialogView = new ExchangeSuccessDialogView(this);
+                final FullDialog fullDialog = FullDialog.create(DetailActivity.this).addContentView(exchangeSuccessDialogView);
+                exchangeSuccessDialogView.getSure().setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        fullDialog.dismiss();
+                        Net.request(NetIndentify.GET_USERINFO, null);
+                        EventBus.getDefault().post(new GlobalMsg(true, AppIndentify.MINE_DOLL_CHANGE,null));
+                        PageJump.goMineInfoActivity(DetailActivity.this);
 
+                    }
+                });
+
+                fullDialog.show();
             } else {
                 ToastUtils.showToast(DetailActivity.this, globalMsg.getMsg() + "");
             }
@@ -232,7 +250,7 @@ public class DetailActivity extends BaseActivity {
                     fullDialog.dismiss();
                     showProgressDialog();
                     Net.request(NetIndentify.EXCHANGE_DOLL, new HashMap<String, String>() {{
-                        put("gifted", mContentEntity.getGoodId() + "");
+                        put("gifted", mContentEntity.getId() + "");
                     }});
                 }
             });
@@ -254,6 +272,7 @@ public class DetailActivity extends BaseActivity {
 //                        put("addressed", mContentEntity.getAddressId() + "");
 //                    }});
                     PageJump.goDeliverGoodsActivity(DetailActivity.this, mContentEntity);
+                    finish();
                 }
                 break;
         }

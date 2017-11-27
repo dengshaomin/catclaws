@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:id="@+id/dialog_root_view"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:fresco="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/dialog_bg"
-    android:gravity="center_horizontal"
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:fresco="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/dialog_root_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/dialog_bg"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
     >
 
     <ImageView
@@ -37,29 +37,22 @@
             android:textStyle="bold"
             />
 
-        <LinearLayout
+
+        <TextView
+            android:id="@+id/sure"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="36dp"
             android:layout_marginLeft="24dp"
             android:layout_marginRight="24dp"
             android:layout_marginTop="64dp"
-            android:orientation="horizontal"
-            >
+            android:background="@drawable/yellow_btn_circle_bg"
+            android:gravity="center"
+            android:text="查看我的猫币"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text12"
+            />
 
-            <TextView
-                android:id="@+id/sure"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/yellow_btn_circle_bg"
-                android:gravity="center"
-                android:text="查看我的猫币"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text12"
-                />
-
-        </LinearLayout>
     </LinearLayout>
 
 </RelativeLayout>

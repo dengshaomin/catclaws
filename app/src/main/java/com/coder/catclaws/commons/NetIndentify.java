@@ -59,4 +59,5 @@ public class NetIndentify {
 
     public static final String HAS_AUTHED = "HAS_AUTHED";
 
+    public static final String GET_USERINFO = "authorized/userInfo";
 }

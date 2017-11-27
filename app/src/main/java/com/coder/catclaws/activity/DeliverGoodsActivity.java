@@ -30,12 +30,15 @@ import com.coder.catclaws.widgets.CommonViewHolder;
 import com.coder.catclaws.widgets.DelivedSuccessDialogView;
 import com.coder.catclaws.widgets.FullDialog;
 import com.coder.catclaws.widgets.RechargeItemDecoration;
+import com.coder.catclaws.widgets.codexrefreshview.CodeRecycleView;
 import com.facebook.common.references.CloseableReference;
 import com.facebook.datasource.DataSource;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.facebook.imagepipeline.datasource.BaseBitmapDataSubscriber;
 import com.facebook.imagepipeline.image.CloseableImage;
 import com.github.lazylibrary.util.ToastUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -125,6 +128,12 @@ public class DeliverGoodsActivity extends BaseActivity {
     @Override
     public void initBundleData() {
         mContentEntity = (ContentEntity) getBunleData();
+        if (mContentEntity == null || mContentEntity.getAddress() == null) {
+            Net.request(NetIndentify.ADRESS, new HashMap<String, String>() {{
+                put("page", 1 + "");
+                put("size", CodeRecycleView.pageSize + "");
+            }});
+        }
         setAddress();
     }
 
@@ -172,6 +181,10 @@ public class DeliverGoodsActivity extends BaseActivity {
                     if (mContentEntity.getGoodId() == contentEntity.getGoodId()) {
                         selectIndex = i;
                         contentEntity.setSelected(true);
+                        if (selectDolls == null) {
+                            selectDolls = new ArrayList<>();
+                        }
+                        selectDolls.add(contentEntity);
                         break;
                     }
                 }
@@ -194,6 +207,7 @@ public class DeliverGoodsActivity extends BaseActivity {
                 fullDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                     @Override
                     public void onDismiss(DialogInterface dialog) {
+                        EventBus.getDefault().post(new GlobalMsg(true,AppIndentify.MINE_DOLL_CHANGE,null));
                         finish();
                     }
                 });
@@ -249,10 +263,10 @@ public class DeliverGoodsActivity extends BaseActivity {
             if (selectDolls == null) {
                 return;
             }
-            if (selectDolls.size() < 2 && UserManager.getInstance().getMb() < signalFreight) {
-                ToastUtils.showToast(this, "猫币不足！");
-                return;
-            }
+//            if (selectDolls.size() < 2 && UserManager.getInstance().getMb() < signalFreight) {
+//                ToastUtils.showToast(this, "猫币不足！");
+//                return;
+//            }
             showProgressDialog();
 
             Net.request(NetIndentify.DELIVER_DOLL, new HashMap<String, String>() {{
@@ -325,8 +339,8 @@ public class DeliverGoodsActivity extends BaseActivity {
 //                        deliverdoll_item_rootview.setSelected(!deliverdoll_item_rootview.isSelected());
                         setFreight();
                         notifyDataSetChanged();
-                        mContentEntity = contentEntity;
-                        setAddress();
+//                        mContentEntity = contentEntity;
+//                        setAddress();
                     }
                 }
             });

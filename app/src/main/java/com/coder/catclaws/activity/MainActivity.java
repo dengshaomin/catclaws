@@ -24,6 +24,7 @@ import com.coder.catclaws.commons.PageJump;
 import com.coder.catclaws.commons.UserManager;
 import com.coder.catclaws.models.HomeModel;
 import com.coder.catclaws.models.RoomModel;
+import com.coder.catclaws.models.UserInfoModel;
 import com.coder.catclaws.utils.Net;
 import com.coder.catclaws.utils.StaticUtils;
 import com.coder.catclaws.widgets.HomeItemDecoration;
@@ -110,38 +111,42 @@ public class MainActivity extends BaseActivity {
     public List<String> regeistEvent() {
         return new ArrayList<String>() {{
             add(NetIndentify.HOME);
-//            add(NetIndentify.ADRESS);
+            add(NetIndentify.GET_USERINFO);
         }};
     }
 
     @Override
     public void eventComming(GlobalMsg globalMsg) {
-        if (globalMsg.isSuccess()) {
-            homeModel = (HomeModel) globalMsg.getMsg();
-            if (homeModel != null && homeModel.getData() != null) {
-                if (homeViewPager == null) {
-                    homeViewPager = new HomeViewPager(MainActivity.this);
-                }
-                homeViewPager.setViewData(homeModel.getData().getBanners());
-                if (commonAdapter == null) {
-                    commonAdapter = new CommonAdapter<HomeModel.DataBean.RoomsBean.ContentBean>(MainActivity.this, R
-                            .layout.goods_item,
-                            homeModel.getData().getRooms().getContent()) {
-                        @Override
-                        protected void convert(ViewHolder holder, HomeModel.DataBean.RoomsBean.ContentBean contentBean, int position) {
-                            View rootView = holder.itemView;
+        if(NetIndentify.GET_USERINFO.equals(globalMsg.getMsgId())){
+            UserInfoModel userInfoModel = (UserInfoModel) globalMsg.getMsg();
+            UserManager.getInstance().setUserinfo(userInfoModel);
+        }else if(NetIndentify.HOME.equals(globalMsg.getMsgId())) {
+            if (globalMsg.isSuccess()) {
+                homeModel = (HomeModel) globalMsg.getMsg();
+                if (homeModel != null && homeModel.getData() != null) {
+                    if (homeViewPager == null) {
+                        homeViewPager = new HomeViewPager(MainActivity.this);
+                    }
+                    homeViewPager.setViewData(homeModel.getData().getBanners());
+                    if (commonAdapter == null) {
+                        commonAdapter = new CommonAdapter<HomeModel.DataBean.RoomsBean.ContentBean>(MainActivity.this, R
+                                .layout.goods_item,
+                                homeModel.getData().getRooms().getContent()) {
+                            @Override
+                            protected void convert(ViewHolder holder, HomeModel.DataBean.RoomsBean.ContentBean contentBean, int position) {
+                                View rootView = holder.itemView;
 //                            ViewSize.fixedSize(rootView, (Screen.getWidth(MainActivity.this) - DensityUtil.dip2px
 //                                    (MainActivity.this, 4) - DensityUtil.dip2px
 //                                    (MainActivity.this, 20)) / 2, 632f / 468f);
-                            final HomeModel.DataBean.RoomsBean.ContentBean finalContentBean = homeModel.getData().getRooms().getContent().get(position);
-                            SimpleDraweeView image = holder.getView(R.id.image);
-                            TextView desc = holder.getView(R.id.desc);
-                            TextView statu = holder.getView(R.id.statu);
-                            TextView num = holder.getView(R.id.num);
+                                final HomeModel.DataBean.RoomsBean.ContentBean finalContentBean = homeModel.getData().getRooms().getContent().get(position);
+                                SimpleDraweeView image = holder.getView(R.id.image);
+                                TextView desc = holder.getView(R.id.desc);
+                                TextView statu = holder.getView(R.id.statu);
+                                TextView num = holder.getView(R.id.num);
 //                            final SimpleDraweeView name = holder.getView(R.id.name);
-                            if (finalContentBean == null) {
-                                return;
-                            }
+                                if (finalContentBean == null) {
+                                    return;
+                                }
 //                            ImageLoader.getInstance().loadImage(MainActivity.this, finalContentBean.getNameImg(),
 //                                    new BaseBitmapDataSubscriber() {
 //                                        @Override
@@ -158,39 +163,40 @@ public class MainActivity extends BaseActivity {
 //                                        protected void onFailureImpl(DataSource<CloseableReference<CloseableImage>> dataSource) {
 //                                        }
 //                                    });
-                            ImageLoader.getInstance().loadImage(image, finalContentBean.getPhoto());
-                            desc.setText(finalContentBean.getIntroduce());
-                            statu.setText(finalContentBean.isCanUse() ? "空闲" : "游戏中");
-                            statu.setCompoundDrawablesWithIntrinsicBounds(finalContentBean.isCanUse() ? R.drawable.icon_room_free : R.drawable.icon_room_busy,
-                                    0, 0, 0);
-                            num.setText(finalContentBean.getPrice() + "");
-                        }
-                    };
-                    codeRecycleView.setAdapter(commonAdapter);
-                    codeRecycleView.addHeaderView(homeViewPager);
-                    codeRecycleView.refreshComplete(CodeRecycleView.SUCCESS);
-                    codeRecycleView.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-                            if (0 < position && position >= homeModel.getData().getRooms().getSize()) {
-                                return;
+                                ImageLoader.getInstance().loadImage(image, finalContentBean.getPhoto());
+                                desc.setText(finalContentBean.getIntroduce());
+                                statu.setText(finalContentBean.isCanUse() ? "空闲" : "游戏中");
+                                statu.setCompoundDrawablesWithIntrinsicBounds(finalContentBean.isCanUse() ? R.drawable.icon_room_free : R.drawable.icon_room_busy,
+                                        0, 0, 0);
+                                num.setText(finalContentBean.getPrice() + "");
                             }
-                            PageJump.goRoomActivity(MainActivity.this, homeModel.getData().getRooms().getContent()
-                                    .get(position));
-                        }
+                        };
+                        codeRecycleView.setAdapter(commonAdapter);
+                        codeRecycleView.addHeaderView(homeViewPager);
+                        codeRecycleView.refreshComplete(CodeRecycleView.SUCCESS);
+                        codeRecycleView.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
+                                if (0 < position && position >= homeModel.getData().getRooms().getSize()) {
+                                    return;
+                                }
+                                PageJump.goRoomActivity(MainActivity.this, homeModel.getData().getRooms().getContent()
+                                        .get(position));
+                            }
 
-                        @Override
-                        public boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, int position) {
-                            return false;
-                        }
-                    });
-                } else {
-                    commonAdapter.notifyDataSetChanged();
-                    codeRecycleView.refreshComplete(CodeRecycleView.SUCCESS);
+                            @Override
+                            public boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, int position) {
+                                return false;
+                            }
+                        });
+                    } else {
+                        commonAdapter.notifyDataSetChanged();
+                        codeRecycleView.refreshComplete(CodeRecycleView.SUCCESS);
+                    }
                 }
+            } else {
+                codeRecycleView.refreshComplete(CodeRecycleView.ERROR);
             }
-        } else {
-            codeRecycleView.refreshComplete(CodeRecycleView.ERROR);
         }
     }
 

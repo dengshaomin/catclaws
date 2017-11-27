@@ -23,6 +23,7 @@ import com.coder.catclaws.models.WeChartOrderModel;
 import com.coder.catclaws.retrofit.GCNetCallBack;
 import com.coder.catclaws.retrofit.NetInterface;
 import com.coder.catclaws.retrofit.RetrofitHttpUtil;
+import com.tencent.connect.UserInfo;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -40,61 +41,72 @@ public class Net {
         RetrofitHttpUtil.getInstance().get(url, params, new GCNetCallBack<String>(url, new NetInterface() {
             @Override
             public void onSuccess(String indentify, String code, String response) {
-                BaseModel baseModel = JSON.parseObject(response, BaseModel.class);
-                if (baseModel == null || baseModel.getCode() != 200) {
-                    EventBus.getDefault().post(new GlobalMsg(false, indentify, baseModel == null ? UKNOW_ERROR :
-                            baseModel
-                                    .getMsg()));
-                    return;
-                }
-                switch (indentify) {
-                    case NetIndentify.HOME:
-                        EventBus.getDefault().post(new GlobalMsg(true, indentify, JSON.parseObject(response,
-                                HomeModel.class)));
-                        break;
-                    case NetIndentify.LOGIN:
-                        EventBus.getDefault().post(new GlobalMsg(true, indentify, JSON.parseObject(response,
-                                UserInfoModel.class)));
-                        break;
-                    case NetIndentify.MINEDOLL:
-                    case NetIndentify.ALL_DEPOSIT_DOLL:
-                        EventBus.getDefault().post(new GlobalMsg(true, indentify, JSON.parseObject(response,
-                                MineDollModel.class)));
-                        break;
+                try {
+                    BaseModel baseModel = JSON.parseObject(response, BaseModel.class);
+                    if (baseModel == null || baseModel.getCode() != 200) {
+                        EventBus.getDefault().post(new GlobalMsg(false, indentify, baseModel == null ? UKNOW_ERROR :
+                                baseModel
+                                        .getMsg()));
+                        return;
+                    }
+                    switch (indentify) {
+                        case NetIndentify.HOME:
+                            EventBus.getDefault().post(new GlobalMsg(true, indentify, JSON.parseObject(response,
+                                    HomeModel.class)));
+                            break;
+                        case NetIndentify.LOGIN:
+                            EventBus.getDefault().post(new GlobalMsg(true, indentify, JSON.parseObject(response,
+                                    UserInfoModel.class)));
+                            break;
+                        case NetIndentify.MINEDOLL:
+                        case NetIndentify.ALL_DEPOSIT_DOLL:
+                            EventBus.getDefault().post(new GlobalMsg(true, indentify, JSON.parseObject(response,
+                                    MineDollModel.class)));
+                            break;
 
-                    case NetIndentify.RECHARGE:
-                        EventBus.getDefault().post(new GlobalMsg(true, indentify, JSON.parseObject(response,
-                                RechargeModel.class)));
-                        break;
-                    case NetIndentify.WX_PAY:
-                        EventBus.getDefault().post(new GlobalMsg(true, indentify, JSON.parseObject(response,
-                                WeChartOrderModel.class)));
-                        break;
-                    case NetIndentify.ALI_PAY:
-                        EventBus.getDefault().post(new GlobalMsg(true, indentify, JSON.parseObject(response,
-                                ALiOrderModel.class)));
-                    case NetIndentify.MINEMESSAGE:
-                        EventBus.getDefault().post(new GlobalMsg(true, indentify, JSON.parseObject(response,
-                                MessageModel.class)));
-                        break;
-                    case NetIndentify.ADRESS:
-                        EventBus.getDefault().post(new GlobalMsg(true, indentify, JSON.parseObject(response,
-                                AddressModel.class)));
-                        break;
-                    case NetIndentify.ADDADRESS:
-                        EventBus.getDefault().post(new GlobalMsg(true, indentify, JSON.parseObject(response,
-                                ChangeAddressModel.class)));
-                    case NetIndentify.SUBMIT_QUESTION:
-                        EventBus.getDefault().post(new GlobalMsg(true, indentify, JSON.parseObject(response,
-                                SubmitQuestionModel.class)));
-                        break;
-                    case NetIndentify.DOLL_PICL_LOG:
-                        EventBus.getDefault().post(new GlobalMsg(true, indentify, JSON.parseObject(response,
-                                DollPickLogModel.class)));
-                        break;
-                    case NetIndentify.INVITED:
-                        EventBus.getDefault().post(new GlobalMsg(true, indentify, null));
-                        break;
+                        case NetIndentify.RECHARGE:
+                            EventBus.getDefault().post(new GlobalMsg(true, indentify, JSON.parseObject(response,
+                                    RechargeModel.class)));
+                            break;
+                        case NetIndentify.WX_PAY:
+                            EventBus.getDefault().post(new GlobalMsg(true, indentify, JSON.parseObject(response,
+                                    WeChartOrderModel.class)));
+                            break;
+                        case NetIndentify.ALI_PAY:
+                            EventBus.getDefault().post(new GlobalMsg(true, indentify, JSON.parseObject(response,
+                                    ALiOrderModel.class)));
+                        case NetIndentify.MINEMESSAGE:
+                            EventBus.getDefault().post(new GlobalMsg(true, indentify, JSON.parseObject(response,
+                                    MessageModel.class)));
+                            break;
+                        case NetIndentify.ADRESS:
+                            EventBus.getDefault().post(new GlobalMsg(true, indentify, JSON.parseObject(response,
+                                    AddressModel.class)));
+                            break;
+                        case NetIndentify.ADDADRESS:
+                            EventBus.getDefault().post(new GlobalMsg(true, indentify, JSON.parseObject(response,
+                                    ChangeAddressModel.class)));
+                        case NetIndentify.SUBMIT_QUESTION:
+                            EventBus.getDefault().post(new GlobalMsg(true, indentify, JSON.parseObject(response,
+                                    SubmitQuestionModel.class)));
+                            break;
+                        case NetIndentify.DOLL_PICL_LOG:
+                            EventBus.getDefault().post(new GlobalMsg(true, indentify, JSON.parseObject(response,
+                                    DollPickLogModel.class)));
+                            break;
+                        case NetIndentify.INVITED:
+                            EventBus.getDefault().post(new GlobalMsg(true, indentify, null));
+                            break;
+                        case NetIndentify.EXCHANGE_DOLL:
+                            EventBus.getDefault().post(new GlobalMsg(true, indentify, null));
+                            break;
+                        case NetIndentify.GET_USERINFO:
+                            EventBus.getDefault().post(new GlobalMsg(true, indentify, JSON.parseObject(response,
+                                    UserInfoModel.class)));
+                            break;
+                    }
+                }catch (Exception e){
+                    LogUtils.e(e.getMessage());
                 }
             }
 

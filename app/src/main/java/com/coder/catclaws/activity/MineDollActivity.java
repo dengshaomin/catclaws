@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.andview.refreshview.XRefreshView;
 import com.coder.catclaws.R;
+import com.coder.catclaws.commons.AppIndentify;
 import com.coder.catclaws.commons.GlobalMsg;
 import com.coder.catclaws.commons.ImageLoader;
 import com.coder.catclaws.commons.NetIndentify;
@@ -79,6 +80,8 @@ public class MineDollActivity extends BaseActivity {
 
     }
 
+    private boolean needUpdateMineDoll;
+
     @Override
     public int setContentLayout() {
         return R.layout.activity_mine_doll;
@@ -116,6 +119,16 @@ public class MineDollActivity extends BaseActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if (needUpdateMineDoll) {
+            needUpdateMineDoll = !needUpdateMineDoll;
+            page = 1;
+            getNetData();
+        }
+    }
+
+    @Override
     public void getNetData() {
         Net.request(NetIndentify.MINEDOLL, new HashMap<String, String>() {{
             put("page", page + "");
@@ -127,33 +140,50 @@ public class MineDollActivity extends BaseActivity {
     public List<String> regeistEvent() {
         return new ArrayList<String>() {{
             add(NetIndentify.MINEDOLL);
+            add(AppIndentify.MINE_DOLL_CHANGE);
+
         }};
     }
 
     @Override
     public void eventComming(GlobalMsg globalMsg) {
-        if (globalMsg.isSuccess()) {
-            mineDollModel = (MineDollModel) globalMsg.getMsg();
-            if (mineDollModel != null && mineDollModel.getData().getContent() != null) {
-                if (commonAdapter == null) {
-                    commonAdapter = new CommonAdapter<MineDollModel.DataEntity.ContentEntity>(MineDollActivity.this, R
-                            .layout.mine_doll_item,
-                            mineDollModel.getData().getContent()) {
-                        @Override
-                        protected void convert(ViewHolder holder, final MineDollModel.DataEntity.ContentEntity contentBean, int position) {
-                            View rootView = holder.itemView;
-                            SimpleDraweeView image = rootView.findViewById(R.id.image);
-                            TextView statu = rootView.findViewById(R.id.statu);
-                            TextView date = rootView.findViewById(R.id.date);
+        if (AppIndentify.MINE_DOLL_CHANGE.equals(globalMsg.getMsgId())) {
+
+        } else {
+            if (globalMsg.isSuccess()) {
+                MineDollModel tmineDollModel = (MineDollModel) globalMsg.getMsg();
+                if (tmineDollModel == null || tmineDollModel.getData() == null || tmineDollModel.getData().getContent() ==
+                        null) {
+                    return;
+                }
+                if (page == 1) {
+                    mineDollModel = tmineDollModel;
+                } else {
+                    if (mineDollModel != null && mineDollModel.getData() != null && mineDollModel.getData().getContent()
+                            != null) {
+                        mineDollModel.getData().getContent().addAll(tmineDollModel.getData().getContent());
+                    }
+                }
+                if (mineDollModel != null && mineDollModel.getData().getContent() != null) {
+                    if (commonAdapter == null) {
+                        commonAdapter = new CommonAdapter<MineDollModel.DataEntity.ContentEntity>(MineDollActivity.this, R
+                                .layout.mine_doll_item,
+                                mineDollModel.getData().getContent()) {
+                            @Override
+                            protected void convert(ViewHolder holder, final MineDollModel.DataEntity.ContentEntity contentBean, int position) {
+                                View rootView = holder.itemView;
+                                SimpleDraweeView image = rootView.findViewById(R.id.image);
+                                TextView statu = rootView.findViewById(R.id.statu);
+                                TextView date = rootView.findViewById(R.id.date);
 //                            final SimpleDraweeView name = rootView.findViewById(R.id.name);
-                            if (contentBean == null) {
-                                return;
-                            }
-                            date.setText(Tools.getTimeStr(contentBean.getGetTime()));
-                            statu.setText(Tools.getDollState(contentBean));
-                            if (contentBean.getGood() != null) {
-                                MineDollModel.DataEntity.ContentEntity.GoodEntity goodEntity = contentBean.getGood();
-                                ImageLoader.getInstance().loadImage(image, goodEntity.getPhoto());
+                                if (contentBean == null) {
+                                    return;
+                                }
+                                date.setText(Tools.getTimeStr(contentBean.getGetTime()));
+                                statu.setText(Tools.getDollState(contentBean));
+                                if (contentBean.getGood() != null) {
+                                    MineDollModel.DataEntity.ContentEntity.GoodEntity goodEntity = contentBean.getGood();
+                                    ImageLoader.getInstance().loadImage(image, goodEntity.getPhoto());
 //                                ImageLoader.getInstance().loadImage(MineDollActivity.this, contentBean.getGood().getNameImg(),
 //                                        new
 //                                                BaseBitmapDataSubscriber() {
@@ -171,37 +201,41 @@ public class MineDollActivity extends BaseActivity {
 //                                                    protected void onFailureImpl(DataSource<CloseableReference<CloseableImage>> dataSource) {
 //                                                    }
 //                                                });
+                                }
                             }
+                        };
+                        codeRecycleView.setAdapter(commonAdapter);
+                        if (mineDollHeader == null) {
+                            mineDollHeader = new MineDollHeader(this);
                         }
-                    };
-                    codeRecycleView.setAdapter(commonAdapter);
-                    if (mineDollHeader == null) {
-                        mineDollHeader = new MineDollHeader(this);
-                    }
-                    mineDollHeader.setViewData(mineDollModel.getData().getTotalElements());
-                    codeRecycleView.addHeaderView(mineDollHeader);
-                    codeRecycleView.refreshComplete(CodeRecycleView.SUCCESS);
-                    codeRecycleView.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-                            PageJump.goDetailActivity(MineDollActivity.this, mineDollModel.getData().getContent().get(position)
-                            );
-                        }
+                        mineDollHeader.setViewData(mineDollModel.getData().getTotalElements());
+                        codeRecycleView.addHeaderView(mineDollHeader);
+                        codeRecycleView.refreshComplete(CodeRecycleView.SUCCESS);
+                        codeRecycleView.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
+                                if (mineDollModel != null && mineDollModel.getData() != null && mineDollModel.getData()
+                                        .getContent() != null && 0 <= mineDollModel.getData().getContent().size() &&
+                                        position < mineDollModel.getData().getContent().size())
+                                    PageJump.goDetailActivity(MineDollActivity.this, mineDollModel.getData().getContent().get(position)
+                                    );
+                            }
 
-                        @Override
-                        public boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, int position) {
-                            return false;
-                        }
-                    });
+                            @Override
+                            public boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, int position) {
+                                return false;
+                            }
+                        });
+                    } else {
+                        commonAdapter.notifyDataSetChanged();
+                        codeRecycleView.refreshComplete(CodeRecycleView.SUCCESS);
+                    }
                 } else {
-                    commonAdapter.notifyDataSetChanged();
-                    codeRecycleView.refreshComplete(CodeRecycleView.SUCCESS);
+                    codeRecycleView.refreshComplete(CodeRecycleView.ERROR);
                 }
             } else {
                 codeRecycleView.refreshComplete(CodeRecycleView.ERROR);
             }
-        } else {
-            codeRecycleView.refreshComplete(CodeRecycleView.ERROR);
         }
     }
 
