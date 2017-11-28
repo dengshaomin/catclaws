@@ -142,7 +142,8 @@ public class DeliverGoodsActivity extends BaseActivity {
             ContentBean contentBean = mContentEntity.getAddress();
             mPerson.setText(contentBean.getName());
             mTelPhone.setText(contentBean.getPhone());
-            mAdress.setText(contentBean.getAddre());
+            mAdress.setText(contentBean.getProvince() + " " + contentBean.getCity() + " " + contentBean.getArea() + "" +
+                    " " + contentBean.getAddre());
             mAdd.setText("修改");
         } else {
             mPerson.setText("");
@@ -207,7 +208,7 @@ public class DeliverGoodsActivity extends BaseActivity {
                 fullDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                     @Override
                     public void onDismiss(DialogInterface dialog) {
-                        EventBus.getDefault().post(new GlobalMsg(true,AppIndentify.MINE_DOLL_CHANGE,null));
+                        EventBus.getDefault().post(new GlobalMsg(true, AppIndentify.MINE_DOLL_CHANGE, null));
                         finish();
                     }
                 });
@@ -311,8 +312,8 @@ public class DeliverGoodsActivity extends BaseActivity {
                 }
             }
             mValue.setText(selectDolls.size() > 1 ? "免快递费" : signalFreight + "猫币");
-            mRecharge.setVisibility(selectDolls.size() <= 1 && UserManager.getInstance().getMb() < signalFreight ? View
-                    .VISIBLE : View.INVISIBLE);
+            mRecharge.setVisibility(selectDolls.size() == 1 && UserManager.getInstance().getMb() <
+                    signalFreight ? View.VISIBLE : View.INVISIBLE);
         }
     }
 

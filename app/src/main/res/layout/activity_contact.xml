@@ -18,7 +18,7 @@
         android:background="@color/white"
         android:gravity="center_vertical"
         android:paddingLeft="16dp"
-        android:text="QQ:2484512314"
+        android:text="QQ:3418089482"
         android:textColor="#6c6c6c"
         android:textSize="@dimen/text14"/>
 
@@ -36,7 +36,7 @@
         android:background="@color/white"
         android:gravity="center_vertical"
         android:paddingLeft="16dp"
-        android:text="电话:12456456456"
+        android:text="QQ:3477565090"
         android:textColor="#6c6c6c"
         android:textSize="@dimen/text14"/>
 

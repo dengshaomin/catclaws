@@ -128,7 +128,6 @@ public class LoginActivity extends PermissionActivity {
                 public void onComplete(Object o) {
                     FileUtils.saveStrToFile(JSON.toJSONString(o), Environment.getExternalStorageDirectory() + File.separator + "111.txt");
                     ThirdLoginModel thirdLoginModel = JSON.parseObject(o + "", ThirdLoginModel.class);
-                    ToastUtils.showToast(LoginActivity.this, thirdLoginModel.getOpenid());
                     UserManager.getInstance().setThirdLoginModel(thirdLoginModel);
                     login("qq");
                 }

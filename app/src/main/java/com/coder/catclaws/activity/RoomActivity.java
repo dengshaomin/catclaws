@@ -658,9 +658,9 @@ public class RoomActivity extends BaseActivity {
                 break;
             case R.id.record:
                 if (txLivePlayer != null) {
+                    firstVisualAngle = !firstVisualAngle;
                     txLivePlayer.startPlay(firstVisualAngle ? contentBean.getFirstCamera() : contentBean.getSecondCamera(),
                             STREAM_MODE); //推荐FLV
-                    firstVisualAngle = !firstVisualAngle;
                 }
                 break;
         }

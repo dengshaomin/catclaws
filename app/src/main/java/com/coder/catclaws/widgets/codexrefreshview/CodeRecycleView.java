@@ -244,7 +244,8 @@ public class CodeRecycleView extends BaseLayout {
                 if (footView == null) {
                     footView = new CodeRecyclerViewFooter(getmContext());
 //                    footView.setVisibility(adapter == null || adapter.getItemCount() == 0 ? GONE : VISIBLE);
-                    footView.setViewData(adapter != null && adapter.getItemCount() % pageSize == 0 ? false : true);
+                    footView.setViewData(adapter == null || adapter.getItemCount() == 0 || adapter.getItemCount() % pageSize !=
+                            0 ? false : true);
                 }
                 if (!headerAndFooterWrapper.hasFootView(footView)) {
                     headerAndFooterWrapper.addFootView(footView);
@@ -260,7 +261,8 @@ public class CodeRecycleView extends BaseLayout {
                 if (footView == null) {
                     footView = new CodeRecyclerViewFooter(getmContext());
 //                    footView.setVisibility(adapter == null || adapter.getItemCount() == 0 ? GONE : VISIBLE);
-                    footView.setViewData(adapter != null && adapter.getItemCount() % pageSize == 0 ? false : true);
+                    footView.setViewData(adapter == null || adapter.getItemCount() == 0 || adapter.getItemCount() % pageSize !=
+                            0 ? false : true);
                 }
                 if (!headerAndFooterWrapper.hasFootView(footView)) {
                     headerAndFooterWrapper.addFootView(footView);
@@ -305,7 +307,7 @@ public class CodeRecycleView extends BaseLayout {
     }
 
     private void needLoadMore() {
-        if (refreMode == START || refreMode == NONE || refreshState == END) {
+        if (refreMode == START || refreMode == NONE || refreshState == END || adapter == null) {
             return;
         }
 //        if (footView == null) {
@@ -323,7 +325,8 @@ public class CodeRecycleView extends BaseLayout {
         }
         if (footView != null) {
 //            footView.setVisibility(adapter != null && adapter.getItemCount() != 0 ? VISIBLE : GONE);
-            footView.setViewData(adapter != null && adapter.getItemCount() % pageSize == 0 ? false : true);
+            footView.setViewData(adapter == null || adapter.getItemCount() == 0 || adapter.getItemCount() % pageSize !=
+                    0 ? false : true);
         }
         this.pageIndex = adapter.getItemCount() / pageSize + 1;
         refreshState = END;
@@ -345,7 +348,8 @@ public class CodeRecycleView extends BaseLayout {
         }
         refreshState = DEFAULT;
         if (footView != null) {
-            footView.setViewData(adapter == null || adapter.getItemCount() % pageSize != 0 ? true : false);
+            footView.setViewData(adapter == null || adapter.getItemCount() == 0 || adapter.getItemCount() % pageSize !=
+                    0 ? false : true);
         }
         switch (state) {
             case SUCCESS:
@@ -398,7 +402,7 @@ public class CodeRecycleView extends BaseLayout {
             }
 
             public void onScrollStateChanged(RecyclerView recyclerView,
-                    int newState) {
+                                             int newState) {
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     if (isScrollBottom()) {
                         needLoadMore();

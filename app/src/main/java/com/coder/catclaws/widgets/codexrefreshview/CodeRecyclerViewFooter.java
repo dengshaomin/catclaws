@@ -76,15 +76,17 @@ public class CodeRecyclerViewFooter extends BaseLayout {
 
     @Override
     public void setViewData(Object data) {
-        if (data instanceof Boolean && !(Boolean) data) {
-            if (needBootmTip) {
-                no_more_tip.setVisibility(GONE);
-            }
+        if (data instanceof Boolean && (Boolean) data) {
+//            if (needBootmTip) {
+//                no_more_tip.setVisibility(GONE);
+//            }
+            no_more_tip.setVisibility(GONE);
             progress.setVisibility(VISIBLE);
         } else {
-            if (needBootmTip) {
-                no_more_tip.setVisibility(VISIBLE);
-            }
+//            if (needBootmTip) {
+//                no_more_tip.setVisibility(VISIBLE);
+//            }
+            no_more_tip.setVisibility(needBootmTip ? VISIBLE : GONE);
             progress.setVisibility(GONE);
         }
     }
