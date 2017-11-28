@@ -28,6 +28,8 @@ public class ShareUtils {
     private static final String shareClickUrl = "http://www.baidu.com";
     private static final String shareImageUrl = "http://imgcache.qq.com/qzone/space_item/pre/0/66768.gif";
 
+    private static final String shareTitle = "快来和我一起在猫爪子抓娃娃吧";
+    private static final String shareContent = "正版娃娃抓的到，就在猫爪子app";
     public static byte[] getBytesFromBitmap(Bitmap bitmap) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
@@ -50,8 +52,8 @@ public class ShareUtils {
         Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp, THUMB_SIZE, THUMB_SIZE, true);
         bmp.recycle();
         msg.thumbData = getBytesFromBitmap(thumbBmp);
-        msg.title = title;
-        msg.description = description;
+        msg.title = shareTitle;
+        msg.description = shareContent;
         SendMessageToWX.Req req = new SendMessageToWX.Req();
         req.transaction = "img/text";
         req.message = msg;
@@ -65,8 +67,8 @@ public class ShareUtils {
     public static void shareToQQ(Activity activity, String title, String description, IUiListener iUiListener) {
         final Bundle params = new Bundle();
         params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_DEFAULT);
-        params.putString(QQShare.SHARE_TO_QQ_TITLE, title);
-        params.putString(QQShare.SHARE_TO_QQ_SUMMARY, description);
+        params.putString(QQShare.SHARE_TO_QQ_TITLE, shareTitle);
+        params.putString(QQShare.SHARE_TO_QQ_SUMMARY, shareContent);
         params.putString(QQShare.SHARE_TO_QQ_TARGET_URL, shareClickUrl);
         params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL, shareImageUrl);
         params.putString(QQShare.SHARE_TO_QQ_APP_NAME, MyApplication.applicationContext.getResources().getString(R

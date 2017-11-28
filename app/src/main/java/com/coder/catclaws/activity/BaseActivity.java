@@ -59,14 +59,23 @@ import master.flame.danmaku.ui.widget.DanmakuView;
  */
 
 public abstract class BaseActivity extends PermissionActivity implements IBaseLayout, ITitle {
+
     LinearLayout container;
+
     View left_image, right_image;
+
     TextView title_text;
+
     public DanmakuView base_danmu_view;
+
     private List<String> eventList = new ArrayList<>();
+
     private Unbinder unbinder;
-    private int maxLine = 3;
+
+    private int maxLine = 2;
+
     private BaseDanmakuParser mParser;//解析器对象
+
     private DanmakuContext mContext;
 
     @Override
@@ -103,7 +112,8 @@ public abstract class BaseActivity extends PermissionActivity implements IBaseLa
         overlappingEnablePair.put(BaseDanmaku.TYPE_SCROLL_RL, true);
         overlappingEnablePair.put(BaseDanmaku.TYPE_FIX_TOP, true);
         mContext = DanmakuContext.create();
-        mContext.setDanmakuStyle(IDisplayer.DANMAKU_STYLE_STROKEN, 3).setDuplicateMergingEnabled(false).setScrollSpeedFactor(1.2f).setScaleTextSize(1.2f)
+        mContext.setDanmakuStyle(IDisplayer.DANMAKU_STYLE_STROKEN, 3).setDuplicateMergingEnabled(false).setScrollSpeedFactor(1.2f)
+                .setScaleTextSize(1.2f)
                 .setCacheStuffer(new SpannedCacheStuffer(), mCacheStufferAdapter) // 图文混排使用SpannedCacheStuffer
 //        .setCacheStuffer(new BackgroundCacheStuffer())  // 绘制背景使用BackgroundCacheStuffer
                 .setMaximumLines(maxLinesPair)
@@ -239,7 +249,8 @@ public abstract class BaseActivity extends PermissionActivity implements IBaseLa
         ImageSpan span = new ImageSpan(drawable);//ImageSpan.ALIGN_BOTTOM);
         spannableStringBuilder.setSpan(span, 0, text.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
         spannableStringBuilder.append("图文混排");
-        spannableStringBuilder.setSpan(new BackgroundColorSpan(Color.parseColor("#8A2233B1")), 0, spannableStringBuilder.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+        spannableStringBuilder.setSpan(new BackgroundColorSpan(Color.parseColor("#8A2233B1")), 0, spannableStringBuilder.length(),
+                Spannable.SPAN_INCLUSIVE_INCLUSIVE);
         return spannableStringBuilder;
     }
 
@@ -260,7 +271,9 @@ public abstract class BaseActivity extends PermissionActivity implements IBaseLa
     }
 
     public void addDanmaku(String msg) {
-        if (mContext == null || mContext.mDanmakuFactory == null) return;
+        if (mContext == null || mContext.mDanmakuFactory == null) {
+            return;
+        }
         BaseDanmaku danmaku = mContext.mDanmakuFactory.createDanmaku(BaseDanmaku.TYPE_SCROLL_RL);
         if (danmaku == null || base_danmu_view == null) {
             return;
@@ -270,10 +283,11 @@ public abstract class BaseActivity extends PermissionActivity implements IBaseLa
         danmaku.text = msg;
 //        danmaku.padding = 5;
         danmaku.priority = 0;  // 可能会被各种过滤器过滤并隐藏显示
-        danmaku.isLive = false; //是否直播弹幕
+        danmaku.isLive = true; //是否直播弹幕
         danmaku.setTime(base_danmu_view.getCurrentTime() + 1200);
-        danmaku.textSize = 25f * (mParser.getDisplayer().getDensity() - 0.6f);
-        danmaku.textColor = Color.RED;
+        danmaku.textSize = getResources().getDimensionPixelSize(R
+                .dimen.text10);
+        danmaku.textColor = Color.WHITE;
 //        danmaku.textShadowColor = Color.WHITE;
         // danmaku.underlineColor = Color.GREEN;
 //        danmaku.borderColor = Color.GREEN;
