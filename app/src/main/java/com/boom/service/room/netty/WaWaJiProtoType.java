@@ -31,7 +31,8 @@ public class WaWaJiProtoType {
 
     //捡娃娃
     public static final String pick = "pick";
-
+    //离开房间
+    public static final String leave = "leave";
 
     /**
      * 服务器发送给客户端的

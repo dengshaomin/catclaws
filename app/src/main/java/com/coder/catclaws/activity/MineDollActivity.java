@@ -45,7 +45,6 @@ public class MineDollActivity extends BaseActivity {
     private int page = 1;
 
     private MineDollModel mineDollModel;
-
     private CommonAdapter commonAdapter;
 
     private MineDollHeader mineDollHeader;
@@ -120,7 +119,6 @@ public class MineDollActivity extends BaseActivity {
         MineDollModel.DataEntity dataEntity = new MineDollModel.DataEntity();
         dataEntity.setContent(new ArrayList<MineDollModel.DataEntity.ContentEntity>());
         tmineDollModel.setData(dataEntity);
-        eventComming(new GlobalMsg(true, NetIndentify.MINEDOLL, tmineDollModel));
     }
 
     @Override
@@ -149,6 +147,7 @@ public class MineDollActivity extends BaseActivity {
 
         }};
     }
+
 
     @Override
     public void eventComming(GlobalMsg globalMsg) {

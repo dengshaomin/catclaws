@@ -159,7 +159,7 @@ public class InvertFriendActivity extends BaseActivity {
                 showProgressDialog();
                 if (!TextUtils.isEmpty(invertCode.getText().toString())) {
                     Net.request(NetIndentify.INVITED, new HashMap<String, String>() {{
-                        put("inviteCode", UserManager.getInstance().getInvertCode());
+                        put("inviteCode", invertCode.getText().toString());
                     }});
                 }
                 break;

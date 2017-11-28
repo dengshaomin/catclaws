@@ -27,6 +27,7 @@ import com.coder.catclaws.models.MineDollModel;
 import com.coder.catclaws.models.MineDollModel.DataEntity.ContentEntity;
 import com.coder.catclaws.utils.Net;
 import com.coder.catclaws.widgets.CommonViewHolder;
+import com.coder.catclaws.widgets.DelivedGoodItemDecoration;
 import com.coder.catclaws.widgets.DelivedSuccessDialogView;
 import com.coder.catclaws.widgets.FullDialog;
 import com.coder.catclaws.widgets.RechargeItemDecoration;
@@ -122,7 +123,7 @@ public class DeliverGoodsActivity extends BaseActivity {
     public void initView() {
         mRecycleView.setLayoutManager(new GridLayoutManager(this, 3));
         mRecycleView.setNestedScrollingEnabled(false);
-        mRecycleView.addItemDecoration(new RechargeItemDecoration());
+        mRecycleView.addItemDecoration(new DelivedGoodItemDecoration());
     }
 
     @Override
@@ -186,6 +187,7 @@ public class DeliverGoodsActivity extends BaseActivity {
                             selectDolls = new ArrayList<>();
                         }
                         selectDolls.add(contentEntity);
+                        setFreight();
                         break;
                     }
                 }
@@ -213,7 +215,7 @@ public class DeliverGoodsActivity extends BaseActivity {
                     }
                 });
             } else {
-                ToastUtils.showToast(this, "申请提交失败，请重新提交！");
+                ToastUtils.showToast(this, globalMsg.getMsg() + "");
             }
         } else if (AppIndentify.UPDATE_ADDRESS.equals(globalMsg.getMsgId())) {
             if (globalMsg.isSuccess()) {
@@ -264,10 +266,10 @@ public class DeliverGoodsActivity extends BaseActivity {
             if (selectDolls == null) {
                 return;
             }
-//            if (selectDolls.size() < 2 && UserManager.getInstance().getMb() < signalFreight) {
-//                ToastUtils.showToast(this, "猫币不足！");
-//                return;
-//            }
+            if (selectDolls.size() < 2 && UserManager.getInstance().getMb() < signalFreight) {
+                ToastUtils.showToast(this, "猫币不足！");
+                return;
+            }
             showProgressDialog();
 
             Net.request(NetIndentify.DELIVER_DOLL, new HashMap<String, String>() {{

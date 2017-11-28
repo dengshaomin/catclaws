@@ -99,6 +99,10 @@ public class WaWaJiProtoUtil {
         WaWaJiProto.Action build = WaWaJiProto.Action.newBuilder().setType(WaWaJiProtoType.chat).setData(data).build();
         return build;
     }
+    public static WaWaJiProto.Action leaveBuild(String data) {
+        WaWaJiProto.Action build = WaWaJiProto.Action.newBuilder().setType(WaWaJiProtoType.leave).setData(data).build();
+        return build;
+    }
 
     /**
      * 客户端跳转到充值界面

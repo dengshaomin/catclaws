@@ -10,7 +10,7 @@ import com.github.lazylibrary.util.DensityUtil;
  * Created by dengshaomin on 2017/10/17.
  */
 
-public class RechargeItemDecoration extends RecyclerView.ItemDecoration {
+public class DelivedGoodItemDecoration extends RecyclerView.ItemDecoration {
 
     private int itemDecorationWidth;
 

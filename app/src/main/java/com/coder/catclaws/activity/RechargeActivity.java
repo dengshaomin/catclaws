@@ -303,7 +303,7 @@ public class RechargeActivity extends BaseActivity {
                 }
             });
             ImageLoader.getInstance().loadImage(image, contentBean.getImg());
-            value.setText("RMB " + contentBean.getPrice() + "");
+            value.setText("RMB " + contentBean.getPrice() / 100f + "");
             recharge_item_rootview.setSelected(position == selectIndex);
             value.setSelected(position == selectIndex);
         }

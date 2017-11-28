@@ -284,7 +284,7 @@ public abstract class BaseActivity extends PermissionActivity implements IBaseLa
 //        danmaku.padding = 5;
         danmaku.priority = 0;  // 可能会被各种过滤器过滤并隐藏显示
         danmaku.isLive = true; //是否直播弹幕
-        danmaku.setTime(base_danmu_view.getCurrentTime() + 1200);
+        danmaku.setTime(base_danmu_view.getCurrentTime());
         danmaku.textSize = getResources().getDimensionPixelSize(R
                 .dimen.text10);
         danmaku.textColor = Color.WHITE;

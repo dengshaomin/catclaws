@@ -669,7 +669,7 @@ public class RoomActivity extends BaseActivity {
     private void sendDanMuAction(String s) {
         mDanmuLay.setVisibility(View.GONE);
         TCPClient.getInstance().send(s, WaWaJiProtoType.chat);
-//        addDanmaku(s);
+        addDanmaku(s);
     }
 
     private void msgAction() {
@@ -691,6 +691,7 @@ public class RoomActivity extends BaseActivity {
 
     private void outAction() {
         if (!isCurrentUserPlay) {
+            TCPClient.getInstance().send(contentBean.getIp(), WaWaJiProtoType.leave);
             finish();
             return;
         }
@@ -699,6 +700,7 @@ public class RoomActivity extends BaseActivity {
         liveRoomDialogView.getSure().setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                TCPClient.getInstance().send(contentBean.getIp(), WaWaJiProtoType.leave);
                 fullDialog.dismiss();
                 finish();
             }

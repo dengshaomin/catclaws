@@ -132,6 +132,9 @@ public class TCPClient {
                 case WaWaJiProtoType.chat:
                     channel.writeAndFlush(WaWaJiProtoUtil.chatBuild(ip));
                     break;
+                case WaWaJiProtoType.leave:
+                    channel.writeAndFlush(WaWaJiProtoUtil.leaveBuild(ip));
+                    break;
             }
         } finally {
 //            eventLoopGroup.shutdownGracefully();
