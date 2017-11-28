@@ -10,10 +10,12 @@
 
 
     <View
+        android:id="@+id/line"
         style="@style/line"
         android:layout_width="0.5dp"
         android:layout_height="match_parent"
         android:layout_marginLeft="24dp"
+        android:visibility="gone"
         />
 
     <com.coder.catclaws.widgets.codexrefreshview.CodeRecycleView

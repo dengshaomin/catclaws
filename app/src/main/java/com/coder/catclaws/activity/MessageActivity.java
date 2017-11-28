@@ -1,36 +1,26 @@
 package com.coder.catclaws.activity;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
 import com.andview.refreshview.XRefreshView;
 import com.coder.catclaws.R;
 import com.coder.catclaws.commons.GlobalMsg;
-import com.coder.catclaws.commons.ImageLoader;
 import com.coder.catclaws.commons.NetIndentify;
-import com.coder.catclaws.commons.PageJump;
 import com.coder.catclaws.commons.Tools;
 import com.coder.catclaws.models.MessageModel;
 import com.coder.catclaws.models.MessageModel.DataBean.ContentBean;
-import com.coder.catclaws.models.MineDollModel;
 import com.coder.catclaws.utils.Net;
 import com.coder.catclaws.widgets.MessageItemDecoration;
-import com.coder.catclaws.widgets.MineDollHeader;
-import com.coder.catclaws.widgets.MineDollItemDecoration;
 import com.coder.catclaws.widgets.codexrefreshview.CodeRecycleView;
 import com.coder.catclaws.widgets.codexrefreshview.CommonAdapter;
-import com.coder.catclaws.widgets.codexrefreshview.MultiItemTypeAdapter;
 import com.coder.catclaws.widgets.codexrefreshview.ViewHolder;
-import com.facebook.drawee.view.SimpleDraweeView;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,6 +30,8 @@ public class MessageActivity extends BaseActivity {
 
     @BindView(R.id.codeRecycleView)
     CodeRecycleView mCodeRecycleView;
+    @BindView(R.id.line)
+    View line;
 
 
     private int page = 1;
@@ -167,10 +159,17 @@ public class MessageActivity extends BaseActivity {
                     commonAdapter.notifyDataSetChanged();
                     mCodeRecycleView.refreshComplete(CodeRecycleView.SUCCESS);
                 }
+                line.setVisibility(mMessageModel.getData().getContent().size() > 0 ? View.VISIBLE : View.GONE);
             } else {
                 mCodeRecycleView.refreshComplete(CodeRecycleView.ERROR);
+                if (page == 1) {
+                    line.setVisibility(View.GONE);
+                }
             }
         } else {
+            if (page == 1) {
+                line.setVisibility(View.GONE);
+            }
             mCodeRecycleView.refreshComplete(CodeRecycleView.ERROR);
         }
     }
