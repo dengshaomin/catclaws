@@ -1,18 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.coder.catclaws.activity.LoginActivity">
+    android:orientation="vertical"
+    tools:context="com.coder.catclaws.activity.LoginActivity"
+    >
 
-    <ImageView
-        android:id="@+id/bg"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="464"
         android:background="@drawable/login_bg"
-        android:scaleType="fitXY"/>
+        >
+
+        <ImageView
+            android:id="@+id/bg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@drawable/login_bg_1"
+            android:scaleType="centerInside"
+            />
+    </RelativeLayout>
 
 
     <!--<com.facebook.drawee.view.SimpleDraweeView-->
@@ -26,43 +37,42 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="50dp"
-        android:orientation="horizontal">
+        android:layout_height="0dp"
+        android:layout_weight="176"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:orientation="horizontal">
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="80dp"
+            android:layout_marginRight="80dp"
+            android:orientation="vertical"
+            >
 
             <TextView
                 android:id="@+id/weichart"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
 
-                android:layout_weight="1"
                 android:background="@drawable/wechart_bg"
                 android:gravity="center"
-                android:text="微信登录"
                 android:textColor="@color/white"
-                android:textSize="15sp"/>
+                android:textSize="15sp"
+                />
 
             <TextView
                 android:id="@+id/qq"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:layout_marginLeft="5dp"
-                android:layout_weight="1"
+                android:layout_marginTop="16dp"
                 android:background="@drawable/qq_bg"
                 android:gravity="center"
-                android:text="QQ登录"
                 android:textColor="@color/white"
-                android:textSize="15sp"/>
+                android:textSize="15sp"
+                />
         </LinearLayout>
     </RelativeLayout>
-</RelativeLayout>
+</LinearLayout>

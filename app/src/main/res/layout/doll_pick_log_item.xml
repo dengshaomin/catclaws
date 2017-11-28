@@ -26,7 +26,7 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_gravity="center_vertical"
-            android:background="@drawable/goods_circle_bg"
+            android:background="@drawable/head_picklog_bg"
             >
 
             <com.facebook.drawee.view.SimpleDraweeView

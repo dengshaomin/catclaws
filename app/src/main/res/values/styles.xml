@@ -8,7 +8,7 @@
     </style>
 
     <style name="AppTheme.splash" parent="AppTheme">
-        <item name="android:windowBackground">@drawable/login_bg</item>
+        <item name="android:windowBackground">@drawable/theme_bg</item>
     </style>
 
 

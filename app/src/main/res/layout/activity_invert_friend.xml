@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical"
-              android:paddingLeft="16dp"
-              android:paddingRight="16dp"
-              android:paddingTop="12dp"
-              tools:context="com.coder.catclaws.activity.InvertFriendActivity"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="12dp"
+    tools:context="com.coder.catclaws.activity.InvertFriendActivity"
     >
 
     <LinearLayout
@@ -28,9 +28,9 @@
             android:layout_height="48dp"
             android:layout_margin="10dp"
             android:background="@drawable/corner_2_353155"
+            android:digits="1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
             android:hint="输入邀请码"
             android:inputType="number"
-            android:digits="1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
             android:padding="10dp"
             android:textColor="#f1f1f1"
             android:textColorHint="#f1f1f1"
@@ -44,8 +44,8 @@
             android:layout_gravity="center_horizontal"
             android:background="@drawable/yellow_btn_short_bg"
             android:gravity="center"
-            android:hint="兑换"
-            android:textColor="#904517"
+            android:text="兑换"
+            android:textColor="#794517"
             android:textSize="@dimen/text12"
             />
 
