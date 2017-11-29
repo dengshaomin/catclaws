@@ -104,8 +104,11 @@ public class Net {
                             EventBus.getDefault().post(new GlobalMsg(true, indentify, JSON.parseObject(response,
                                     UserInfoModel.class)));
                             break;
+                        case NetIndentify.DELIVER_DOLL:
+                            EventBus.getDefault().post(new GlobalMsg(true, indentify, null));
+                            break;
                     }
-                }catch (Exception e){
+                } catch (Exception e) {
                     LogUtils.e(e.getMessage());
                 }
             }

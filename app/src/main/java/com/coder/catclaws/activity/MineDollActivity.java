@@ -20,6 +20,7 @@ import com.coder.catclaws.commons.ImageLoader;
 import com.coder.catclaws.commons.NetIndentify;
 import com.coder.catclaws.commons.PageJump;
 import com.coder.catclaws.commons.Tools;
+import com.coder.catclaws.models.HomeModel;
 import com.coder.catclaws.models.MineDollModel;
 import com.coder.catclaws.utils.Net;
 import com.coder.catclaws.widgets.MineDollHeader;
@@ -147,7 +148,7 @@ public class MineDollActivity extends BaseActivity {
     @Override
     public void eventComming(GlobalMsg globalMsg) {
         if (AppIndentify.MINE_DOLL_CHANGE.equals(globalMsg.getMsgId())) {
-
+            needUpdateMineDoll = true;
         } else {
             if (globalMsg.isSuccess()) {
                 MineDollModel tmineDollModel = (MineDollModel) globalMsg.getMsg();
@@ -169,19 +170,22 @@ public class MineDollActivity extends BaseActivity {
                                 .layout.mine_doll_item,
                                 mineDollModel.getData().getContent()) {
                             @Override
-                            protected void convert(ViewHolder holder, final MineDollModel.DataEntity.ContentEntity contentBean, int position) {
+                            protected void convert(ViewHolder holder, final MineDollModel.DataEntity.ContentEntity
+                                    contentBean1, int position) {
+                                MineDollModel.DataEntity.ContentEntity contentEntity = mineDollModel.getData()
+                                        .getContent().get(position);
                                 View rootView = holder.itemView;
                                 SimpleDraweeView image = rootView.findViewById(R.id.image);
                                 TextView statu = rootView.findViewById(R.id.statu);
                                 TextView date = rootView.findViewById(R.id.date);
 //                            final SimpleDraweeView name = rootView.findViewById(R.id.name);
-                                if (contentBean == null) {
+                                if (contentEntity == null) {
                                     return;
                                 }
-                                date.setText(Tools.getTimeStr(contentBean.getGetTime()));
-                                statu.setText(Tools.getDollState(contentBean));
-                                if (contentBean.getGood() != null) {
-                                    MineDollModel.DataEntity.ContentEntity.GoodEntity goodEntity = contentBean.getGood();
+                                date.setText(Tools.getTimeStr(contentEntity.getGetTime()));
+                                statu.setText(Tools.getDollState(contentEntity));
+                                if (contentEntity.getGood() != null) {
+                                    MineDollModel.DataEntity.ContentEntity.GoodEntity goodEntity = contentEntity.getGood();
                                     ImageLoader.getInstance().loadImage(image, goodEntity.getPhoto());
 //                                ImageLoader.getInstance().loadImage(MineDollActivity.this, contentBean.getGood().getNameImg(),
 //                                        new

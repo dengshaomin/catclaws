@@ -332,7 +332,7 @@ public class DeliverGoodsActivity extends BaseActivity {
         public void onBindViewHolder(CommonViewHolder holder, final int position) {
             final ContentEntity contentEntity = mMineDollModel.getData().getContent().get(position);
             SimpleDraweeView image = holder.itemView.findViewById(R.id.image);
-            final SimpleDraweeView name = holder.itemView.findViewById(R.id.name);
+//            final SimpleDraweeView name = holder.itemView.findViewById(R.id.name);
             final View deliverdoll_item_rootview = holder.itemView.findViewById(R.id.deliverdoll_item_rootview);
             deliverdoll_item_rootview.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -351,22 +351,22 @@ public class DeliverGoodsActivity extends BaseActivity {
             if (contentEntity == null || contentEntity.getGood() == null) {
                 return;
             }
-            ImageLoader.getInstance().loadImage(DeliverGoodsActivity.this, contentEntity.getGood().getNameImg(),
-                    new BaseBitmapDataSubscriber() {
-                        @Override
-                        protected void onNewResultImpl(Bitmap bitmap) {
-                            ViewGroup.LayoutParams layoutParams = name.getLayoutParams();
-                            layoutParams.width = bitmap.getWidth();
-                            layoutParams.height = bitmap.getHeight();
-                            name.setLayoutParams(layoutParams);
-                            ImageLoader.getInstance().loadImage(name, contentEntity.getGood().getNameImg()
-                            );
-                        }
-
-                        @Override
-                        protected void onFailureImpl(DataSource<CloseableReference<CloseableImage>> dataSource) {
-                        }
-                    });
+//            ImageLoader.getInstance().loadImage(DeliverGoodsActivity.this, contentEntity.getGood().getNameImg(),
+//                    new BaseBitmapDataSubscriber() {
+//                        @Override
+//                        protected void onNewResultImpl(Bitmap bitmap) {
+//                            ViewGroup.LayoutParams layoutParams = name.getLayoutParams();
+//                            layoutParams.width = bitmap.getWidth();
+//                            layoutParams.height = bitmap.getHeight();
+//                            name.setLayoutParams(layoutParams);
+//                            ImageLoader.getInstance().loadImage(name, contentEntity.getGood().getNameImg()
+//                            );
+//                        }
+//
+//                        @Override
+//                        protected void onFailureImpl(DataSource<CloseableReference<CloseableImage>> dataSource) {
+//                        }
+//                    });
             ImageLoader.getInstance().loadImage(image, contentEntity.getGood().getPhoto());
 
         }

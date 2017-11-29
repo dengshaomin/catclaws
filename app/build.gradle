@@ -1,5 +1,9 @@
 apply plugin: 'com.android.application'
-
+apply plugin: 'bugly'
+bugly {
+    appId = 'dc243a1ffb' // 注册时分配的App ID 注意不带尖括号
+    appKey = '38056664-c61f-406a-910c-4cf912229bbd' // 注册时分配的App Key
+}
 android {
     compileSdkVersion 26
     defaultConfig {

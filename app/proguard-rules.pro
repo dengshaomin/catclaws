@@ -243,6 +243,9 @@ public static final android.os.Parcelable$Creator *;
 #bugly
 -dontwarn com.tencent.bugly.**
 -keep public class com.tencent.bugly.**{*;}
+#保持源码的行号、源文件信息不被混淆 方便在崩溃日志中查看
+-renamesourcefileattribute SourceFile
+-keepattributes SourceFile,LineNumberTable
 
 #腾讯直播
 -keep class com.tencent.** { *; }

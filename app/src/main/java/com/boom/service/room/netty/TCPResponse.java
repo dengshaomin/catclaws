@@ -45,6 +45,7 @@ public class TCPResponse extends SimpleChannelInboundHandler<WaWaJiProto.Action>
     public void messageReceived(ChannelHandlerContext ctx, WaWaJiProto.Action times) {
         if (times != null) {
             switch (times.getType()) {
+                case "leave":
                 case "roomInfo":
                     RoomModel roomModel = JSON.parseObject(times.getData(), RoomModel.class);
                     EventBus.getDefault().post(new GlobalMsg(roomModel == null ? false : true, NetIndentify.ROOMINFO,

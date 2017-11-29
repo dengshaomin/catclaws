@@ -40,7 +40,7 @@ public class InitService extends IntentService {
         }
         registToWX();
         registToQQ();
-        initFresco();
+//        initFresco();
         String json = null;
         try {
             json = ConvertUtils.toString(this.getAssets().open("city.json"));
@@ -54,7 +54,7 @@ public class InitService extends IntentService {
         //AppConst.WEIXIN.APP_ID是指你应用在微信开放平台上的AppID，记得替换。
         StaticUtils.setmWxApi(WXAPIFactory.createWXAPI(this, StaticUtils.WEIXIN_APPID, false));
         // 将该app注册到微信
-        if(StaticUtils.getmWxApi() != null) {
+        if (StaticUtils.getmWxApi() != null) {
             StaticUtils.getmWxApi().registerApp(StaticUtils.WEIXIN_APPID);
         }
     }

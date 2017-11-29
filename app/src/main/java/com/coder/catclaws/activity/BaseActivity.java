@@ -24,6 +24,7 @@ import com.coder.catclaws.commons.IBaseLayout;
 import com.coder.catclaws.commons.ITitle;
 import com.coder.catclaws.commons.NetIndentify;
 import com.coder.catclaws.danmu.BiliDanmukuParser;
+import com.facebook.drawee.backends.pipeline.Fresco;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -81,6 +82,7 @@ public abstract class BaseActivity extends PermissionActivity implements IBaseLa
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        Fresco.initialize(this);
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
         setContentView(R.layout.activity_base);

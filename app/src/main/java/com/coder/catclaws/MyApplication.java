@@ -24,6 +24,7 @@ public class MyApplication extends Application {
         super.onCreate();
         this.applicationContext = getApplicationContext();
         CrashReport.initCrashReport(getApplicationContext(), "dc243a1ffb", false);
+        Fresco.initialize(this);
         startService(new Intent(this, InitService.class));
     }
 
