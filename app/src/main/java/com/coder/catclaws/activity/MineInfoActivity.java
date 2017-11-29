@@ -20,6 +20,8 @@ import com.coder.catclaws.widgets.FullDialog;
 import com.coder.catclaws.widgets.LoginOutDialogView;
 import com.facebook.drawee.view.SimpleDraweeView;
 
+import org.greenrobot.eventbus.EventBus;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import me.weyye.hipermission.PermissonItem;
@@ -174,6 +176,7 @@ public class MineInfoActivity extends BaseActivity {
                         fullDialog.dismiss();
                         UserManager.getInstance().loginOut();
                         PageJump.goLoginActivity(MineInfoActivity.this);
+                        EventBus.getDefault().post(new GlobalMsg(true, AppIndentify.LOGIN_OUT, null));
                     }
                 });
                 fullDialog.show();

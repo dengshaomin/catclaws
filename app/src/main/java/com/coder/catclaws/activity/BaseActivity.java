@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.coder.catclaws.R;
+import com.coder.catclaws.commons.AppIndentify;
 import com.coder.catclaws.commons.GlobalMsg;
 import com.coder.catclaws.commons.IBaseLayout;
 import com.coder.catclaws.commons.ITitle;
@@ -354,6 +355,12 @@ public abstract class BaseActivity extends PermissionActivity implements IBaseLa
         /* Do something */
         if (event.getMsgId().equals(NetIndentify.CHAT)) {
             addDanmaku(event.getMsg() + "");
+            return;
+        }
+        if (event.getMsgId().equals(AppIndentify.LOGIN_OUT)) {
+            if (!this.getClass().getName().equals(LoginActivity.class.getName())) {
+                finish();
+            }
             return;
         }
         for (String s : eventList) {

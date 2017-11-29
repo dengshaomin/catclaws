@@ -190,7 +190,7 @@ public class LoginActivity extends PermissionActivity {
                     UserInfoModel userInfoModel = (UserInfoModel) event.getMsg();
                     UserManager.getInstance().setUserinfo(userInfoModel);
                     PageJump.goMainActivity(LoginActivity.this);
-//                    finish();
+                    finish();
                 } else {
                     loginError();
                 }

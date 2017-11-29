@@ -73,11 +73,12 @@ public class SplashActivity extends PermissionActivity {
             public void run() {
                 if (MyApplication.DEBUG) {
                     PageJump.goMainActivity(SplashActivity.this);
+                    finish();
                 } else {
                     UserInfoModel userInfoModel = UserManager.getInstance().getUserinfo();
                     if (userInfoModel != null && userInfoModel.getData() != null) {
-//                    selfLogin();
-                        PageJump.goMainActivity(SplashActivity.this);
+                        selfLogin();
+//                        PageJump.goMainActivity(SplashActivity.this);
                     } else {
                         PageJump.goLoginActivity(SplashActivity.this);
                         finish();
@@ -121,8 +122,8 @@ public class SplashActivity extends PermissionActivity {
                     PageJump.goMainActivity(SplashActivity.this);
                 } else {
                     PageJump.goLoginActivity(SplashActivity.this);
-                    finish();
                 }
+                finish();
             }
         }
     }

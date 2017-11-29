@@ -274,7 +274,6 @@ public class MainActivity extends BaseActivity {
                 firstTime = System.currentTimeMillis();
             } else {
                 finish();
-                System.exit(0);
             }
             return true;
         }

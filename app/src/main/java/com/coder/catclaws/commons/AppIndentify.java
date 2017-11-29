@@ -10,4 +10,5 @@ public class AppIndentify {
     public static final String UPDATE_USERINFO = "UPDATE_USERINFO";
     public static final String UPDATE_ADDRESS = "UPDATE_ADDRESS";
     public static final String MINE_DOLL_CHANGE = "MINE_DOLL_CHANGE";
+    public static final String LOGIN_OUT = "LOGIN_OUT";
 }
