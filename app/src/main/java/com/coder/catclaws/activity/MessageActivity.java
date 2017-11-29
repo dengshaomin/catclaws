@@ -132,7 +132,6 @@ public class MessageActivity extends BaseActivity {
             }
         }
         if (globalMsg.isSuccess()) {
-            mMessageModel = (MessageModel) globalMsg.getMsg();
             if (mMessageModel != null && mMessageModel.getData().getContent() != null) {
                 if (commonAdapter == null) {
                     commonAdapter = new CommonAdapter<ContentBean>(MessageActivity.this, R

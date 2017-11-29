@@ -84,7 +84,7 @@ public class SplashActivity extends PermissionActivity {
                     }
                 }
             }
-        }, 500);
+        }, 1500);
     }
 
     @Override

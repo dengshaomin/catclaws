@@ -20,9 +20,13 @@ import butterknife.BindView;
 import me.weyye.hipermission.PermissonItem;
 
 public class WeChartPayActivity extends Activity {
+
     public static final int RESULT_CODE = 99;
+
     WebView webview;
-    private boolean goWechart ;
+
+    private boolean goWechart;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,7 +83,9 @@ public class WeChartPayActivity extends Activity {
         webview.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                if (url == null) return true;
+                if (url == null) {
+                    return true;
+                }
                 try {
                     if (url.startsWith("weixin://") || url.startsWith("alipays://") ||
                             url.startsWith("mailto://") || url.startsWith("tel://")
@@ -98,7 +104,7 @@ public class WeChartPayActivity extends Activity {
 
             @Override
             public void onReceivedError(WebView view, int errorCode,
-                                        String description, String failingUrl) {
+                    String description, String failingUrl) {
                 // TODO Auto-generated method stub
                 super.onReceivedError(view, errorCode, description, failingUrl);
                 ToastUtils.showToast(WeChartPayActivity.this, "支付失败~");

@@ -114,11 +114,6 @@ public class MineDollActivity extends BaseActivity {
 
     @Override
     public void initBundleData() {
-        MineDollModel tmineDollModel = new MineDollModel();
-        tmineDollModel.setCode(200);
-        MineDollModel.DataEntity dataEntity = new MineDollModel.DataEntity();
-        dataEntity.setContent(new ArrayList<MineDollModel.DataEntity.ContentEntity>());
-        tmineDollModel.setData(dataEntity);
     }
 
     @Override

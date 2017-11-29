@@ -113,7 +113,6 @@ public class HomeViewPager extends BaseLayout {
             viewpager.setOffscreenPageLimit(5);
             viewpager.setPageMargin(DensityUtil.dip2px(getmContext(), -16));
             viewpager.setPageTransformer(true, new ScalePageTransformer());
-//            viewpager.setInfiniteRatio(100);
             viewpager.setInfiniteLoop(true);
             viewpager.setAutoScroll(3000);
             viewpager.initIndicator();

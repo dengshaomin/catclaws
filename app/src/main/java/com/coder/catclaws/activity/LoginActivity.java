@@ -26,6 +26,8 @@ import com.coder.catclaws.models.ThirdLoginModel;
 import com.coder.catclaws.models.UserInfoModel;
 import com.coder.catclaws.utils.Net;
 import com.coder.catclaws.utils.StaticUtils;
+import com.coder.catclaws.utils.ViewSize;
+import com.github.lazylibrary.util.DensityUtil;
 import com.github.lazylibrary.util.FileUtils;
 import com.github.lazylibrary.util.MiscUtils;
 import com.github.lazylibrary.util.ToastUtils;
@@ -33,6 +35,7 @@ import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
+import com.tmall.ultraviewpager.Screen;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -68,6 +71,9 @@ public class LoginActivity extends PermissionActivity {
         setContentView(R.layout.activity_login);
         EventBus.getDefault().register(this);
         unbinder = ButterKnife.bind(this);
+        int width = Screen.getWidth(this) - DensityUtil.dip2px(this, 160);
+        ViewSize.fixedSize(weichart, width, 80f / 400f);
+        ViewSize.fixedSize(qq, width, 80f / 400f);
 //        ViewSize.fixedSize(this, bg, 1920f / 1080f);
 //        UserInfoModel userInfoModel = UserManager.getInstance().getUserinfo();
 //        if (userInfoModel != null) {
@@ -179,6 +185,7 @@ public class LoginActivity extends PermissionActivity {
                     loginError();
                 }
             } else if (NetIndentify.LOGIN.equals(event.getMsgId())) {
+                closeProgressDialog();
                 if (event.isSuccess()) {
                     UserInfoModel userInfoModel = (UserInfoModel) event.getMsg();
                     UserManager.getInstance().setUserinfo(userInfoModel);

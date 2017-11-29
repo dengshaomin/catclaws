@@ -28,7 +28,7 @@ public class MusicService extends Service {
 
     private SoundPool mSoundPool;
 
-    private Map<Integer, Integer> soundMap;
+    private Map<String, String> soundMap;
 
     @Nullable
     @Override
@@ -42,10 +42,10 @@ public class MusicService extends Service {
         bgMusicFlag = PreferenceUtils.getInstance().getBoolean(PreferenceUtils.SETTING_BG_MUSIC, true);
         soundMusciFlag = PreferenceUtils.getInstance().getBoolean(PreferenceUtils.SETTING_YINXIAO_MUSIC, true);
         mSoundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 100);
-        soundMap = new HashMap<Integer, Integer>() {{
+        soundMap = new HashMap<String, String>() {{
             if (soundMusciFlag) {
-                put(R.raw.keydown_music, mSoundPool.load(getBaseContext(), R.raw.keydown_music, 1));
-                put(R.raw.pick_music, mSoundPool.load(getBaseContext(), R.raw.pick_music, 1));
+                put(R.raw.keydown_music + "", mSoundPool.load(getBaseContext(), R.raw.keydown_music, 1) + "");
+                put(R.raw.pick_music + "", mSoundPool.load(getBaseContext(), R.raw.pick_music, 1) + "");
             }
         }};
         if (bgMusicFlag) {
@@ -88,8 +88,12 @@ public class MusicService extends Service {
     }
 
     public void startPickSound() {
-        if (mSoundPool != null) {
-            mSoundPool.play(soundMap.get(R.raw.pick_music), 1, 1, 1, 0, 1);
+        try {
+            if (mSoundPool != null) {
+                mSoundPool.play(Integer.parseInt(soundMap.get(R.raw.pick_music + "")), 1, 1, 1, 0, 1);
+            }
+        } catch (Exception e) {
+
         }
     }
 
@@ -98,8 +102,12 @@ public class MusicService extends Service {
     }
 
     public void startPressSound() {
-        if (mSoundPool != null) {
-            mSoundPool.play(soundMap.get(R.raw.keydown_music), 1, 1, 1, 0, 1);
+        try {
+            if (mSoundPool != null) {
+                mSoundPool.play(Integer.parseInt(soundMap.get(R.raw.keydown_music + "")), 1, 1, 1, 0, 1);
+            }
+        } catch (Exception e) {
+
         }
     }
 
