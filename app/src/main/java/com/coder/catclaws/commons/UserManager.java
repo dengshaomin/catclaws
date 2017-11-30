@@ -4,6 +4,7 @@ package com.coder.catclaws.commons;
 import java.sql.DatabaseMetaData;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.coder.catclaws.MyApplication;
@@ -144,6 +145,6 @@ public class UserManager {
 
     public void loginOut() {
         PreferenceUtils.getInstance().saveString(PreferenceUtils.THIRDINFO, "");
-        PreferenceUtils.getInstance().saveString(PreferenceUtils.USERINFO, JSON.toJSONString(userInfoModel));
+        PreferenceUtils.getInstance().saveString(PreferenceUtils.USERINFO, "");
     }
 }

@@ -63,7 +63,6 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
     //app发送消息给微信，处理返回消息的回调
     @Override
     public void onResp(BaseResp resp) {
-        Log.e("code", JSON.toJSONString(resp));
         switch (resp.errCode) {
             case BaseResp.ErrCode.ERR_AUTH_DENIED:
             case BaseResp.ErrCode.ERR_USER_CANCEL:
@@ -88,7 +87,6 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                                 }}, new GCNetCallBack<String>("0", new NetInterface() {
                                     @Override
                                     public void onSuccess(String indentify, String code, String response) {
-                                        Log.e("code", response);
                                         WeChartTokenModel weChartTokenModel = JSON.parseObject(response,
                                                 WeChartTokenModel.class);
                                         if (weChartTokenModel == null) {
@@ -127,7 +125,6 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 }}, new GCNetCallBack<String>("0", new NetInterface() {
                     @Override
                     public void onSuccess(String indentify, String code, String response) {
-                        Log.e("code", response);
                         WeChartUserInfo weChartUserInfo = JSON.parseObject(response,
                                 WeChartUserInfo.class);
                         if (weChartUserInfo == null) {
