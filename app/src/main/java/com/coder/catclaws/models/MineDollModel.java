@@ -187,7 +187,7 @@ public class MineDollModel {
 
             private String addressId;
 
-            private int transportCode;
+            private String transportCode;
 
             private long exchangeTime;
 
@@ -231,11 +231,11 @@ public class MineDollModel {
                 this.addressId = addressId;
             }
 
-            public int getTransportCode() {
+            public String getTransportCode() {
                 return transportCode;
             }
 
-            public void setTransportCode(int transportCode) {
+            public void setTransportCode(String transportCode) {
                 this.transportCode = transportCode;
             }
 

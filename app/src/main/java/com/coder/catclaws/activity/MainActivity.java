@@ -191,7 +191,7 @@ public class MainActivity extends BaseActivity {
                         codeRecycleView.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
                             @Override
                             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-                                if (0 < position && position >= homeModel.getData().getRooms().getSize()) {
+                                if (0 > position && position >= homeModel.getData().getRooms().getSize()) {
                                     return;
                                 }
                                 PageJump.goRoomActivity(MainActivity.this, homeModel.getData().getRooms().getContent()

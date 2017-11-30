@@ -12,9 +12,11 @@ import com.coder.catclaws.R;
 import com.coder.catclaws.commons.AppIndentify;
 import com.coder.catclaws.commons.GlobalMsg;
 import com.coder.catclaws.commons.ImageLoader;
+import com.coder.catclaws.commons.NetIndentify;
 import com.coder.catclaws.commons.PageJump;
 import com.coder.catclaws.commons.PreferenceUtils;
 import com.coder.catclaws.commons.UserManager;
+import com.coder.catclaws.utils.Net;
 import com.coder.catclaws.widgets.CoinNotEnoughDialogView;
 import com.coder.catclaws.widgets.FullDialog;
 import com.coder.catclaws.widgets.LoginOutDialogView;
@@ -101,7 +103,6 @@ public class MineInfoActivity extends BaseActivity {
 
     @Override
     public void initView() {
-
         setUserInfo();
         boolean flag = PreferenceUtils.getInstance().getBoolean(PreferenceUtils.SETTING_BG_MUSIC, true);
         mSettingBgMusic.setBackgroundResource(flag ? R.drawable.setting_open_bg : R.drawable.setting_close_bg);
@@ -118,12 +119,11 @@ public class MineInfoActivity extends BaseActivity {
 
     @Override
     public void initBundleData() {
-
     }
 
     @Override
     public void getNetData() {
-
+        Net.request(NetIndentify.GET_USERINFO, null);
     }
 
     @Override

@@ -180,7 +180,7 @@ public class DeliverGoodsActivity extends BaseActivity {
                     && mMineDollModel.getData().getContent() != null) {
                 for (int i = 0; i < mMineDollModel.getData().getContent().size(); i++) {
                     ContentEntity contentEntity = mMineDollModel.getData().getContent().get(i);
-                    if (mContentEntity.getGoodId() == contentEntity.getGoodId()) {
+                    if (mContentEntity.getId() == contentEntity.getId()) {
                         selectIndex = i;
                         contentEntity.setSelected(true);
                         if (selectDolls == null) {

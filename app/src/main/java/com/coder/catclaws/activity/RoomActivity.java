@@ -17,6 +17,7 @@ import android.media.projection.MediaProjection;
 import android.media.projection.MediaProjectionManager;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.os.IBinder;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -374,7 +375,12 @@ public class RoomActivity extends BaseActivity {
 
     @Override
     public void getNetData() {
-
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Net.request(NetIndentify.GET_USERINFO, null);
+            }
+        }, 3000);
     }
 
     @Override
@@ -685,7 +691,7 @@ public class RoomActivity extends BaseActivity {
     private void sendDanMuAction(String s) {
         mDanmuLay.setVisibility(View.GONE);
         TCPClient.getInstance().send(s, WaWaJiProtoType.chat);
-        addDanmaku(s);
+//        addDanmaku(s);
     }
 
     private void msgAction() {
