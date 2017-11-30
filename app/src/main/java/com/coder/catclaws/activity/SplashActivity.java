@@ -61,6 +61,10 @@ public class SplashActivity extends PermissionActivity {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (!isTaskRoot()) {
+            finish();
+            return;
+        }
         EventBus.getDefault().register(this);
         setContentView(R.layout.activity_splash);
     }
@@ -73,6 +77,7 @@ public class SplashActivity extends PermissionActivity {
             public void run() {
                 if (MyApplication.DEBUG) {
                     PageJump.goMainActivity(SplashActivity.this);
+//                    startActivity(new Intent(SplashActivity.this,TestActivity.class));
                     finish();
                 } else {
                     UserInfoModel userInfoModel = UserManager.getInstance().getUserinfo();

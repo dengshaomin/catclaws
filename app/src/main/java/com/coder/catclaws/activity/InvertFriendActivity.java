@@ -132,6 +132,7 @@ public class InvertFriendActivity extends BaseActivity {
         closeProgressDialog();
         if (globalMsg.isSuccess()) {
             ToastUtils.showToast(InvertFriendActivity.this, "兑换成功");
+            Net.request(NetIndentify.GET_USERINFO, null);
         } else {
             ToastUtils.showToast(InvertFriendActivity.this, "邀请码无效");
         }

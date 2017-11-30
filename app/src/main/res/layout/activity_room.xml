@@ -470,7 +470,7 @@
                                         android:paddingLeft="28dp"
                                         android:paddingRight="5dp"
                                         android:singleLine="true"
-                                        android:text="10"
+                                        android:text="0"
                                         android:textColor="#d9d9ef"
                                         android:textSize="12sp"
                                         />
@@ -536,7 +536,7 @@
                                         android:paddingLeft="10dp"
                                         android:paddingRight="10dp"
                                         android:paddingTop="3dp"
-                                        android:text="我的猫币:10"
+                                        android:text="我的猫币:0"
                                         android:textColor="#d9d9ef"
                                         android:textSize="@dimen/text12"
                                         />

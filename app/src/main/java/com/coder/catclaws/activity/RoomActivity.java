@@ -195,8 +195,10 @@ public class RoomActivity extends BaseActivity {
 
     @BindView(R.id.pageOne)
     Page mPageOne;
+
     @BindView(R.id.txCloudVideoView)
     TXCloudVideoView txCloudVideoView;
+
     private TXLivePlayer txLivePlayer;
 //    @BindView(R.id.detail_image)
 //    SimpleDraweeView mDetailImage;
@@ -220,7 +222,7 @@ public class RoomActivity extends BaseActivity {
     private static final int LANDSCAPE = 2;        //横屏
 
 
-    private final long countDownTimes = 24000;
+    private final long countDownTimes = 40000;
 
     private boolean isNowPicking = false;
 
@@ -283,6 +285,7 @@ public class RoomActivity extends BaseActivity {
     private MusicConnection mMusicConnection;
 
     private MusicService mMusicService;
+
     TXLivePlayConfig mPlayConfig;
 
 
@@ -411,6 +414,7 @@ public class RoomActivity extends BaseActivity {
             questionAuthCode = globalMsg.getMsg() + "";
             isCurrentUserPlay = true;
             mCountDownTimer.start(countDownTimes);
+            mCountDown.setText((countDownTimes / 1000 - 1) + "");
             mCountDownTimer.setOnCountdownEndListener(new OnCountdownEndListener() {
                 @Override
                 public void onEnd(CountdownView cv) {
@@ -476,6 +480,10 @@ public class RoomActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 fullDialog.dismiss();
+                if (UserManager.getInstance().getMb() < roomModel.getWaWaJi().getPrice()) {
+                    showCoinNotEnoughDialog();
+                    return;
+                }
                 TCPClient.getInstance().send(contentBean.getIp(), WaWaJiProtoType.again);
             }
         });
@@ -509,8 +517,12 @@ public class RoomActivity extends BaseActivity {
         pickSuccessDialogView.getPlayAgain().setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                TCPClient.getInstance().send(contentBean.getIp(), WaWaJiProtoType.again);
                 fullDialog.dismiss();
+                if (UserManager.getInstance().getMb() < roomModel.getWaWaJi().getPrice()) {
+                    showCoinNotEnoughDialog();
+                    return;
+                }
+                TCPClient.getInstance().send(contentBean.getIp(), WaWaJiProtoType.again);
             }
         });
         pickSuccessDialogView.setIDialogCountDown(new IDialogCountDown() {
@@ -591,28 +603,32 @@ public class RoomActivity extends BaseActivity {
     private void startAction() {
         if (roomModel != null && roomModel.getWaWaJi() != null) {
             if (UserManager.getInstance().getMb() < roomModel.getWaWaJi().getPrice()) {
-                CoinNotEnoughDialogView coinNotEnoughDialogView = new CoinNotEnoughDialogView(RoomActivity.this);
-                final FullDialog fullDialog = FullDialog.create(RoomActivity.this).addContentView(coinNotEnoughDialogView);
-                coinNotEnoughDialogView.getInvert().setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        fullDialog.dismiss();
-                        PageJump.goInvertFriendActivity(RoomActivity.this);
-                    }
-                });
-                coinNotEnoughDialogView.getRecharge().setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        fullDialog.dismiss();
-                        PageJump.goRechargeActivity(RoomActivity.this);
-                    }
-                });
-                fullDialog.show();
+                showCoinNotEnoughDialog();
             } else {
                 TCPClient.getInstance().send(contentBean.getIp(), WaWaJiProtoType.start);
             }
 
         }
+    }
+
+    private void showCoinNotEnoughDialog() {
+        CoinNotEnoughDialogView coinNotEnoughDialogView = new CoinNotEnoughDialogView(RoomActivity.this);
+        final FullDialog fullDialog = FullDialog.create(RoomActivity.this).addContentView(coinNotEnoughDialogView);
+        coinNotEnoughDialogView.getInvert().setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fullDialog.dismiss();
+                PageJump.goInvertFriendActivity(RoomActivity.this);
+            }
+        });
+        coinNotEnoughDialogView.getRecharge().setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fullDialog.dismiss();
+                PageJump.goRechargeActivity(RoomActivity.this);
+            }
+        });
+        fullDialog.show();
     }
 
     @OnClick({R.id.icon_more, R.id.out, R.id.help, R.id.catch_doll, R.id.msg, R.id.recharge, R.id.start, R.id.danmu0, R.id.danmu1, R.id.danmu2,
@@ -728,7 +744,8 @@ public class RoomActivity extends BaseActivity {
         if (isNowPicking) {
             return;
         }
-        mCountDownTimer.start(1000);
+        mCountDownTimer.start(10);
+        mCountDown.setText(0 + "");
         setStartBtnStatu(false);
         mMusicService.startPickSound();
         TCPClient.getInstance().send(contentBean.getIp(), WaWaJiProtoType.pick);

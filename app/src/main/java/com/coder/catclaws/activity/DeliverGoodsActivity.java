@@ -80,7 +80,7 @@ public class DeliverGoodsActivity extends BaseActivity {
 
     private DeliverGoodAdapter mDeliverGoodAdapter;
 
-    public static final int signalFreight = 30;
+    public static final int signalFreight = 100;
 
     private List<ContentEntity> selectDolls;
 
@@ -203,6 +203,7 @@ public class DeliverGoodsActivity extends BaseActivity {
         } else if (NetIndentify.DELIVER_DOLL.equals(globalMsg.getMsgId())) {
             closeProgressDialog();
             if (globalMsg.isSuccess()) {
+                Net.request(NetIndentify.GET_USERINFO, null);
                 FullDialog fullDialog = FullDialog.create(DeliverGoodsActivity.this).addContentView(new
                         DelivedSuccessDialogView
                         (DeliverGoodsActivity.this));

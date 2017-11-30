@@ -1,24 +1,20 @@
 package com.coder.catclaws.activity;
 
-import android.content.ComponentName;
-import android.content.Intent;
-import android.content.ServiceConnection;
-import android.media.projection.MediaProjection;
-import android.media.projection.MediaProjectionManager;
+import java.util.List;
+
 import android.os.Bundle;
-import android.os.IBinder;
-import android.util.DisplayMetrics;
+import android.view.View;
 import android.widget.TextView;
 
 import com.coder.catclaws.R;
-import com.coder.catclaws.RecordService;
 import com.coder.catclaws.commons.GlobalMsg;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.iwgang.countdownview.CountdownView;
+import cn.iwgang.countdownview.CountdownView.OnCountdownEndListener;
+import cn.iwgang.countdownview.CountdownView.OnCountdownIntervalListener;
 import me.weyye.hipermission.PermissonItem;
 
 /**
@@ -27,11 +23,23 @@ import me.weyye.hipermission.PermissonItem;
 
 public class TestActivity extends BaseActivity {
 
-    private MediaProjectionManager projectionManager;
-    private MediaProjection mediaProjection;
-    private RecordService recordService;
-    @BindView(R.id.action)
-    TextView action;
+
+    @BindView(R.id.pick)
+    TextView mPick;
+
+    private int countdownTime = 24000;
+
+    @BindView(R.id.count_down_timer)
+    CountdownView mCountDownTimer;
+
+    @BindView(R.id.value)
+    TextView mValue;
+
+    @BindView(R.id.start)
+    TextView mStart;
+
+    @BindView(R.id.again)
+    TextView mAgain;
 
     @Override
     public boolean needTitle() {
@@ -70,9 +78,6 @@ public class TestActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        projectionManager = (MediaProjectionManager) getSystemService(MEDIA_PROJECTION_SERVICE);
-        Intent intent = new Intent(this, RecordService.class);
-        bindService(intent, recordConnection, BIND_AUTO_CREATE);
     }
 
     @Override
@@ -105,44 +110,38 @@ public class TestActivity extends BaseActivity {
         return null;
     }
 
-    private static final int RECORD_REQUEST_CODE = 101;
-    private void initRecordService(){
 
-
-    }
-    private ServiceConnection recordConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName className, IBinder service) {
-            DisplayMetrics metrics = new DisplayMetrics();
-            getWindowManager().getDefaultDisplay().getMetrics(metrics);
-            RecordService.RecordBinder binder = (RecordService.RecordBinder) service;
-            recordService = binder.getRecordService();
-            recordService.setConfig(metrics.widthPixels, metrics.heightPixels, metrics.densityDpi);
-            action.setText(recordService.isRunning() ? "结束" : "开始");
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName arg0) {
-        }
-    };
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == RECORD_REQUEST_CODE && resultCode == RESULT_OK) {
-            mediaProjection = projectionManager.getMediaProjection(resultCode, data);
-            recordService.setMediaProject(mediaProjection);
-            recordService.startRecord();
-            action.setText(recordService.isRunning() ? "结束" : "开始");
-        }
-    }
-    @OnClick(R.id.action)
-    public void onViewClicked() {
-        initRecordService();
-        if (recordService.isRunning()) {
-            recordService.stopRecord();
-            action.setText(recordService.isRunning() ? "结束" : "开始");
-        } else {
-            Intent captureIntent = projectionManager.createScreenCaptureIntent();
-            startActivityForResult(captureIntent, RECORD_REQUEST_CODE);
+    @OnClick({R.id.start, R.id.again, R.id.pick})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.start:
+                mCountDownTimer.start(countdownTime);
+                mValue.setText((countdownTime / 1000 - 1) + "");
+                mCountDownTimer.setOnCountdownEndListener(new OnCountdownEndListener() {
+                    @Override
+                    public void onEnd(CountdownView cv) {
+//
+//                    mCountDown.setText(0 + "");
+//                    startPick();
+                    }
+                });
+                mCountDownTimer.setOnCountdownIntervalListener(1000, new OnCountdownIntervalListener() {
+                    @Override
+                    public void onInterval(CountdownView cv, long remainTime) {
+                        mValue.setText(remainTime / 1000 + "");
+                    }
+                });
+                break;
+            case R.id.again:
+                mCountDownTimer.start(countdownTime);
+                mValue.setText((countdownTime / 1000 - 1) + "");
+                break;
+            case R.id.pick:
+                mCountDownTimer.start(10);
+                mValue.setText(0 + "");
+                break;
         }
     }
+
+
 }

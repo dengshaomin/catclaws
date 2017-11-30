@@ -4,7 +4,7 @@
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/recharge_item_selector"
+    android:background="@drawable/deliver_doll_item_selector"
     android:orientation="vertical"
     >
 
@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="8dp"
-        android:background="@drawable/goods_circle_bg"
+        android:background="@drawable/deviver_good_circle_bg"
         >
 
 
@@ -31,11 +31,11 @@
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/name"
-            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="15dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
+            android:visibility="gone"
             fresco:actualImageScaleType="fitXY"
             fresco:fadeDuration="300"
             />

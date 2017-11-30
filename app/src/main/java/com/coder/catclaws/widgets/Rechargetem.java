@@ -75,7 +75,7 @@ public class Rechargetem extends BaseLayout {
     @Override
     public void setSelected(boolean selected) {
         super.setSelected(selected);
-//        rechargeItemRootview.setBackgroundResource(selected ? R.drawable.recharge_item_bg_p : R.drawable.recharge_item_bg);
+//        rechargeItemRootview.setBackgroundResource(selected ? R.drawable.deliver_doll_item_bg_p : R.drawable.deliver_doll_item_bg);
     }
 
     @Override

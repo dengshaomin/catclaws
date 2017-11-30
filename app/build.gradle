@@ -32,9 +32,12 @@ android {
     }
 
     dexOptions {
-//        preDexLibraries = false
+        // 最大堆内存
         javaMaxHeapSize "4g"
-//        jumboMode true
+        // 是否支持大工程模式
+        jumboMode = true
+        // 线程数
+        threadCount = 8
     }
     repositories {
         flatDir { dirs 'libs' }

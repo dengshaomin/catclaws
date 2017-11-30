@@ -19,13 +19,16 @@ import android.text.TextUtils;
 
 import com.coder.catclaws.MyApplication;
 import com.coder.catclaws.commons.UserManager;
+import com.github.lazylibrary.util.NetWorkUtils;
 import com.github.lazylibrary.util.ToastUtils;
+import com.tencent.open.utils.HttpUtils.NetworkUnavailableException;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.util.NetUtil;
 
 /**
  * Sends a list of continent/city pairs to a {@link WaWaJiProto} to
@@ -87,7 +90,9 @@ public class TCPClient {
     }
 
     public void send(final String ip, final String action) {
-
+        if (NetWorkUtils.NETWORK_TYPE_DISCONNECT.equals(NetWorkUtils.getNetworkTypeName(MyApplication.applicationContext))) {
+            return;
+        }
         new Thread(new Runnable() {
             @Override
             public void run() {

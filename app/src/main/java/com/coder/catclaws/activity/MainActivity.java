@@ -3,6 +3,7 @@ package com.coder.catclaws.activity;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Handler;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -16,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.andview.refreshview.XRefreshView;
+import com.boom.service.room.netty.TCPClient;
 import com.coder.catclaws.R;
 import com.coder.catclaws.commons.GlobalMsg;
 import com.coder.catclaws.commons.ImageLoader;
@@ -95,7 +97,17 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void initBundleData() {
-
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                TCPClient.getInstance().connectToServerNetty();
+            }
+        }).start();
     }
 
     @Override
@@ -117,10 +129,10 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void eventComming(GlobalMsg globalMsg) {
-        if(NetIndentify.GET_USERINFO.equals(globalMsg.getMsgId())){
+        if (NetIndentify.GET_USERINFO.equals(globalMsg.getMsgId())) {
             UserInfoModel userInfoModel = (UserInfoModel) globalMsg.getMsg();
             UserManager.getInstance().setUserinfo(userInfoModel);
-        }else if(NetIndentify.HOME.equals(globalMsg.getMsgId())) {
+        } else if (NetIndentify.HOME.equals(globalMsg.getMsgId())) {
             if (globalMsg.isSuccess()) {
                 homeModel = (HomeModel) globalMsg.getMsg();
                 if (homeModel != null && homeModel.getData() != null) {
@@ -138,7 +150,8 @@ public class MainActivity extends BaseActivity {
 //                            ViewSize.fixedSize(rootView, (Screen.getWidth(MainActivity.this) - DensityUtil.dip2px
 //                                    (MainActivity.this, 4) - DensityUtil.dip2px
 //                                    (MainActivity.this, 20)) / 2, 632f / 468f);
-                                final HomeModel.DataBean.RoomsBean.ContentBean finalContentBean = homeModel.getData().getRooms().getContent().get(position);
+                                final HomeModel.DataBean.RoomsBean.ContentBean finalContentBean = homeModel.getData().getRooms().getContent()
+                                        .get(position);
                                 SimpleDraweeView image = holder.getView(R.id.image);
                                 TextView desc = holder.getView(R.id.desc);
                                 TextView statu = holder.getView(R.id.statu);
@@ -166,7 +179,8 @@ public class MainActivity extends BaseActivity {
                                 ImageLoader.getInstance().loadImage(image, finalContentBean.getPhoto());
                                 desc.setText(finalContentBean.getIntroduce());
                                 statu.setText(finalContentBean.isCanUse() ? "空闲" : "游戏中");
-                                statu.setCompoundDrawablesWithIntrinsicBounds(finalContentBean.isCanUse() ? R.drawable.icon_room_free : R.drawable.icon_room_busy,
+                                statu.setCompoundDrawablesWithIntrinsicBounds(
+                                        finalContentBean.isCanUse() ? R.drawable.icon_room_free : R.drawable.icon_room_busy,
                                         0, 0, 0);
                                 num.setText(finalContentBean.getPrice() + "");
                             }
