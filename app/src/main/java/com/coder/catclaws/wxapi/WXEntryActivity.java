@@ -35,7 +35,9 @@ import java.util.HashMap;
  */
 
 public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
+
     private static final int RETURN_MSG_TYPE_LOGIN = 1;
+
     private static final int RETURN_MSG_TYPE_SHARE = 2;
 
 
@@ -63,6 +65,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
     //app发送消息给微信，处理返回消息的回调
     @Override
     public void onResp(BaseResp resp) {
+        Log.e("code", JSON.toJSONString(resp));
         switch (resp.errCode) {
             case BaseResp.ErrCode.ERR_AUTH_DENIED:
             case BaseResp.ErrCode.ERR_USER_CANCEL:
@@ -71,6 +74,8 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 } else {
                     ToastUtils.showToast(this, "登录失败");
                 }
+                EventBus.getDefault().post(new GlobalMsg(false, AppIndentify.THIRDLOGIN, null));
+                finish();
                 break;
             case BaseResp.ErrCode.ERR_OK:
                 switch (resp.getType()) {

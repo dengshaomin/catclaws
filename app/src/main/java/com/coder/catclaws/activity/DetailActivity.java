@@ -169,7 +169,8 @@ public class DetailActivity extends BaseActivity {
                 mHasexchangeLay.setVisibility(View.GONE);
                 mFinishLay.setVisibility(View.GONE);
                 mActionLay.setVisibility(View.GONE);
-            } else if (StateUtil.HasReceive.equals(Tools.getDollState(mContentEntity))) {
+            } else if (StateUtil.HasReceive.equals(Tools.getDollState(mContentEntity)) || StateUtil.HasSending
+                    .equals(Tools.getDollState(mContentEntity))) {
                 mDepositLay.setVisibility(View.GONE);
                 mSendLay.setVisibility(View.GONE);
                 mHasexchangeLay.setVisibility(View.VISIBLE);
@@ -209,7 +210,7 @@ public class DetailActivity extends BaseActivity {
                     public void onClick(View v) {
                         fullDialog.dismiss();
                         Net.request(NetIndentify.GET_USERINFO, null);
-                        EventBus.getDefault().post(new GlobalMsg(true, AppIndentify.MINE_DOLL_CHANGE,null));
+                        EventBus.getDefault().post(new GlobalMsg(true, AppIndentify.MINE_DOLL_CHANGE, null));
                         PageJump.goMineInfoActivity(DetailActivity.this);
 
                     }

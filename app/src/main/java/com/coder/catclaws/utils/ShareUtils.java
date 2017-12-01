@@ -26,7 +26,7 @@ import java.io.File;
 public class ShareUtils {
     private static final int THUMB_SIZE = 150;
     private static final String shareClickUrl = "http://www.baidu.com";
-    private static final String shareImageUrl = "http://imgcache.qq.com/qzone/space_item/pre/0/66768.gif";
+    private static final String shareImageUrl = "http://static.iboom.tv/static/img/wawa.png";
 
     private static final String shareTitle = "快来和我一起在猫爪子抓娃娃吧";
     private static final String shareContent = "正版娃娃抓的到，就在猫爪子app";

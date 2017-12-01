@@ -46,6 +46,7 @@ public class MineDollActivity extends BaseActivity {
     private int page = 1;
 
     private MineDollModel mineDollModel;
+
     private CommonAdapter commonAdapter;
 
     private MineDollHeader mineDollHeader;
@@ -172,6 +173,11 @@ public class MineDollActivity extends BaseActivity {
                             @Override
                             protected void convert(ViewHolder holder, final MineDollModel.DataEntity.ContentEntity
                                     contentBean1, int position) {
+                                if (mineDollModel != null && mineDollModel.getData() != null && mineDollModel.getData()
+                                        .getContent() != null && 0 <= mineDollModel.getData().getContent().size() &&
+                                        position < mineDollModel.getData().getContent().size()) {
+                                    return;
+                                }
                                 MineDollModel.DataEntity.ContentEntity contentEntity = mineDollModel.getData()
                                         .getContent().get(position);
                                 View rootView = holder.itemView;
@@ -219,9 +225,10 @@ public class MineDollActivity extends BaseActivity {
                             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
                                 if (mineDollModel != null && mineDollModel.getData() != null && mineDollModel.getData()
                                         .getContent() != null && 0 <= mineDollModel.getData().getContent().size() &&
-                                        position < mineDollModel.getData().getContent().size())
+                                        position < mineDollModel.getData().getContent().size()) {
                                     PageJump.goDetailActivity(MineDollActivity.this, mineDollModel.getData().getContent().get(position)
                                     );
+                                }
                             }
 
                             @Override

@@ -6,8 +6,13 @@ import com.coder.catclaws.models.MineDollModel;
 public class StateUtil {
 
     public static final String Deposit = "寄存中";
+
     public static final String WaitSending = "待发货";
+
+    public static final String HasSending = "已发货";
+
     public static final String HasReceive = "已收货";
+
     public static final String Finish = "兑换成功";
 
 
@@ -23,8 +28,7 @@ public class StateUtil {
         }
 
         if (state == 2 && result == 3 && gift.getTransportCompany() != null) {
-            return WaitSending;
-//            return "运输过程中";
+            return HasSending;
         }
 
         if (state == 2 && result == 1 && gift.getTransportCompany() != null) {

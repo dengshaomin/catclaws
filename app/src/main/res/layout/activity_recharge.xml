@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:fillViewport="true"
-              android:orientation="vertical"
-              android:scrollbars="none"
-              tools:context="com.coder.catclaws.activity.RechargeActivity"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:orientation="vertical"
+    android:scrollbars="none"
+    tools:context="com.coder.catclaws.activity.RechargeActivity"
     >
 
     <android.support.v7.widget.RecyclerView
@@ -78,7 +78,7 @@
 
         </RelativeLayout>
 
-        <View style="@style/line"/>
+        <View style="@style/line" />
 
         <View
             style="@style/line"
@@ -128,7 +128,7 @@
 
         </RelativeLayout>
 
-        <View style="@style/line"/>
+        <View style="@style/line" />
     </LinearLayout>
 
     <RelativeLayout
@@ -140,6 +140,16 @@
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="充值到账时间可能会有1-5分钟延迟，请耐心等待"
+            android:textColor="#808080"
+            android:textSize="@dimen/text10"
+            />
 
         <TextView
             android:id="@+id/pay"
