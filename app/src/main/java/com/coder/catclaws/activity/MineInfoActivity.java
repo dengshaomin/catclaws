@@ -110,7 +110,6 @@ public class MineInfoActivity extends BaseActivity {
         boolean flag1 = PreferenceUtils.getInstance().getBoolean(PreferenceUtils.SETTING_YINXIAO_MUSIC, true);
         mSettingYinxiao.setBackgroundResource(flag1 ? R.drawable.setting_open_bg : R.drawable.setting_close_bg);
     }
-
     private void setUserInfo() {
         name.setText(UserManager.getInstance().getName());
         num.setText(UserManager.getInstance().getMb() + "");
