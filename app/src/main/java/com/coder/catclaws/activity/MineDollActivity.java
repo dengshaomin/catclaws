@@ -145,7 +145,6 @@ public class MineDollActivity extends BaseActivity {
         }};
     }
 
-
     @Override
     public void eventComming(GlobalMsg globalMsg) {
         if (AppIndentify.MINE_DOLL_CHANGE.equals(globalMsg.getMsgId())) {
